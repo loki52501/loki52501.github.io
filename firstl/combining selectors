@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>element with class selector</title>
+<style type="text/css">
+/* all with class="highlight" */
+.highlight{
+	background-color: green;
+}
+/* all p elements with class="highlight"*/
+p.highlight{
+	animation-play-state: all;
+	font-style: oblique;
+}
+/* all elements with class 'highlight' as well as with class 'mainpoint'.*/
+.highlight,.mainpoint
+{
+	color: red;
+	background-color: black;
+}
+</style>
+</head>
+<body>
+<h1 class="highlight">element with class selector</h1>
+<p>
+	he is joking right, maybe i think he got hots for someone
+</p>
+<p class="highlight">This is P</p>
+<div class="mainpoint highlight"> the mainpoint is i am doing my goddamn job very well</div>
+</body>
+</html>
