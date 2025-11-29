@@ -1,0 +1,30 @@
+
+
+/* src/styles/globals.css */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #f4f4f4; /* A light gray background for the "empty space" */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Main container for all pages */
+.container {
+  max-width: 800px; /* The max width of your content */
+  margin: 2rem auto; /* This centers the container and adds space on top/bottom */
+  padding: 2rem;
+  background-color: #ffffff; /* White background for the content area */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
