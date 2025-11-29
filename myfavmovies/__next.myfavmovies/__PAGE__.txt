@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"buildId":"I7AECt2K9csnqIfUYUHHz","rsc":["$","$1","c",{"children":[[["$","h1",null,{"children":"My Favorite Movies"}],["$","p",null,{"children":"Here is a list of movies that have inspired me or that I simply enjoy."}],["$","ul",null,{"children":[["$","li",null,{"children":"The Matrix (1999)"}],["$","li",null,{"children":"Blade Runner 2049 (2017)"}],["$","li",null,{"children":"Arrival (2016)"}],["$","li",null,{"children":"Spirited Away (2001)"}]]}]],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+4:null
