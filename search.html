@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thought and multiplexers - My Portfolio</title>
+    <title>Search Blogs - My Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
@@ -15,20 +15,20 @@
 <body>
     <nav>
         <div class="container">
-            <a href="../../index.html">Home</a><a href="../../about.html">About</a><a href="../../projects.html">Projects</a><a href="../../blogs.html">Blog</a>
+            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
         </div>
     </nav>
 
     <main>
-        <nav class="toc">
-    <h3>Table of Contents</h3>
-    <ul>
-    </ul>
-</nav>
-
+        
         <div class="content-wrapper">
-            <h1 id="thought-and-multiplexers">Thought and multiplexers</h1>
-<p>Multiplexing, the base of CPUs, and thoughts are assembled here, I often wonder what it means as human, shouldn’t we have CPU’s in us, Humans should evovle, they should be cyborgs, redefine the enlightment era humanity definition to the present world. As Harway describes that we should not look for total theory but always constantly testing the boundaries of humanity. That’s what I’ve been thinking about, Machines replace physical labor and AIs are gonna change the cognitive labor, then what is left for humans, leisure and travel, even space travel, but I’m thinking the humans merging with machines would be the greatest goal of humanity by the end of this centaury, I’m saying this as a optimist.</p>
+            <h1 id="search-blogs">Search Blogs</h1>
+<p><div class="search-container">     <input type="text" id="blog-search" placeholder="Search blog posts..." aria-label="Search blogs"></p>
+<p>    <div class="search-controls">         <div class="category-filters">             <span style="font-size: 0.875rem; color: #718096; margin-right: 1rem;">Filter by:</span>             <a href="#" class="category-filter" data-category="tech">Tech</a>             <a href="#" class="category-filter" data-category="movies">Movies</a>             <a href="#" class="category-filter" data-category="random">Random</a>         </div></p>
+<p>        <div class="sort-control">             <label for="blog-sort">Sort by:</label>             <select id="blog-sort">                 <option value="date-desc">Newest First</option>                 <option value="date-asc">Oldest First</option>                 <option value="title-asc">Title (A-Z)</option>                 <option value="title-desc">Title (Z-A)</option>             </select>         </div>     </div></p>
+<p>    <p id="result-count" class="result-count"></p> </div></p>
+<p><div id="search-results" class="blog-list"></div></p>
+<p><script src="search.js"></script></p>
 
         </div>
     </main>

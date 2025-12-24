@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Blog - My Portfolio</title>
+    <title>Blog - My Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
     <nav class="sidebar-menu">
         <h3>Categories</h3>
         <ul>
-            <li><a href="blogs.html">All Posts</a></li>
+            <li><a href="blogs.html" class="active">All Posts</a></li>
         <li class="category-item">
             <a href="books.html">Books</a>
         </li>
@@ -38,7 +38,7 @@
             <a href="random.html">Random</a>
         </li>
         <li class="category-item">
-            <a href="tech.html" class="active">Tech</a>
+            <a href="tech.html">Tech</a>
             <ul class="subcategory-list">
             <li class="category-item">
                 <a href="AI.html">AI</a>
@@ -52,23 +52,19 @@
     </nav>
 </aside>
     <div class="blog-content">
-        <h1>Tech Blog</h1>
-        <p>Technology, programming, and software development</p>
+        <h1>All Posts</h1>
+        <p>All my blog posts</p>
 
         <div class="blog-list" id="search-results">
             <article class="blog-item">
-                <h2><a href="blog/tech/quic-protocol-optimizations.html">QUIC Transport Optimizations from a Reimplementation</a></h2>
-                <p class="blog-date">Published on December 13, 2025 at 03:45 PM</p>
-                <p class="blog-excerpt">Reimplementing QUIC in C++ gave me room to tune congestion control and pacing. Here’s what moved the needle and why packet captures mattered. - C++ QUIC transport with custom congestion control and...</p>
-                <a href="blog/tech/quic-protocol-optimizations.html" class="read-more">Read more →</a>
-            </article>
-            <article class="blog-item">
+                <span class="category-badge">Tech</span>
                 <h2><a href="blog/tech/shortest_path_algorithms.html">Shortest path algorithms</a></h2>
                 <p class="blog-date">Published on December 13, 2025 at 03:45 PM</p>
                 <p class="blog-excerpt">1. we are gonna look at Dijkstra Algorithm: this algorithm gives us a pathway to find the shortest path provided there are no negative weights between source and destination. I could use a diagram to...</p>
                 <a href="blog/tech/shortest_path_algorithms.html" class="read-more">Read more →</a>
             </article>
             <article class="blog-item">
+                <span class="category-badge">Tech</span>
                 <h2><a href="blog/tech/security-internships-notes.html">Notes from Security Internships</a></h2>
                 <p class="blog-date">Published on December 13, 2025 at 03:39 PM</p>
                 <p class="blog-excerpt">Highlights across identity, cloud security, and network detection work. All lead to choosing my cybersecurity career.  - Automated onboarding/offboarding across Ivanti, Google Workspace, and AD; cut...</p>
@@ -77,10 +73,11 @@
         </div>
 
 <nav class="pagination">
-    <a href="tech.html" class="pagination-btn">&larr; Previous</a>
+    <a href="blogs-2.html" class="pagination-btn">&larr; Previous</a>
     <div class="pagination-numbers">
-        <a href="tech.html" class="page-number">1</a>
-        <span class="page-number active">2</span>
+        <a href="blogs.html" class="page-number">1</a>
+        <a href="blogs-2.html" class="page-number">2</a>
+        <span class="page-number active">3</span>
     </div>
     <span class="pagination-btn disabled">Next &rarr;</span>
 </nav>
@@ -93,6 +90,9 @@
             <div class="search-filters">
                 <h4>Filter by Category</h4>
                 <div class="category-filters">
+                    <a href="#" class="category-filter" data-category="books">Books, My Readings</a>
+                    <a href="#" class="category-filter" data-category="movies">Movie</a>
+                    <a href="#" class="category-filter" data-category="random">Random</a>
                     <a href="#" class="category-filter" data-category="tech">Tech</a>
                 </div>
             </div>
