@@ -20,29 +20,31 @@
     </nav>
 
     <main>
-        <nav class="toc">
-    <h3>Table of Contents</h3>
-    <ul>
-        <li class="toc-level-1"><a href="#dijkstra-algorithm">Dijkstra Algorithm</a></li>
-        <li class="toc-level-1"><a href="#first-iteration">First Iteration</a></li>
-        <li class="toc-level-1"><a href="#second-iteration">Second iteration</a></li>
-        <li class="toc-level-1"><a href="#third-iteration">Third iteration</a></li>
-        <li class="toc-level-1"><a href="#fourth-iteration">Fourth Iteration</a></li>
-        <li class="toc-level-1"><a href="#bellman-ford-algorithm">Bellman Ford Algorithm</a></li>
-        <li class="toc-level-1"><a href="#first-iteration">First Iteration</a></li>
-            <li class="toc-level-3"><a href="#edge-ab-weight-5">Edge A→B (weight: 5)</a></li>
-            <li class="toc-level-3"><a href="#edge-bc-weight--5">Edge B→C (weight: -5)</a></li>
-            <li class="toc-level-3"><a href="#edge-cd-weight-3">Edge C→D (weight: 3)</a></li>
-            <li class="toc-level-3"><a href="#edge-ce-weight-1">Edge C→E (weight: 1)</a></li>
-            <li class="toc-level-3"><a href="#edge-de-weight-2">Edge D→E (weight: 2)</a></li>
-        <li class="toc-level-1"><a href="#second-iteration">Second Iteration</a></li>
-            <li class="toc-level-3"><a href="#edge-ab-weight-5">Edge A→B (weight: 5)</a></li>
-            <li class="toc-level-3"><a href="#edge-bc-weight--5">Edge B→C (weight: -5)</a></li>
-            <li class="toc-level-3"><a href="#edge-cd-weight-3">Edge C→D (weight: 3)</a></li>
-            <li class="toc-level-3"><a href="#edge-ce-weight-1">Edge C→E (weight: 1)</a></li>
-            <li class="toc-level-3"><a href="#edge-de-weight-2">Edge D→E (weight: 2)</a></li>
-    </ul>
-</nav>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-1"><a href="#dijkstra-algorithm">Dijkstra Algorithm</a></li>
+            <li class="toc-level-1"><a href="#first-iteration">First Iteration</a></li>
+            <li class="toc-level-1"><a href="#second-iteration">Second iteration</a></li>
+            <li class="toc-level-1"><a href="#third-iteration">Third iteration</a></li>
+            <li class="toc-level-1"><a href="#fourth-iteration">Fourth Iteration</a></li>
+            <li class="toc-level-1"><a href="#bellman-ford-algorithm">Bellman Ford Algorithm</a></li>
+            <li class="toc-level-1"><a href="#first-iteration">First Iteration</a></li>
+                <li class="toc-level-3"><a href="#edge-ab-weight-5">Edge A→B (weight: 5)</a></li>
+                <li class="toc-level-3"><a href="#edge-bc-weight--5">Edge B→C (weight: -5)</a></li>
+                <li class="toc-level-3"><a href="#edge-cd-weight-3">Edge C→D (weight: 3)</a></li>
+                <li class="toc-level-3"><a href="#edge-ce-weight-1">Edge C→E (weight: 1)</a></li>
+                <li class="toc-level-3"><a href="#edge-de-weight-2">Edge D→E (weight: 2)</a></li>
+            <li class="toc-level-1"><a href="#second-iteration">Second Iteration</a></li>
+                <li class="toc-level-3"><a href="#edge-ab-weight-5">Edge A→B (weight: 5)</a></li>
+                <li class="toc-level-3"><a href="#edge-bc-weight--5">Edge B→C (weight: -5)</a></li>
+                <li class="toc-level-3"><a href="#edge-cd-weight-3">Edge C→D (weight: 3)</a></li>
+                <li class="toc-level-3"><a href="#edge-ce-weight-1">Edge C→E (weight: 1)</a></li>
+                <li class="toc-level-3"><a href="#edge-de-weight-2">Edge D→E (weight: 2)</a></li>
+        </ul>
+    </nav>
+</div>
 
         <div class="content-wrapper">
             <h1 id="shortest-path-algorithms">Shortest path algorithms</h1>
@@ -292,6 +294,17 @@
 </table>
 <p>The algorithm would continue for iterations 3 and 4 (since n=5 vertices, we do n-1=4 iterations), but no further updates would occur. The shortest path from A to E is <strong>1</strong> (via A→B→C→E). </p>
 
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
         </div>
     </main>
 
@@ -311,5 +324,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../toc-scrollspy.js"></script>
 </body>
 </html>

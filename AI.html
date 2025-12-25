@@ -33,6 +33,11 @@
         </li>
         <li class="category-item">
             <a href="movies.html">Movies</a>
+            <ul class="subcategory-list">
+            <li class="category-item">
+                <a href="Animation.html">Animation</a>
+            </li>
+            </ul>
         </li>
         <li class="category-item">
             <a href="random.html">Random</a>
@@ -42,6 +47,11 @@
             <ul class="subcategory-list">
             <li class="category-item">
                 <a href="AI.html" class="active">AI</a>
+                <ul class="subcategory-list">
+                <li class="category-item">
+                    <a href="Learnings.html">Learnings</a>
+                </li>
+                </ul>
             </li>
             <li class="category-item">
                 <a href="Thinking like a engineer.html">Thinking Like A Engineer</a>
@@ -58,10 +68,17 @@
         <div class="blog-list" id="search-results">
             <article class="blog-item">
                 <span class="category-badge">AI</span>
-                <h2><a href="blog/tech/AI/fastai_ch1.html">Deep Learning Q&A Notes</a></h2>
+                <h2><a href="blog/tech/AI/Learnings/firstmodeldeploy.html">Steps that would help someone when setting up gradio with hugging space</a></h2>
+                <p class="blog-date">Published on December 24, 2025 at 08:02 PM</p>
+                <p class="blog-excerpt">I used this blog as the baseline for doing this "learning", it's been very helpful: [blog](https://www.tanishq.ai/blog/posts/2021-11-16-gradio-huggingface.html) First I figured out that my fastai...</p>
+                <a href="blog/tech/AI/Learnings/firstmodeldeploy.html" class="read-more">Read more →</a>
+            </article>
+            <article class="blog-item">
+                <span class="category-badge">AI</span>
+                <h2><a href="blog/tech/AI/Learnings/fastai_ch1.html">Deep Learning Q&A Notes</a></h2>
                 <p class="blog-date">Published on December 22, 2025 at 10:55 PM</p>
                 <p class="blog-excerpt">- Detecting anomalies in cybersecurity - Medicine - Self-driving cars - Natural language processing - Robotics and recommendation systems **Q: What was the name of the first device based on the...</p>
-                <a href="blog/tech/AI/fastai_ch1.html" class="read-more">Read more →</a>
+                <a href="blog/tech/AI/Learnings/fastai_ch1.html" class="read-more">Read more →</a>
             </article>
             <article class="blog-item">
                 <span class="category-badge">AI</span>
@@ -81,6 +98,7 @@
                 <h4>Filter by Category</h4>
                 <div class="category-filters">
                     <a href="#" class="category-filter" data-category="AI">AI</a>
+                    <a href="#" class="category-filter" data-category="Learnings">Learnings</a>
                 </div>
             </div>
             
@@ -100,6 +118,17 @@
 </div>
 <script src="search.js"></script>
 
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
         </div>
     </main>
 
@@ -119,5 +148,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="toc-scrollspy.js"></script>
 </body>
 </html>

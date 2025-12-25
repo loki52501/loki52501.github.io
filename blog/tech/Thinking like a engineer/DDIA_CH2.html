@@ -20,37 +20,39 @@
     </nav>
 
     <main>
-        <nav class="toc">
-    <h3>Table of Contents</h3>
-    <ul>
-        <li class="toc-level-1"><a href="#normalization">Normalization</a></li>
-        <li class="toc-level-2"><a href="#1nffirst-normal-form">1NF(first normal form)</a></li>
-        <li class="toc-level-2"><a href="#2nfsecond-normal-form">2NF(Second normal form)</a></li>
-        <li class="toc-level-2"><a href="#3nfthird-normal-form">3NF(Third normal form)</a></li>
-        <li class="toc-level-2"><a href="#boyle-codd-normal-form">(Boyle-Codd normal form)</a></li>
-        <li class="toc-level-2"><a href="#example">Example:</a></li>
-        <li class="toc-level-2"><a href="#unnormalized-form-0nf">Unnormalized Form (0NF)</a></li>
-        <li class="toc-level-2"><a href="#1nf-atomic-values">1NF (Atomic Values)</a></li>
-        <li class="toc-level-2"><a href="#2nf-no-partial-dependencies">2NF (No Partial Dependencies)</a></li>
-        <li class="toc-level-2"><a href="#3nf-no-transitive-dependencies">3NF (No Transitive Dependencies)</a></li>
-        <li class="toc-level-1"><a href="#relational-databases-vs-document-databasenosql">Relational Databases vs Document Database(Nosql)</a></li>
-        <li class="toc-level-2"><a href="#many-to-many-relationships">Many to Many relationships</a></li>
-        <li class="toc-level-2"><a href="#summary">Summary</a></li>
-        <li class="toc-level-2"><a href="#schema-on-write-and-schema-on-read">Schema-on-write and Schema-on-read</a></li>
-        <li class="toc-level-2"><a href="#schema-migrations">Schema Migrations</a></li>
-        <li class="toc-level-2"><a href="#locality">Locality</a></li>
-        <li class="toc-level-1"><a href="#network-model">Network model</a></li>
-        <li class="toc-level-1"><a href="#query-language-for-data">Query Language for data</a></li>
-        <li class="toc-level-1"><a href="#mapreduce">Mapreduce</a></li>
-        <li class="toc-level-1"><a href="#graph-like-data-models">Graph like Data Models</a></li>
-        <li class="toc-level-2"><a href="#graph-models">Graph Models</a></li>
-            <li class="toc-level-3"><a href="#property-graph-model">Property graph model</a></li>
-            <li class="toc-level-3"><a href="#triple-store-model">Triple Store model</a></li>
-            <li class="toc-level-3"><a href="#query-languages">Query Languages</a></li>
-        <li class="toc-level-1"><a href="#graph-queries-in-sql">Graph queries in SQL</a></li>
-        <li class="toc-level-1"><a href="#can-i-use-graph-data-models-for-many-to-one-and-one-to-many">Can I use graph data models for Many to one and one to many:</a></li>
-    </ul>
-</nav>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-1"><a href="#normalization">Normalization</a></li>
+            <li class="toc-level-2"><a href="#1nffirst-normal-form">1NF(first normal form)</a></li>
+            <li class="toc-level-2"><a href="#2nfsecond-normal-form">2NF(Second normal form)</a></li>
+            <li class="toc-level-2"><a href="#3nfthird-normal-form">3NF(Third normal form)</a></li>
+            <li class="toc-level-2"><a href="#boyle-codd-normal-form">(Boyle-Codd normal form)</a></li>
+            <li class="toc-level-2"><a href="#example">Example:</a></li>
+            <li class="toc-level-2"><a href="#unnormalized-form-0nf">Unnormalized Form (0NF)</a></li>
+            <li class="toc-level-2"><a href="#1nf-atomic-values">1NF (Atomic Values)</a></li>
+            <li class="toc-level-2"><a href="#2nf-no-partial-dependencies">2NF (No Partial Dependencies)</a></li>
+            <li class="toc-level-2"><a href="#3nf-no-transitive-dependencies">3NF (No Transitive Dependencies)</a></li>
+            <li class="toc-level-1"><a href="#relational-databases-vs-document-databasenosql">Relational Databases vs Document Database(Nosql)</a></li>
+            <li class="toc-level-2"><a href="#many-to-many-relationships">Many to Many relationships</a></li>
+            <li class="toc-level-2"><a href="#summary">Summary</a></li>
+            <li class="toc-level-2"><a href="#schema-on-write-and-schema-on-read">Schema-on-write and Schema-on-read</a></li>
+            <li class="toc-level-2"><a href="#schema-migrations">Schema Migrations</a></li>
+            <li class="toc-level-2"><a href="#locality">Locality</a></li>
+            <li class="toc-level-1"><a href="#network-model">Network model</a></li>
+            <li class="toc-level-1"><a href="#query-language-for-data">Query Language for data</a></li>
+            <li class="toc-level-1"><a href="#mapreduce">Mapreduce</a></li>
+            <li class="toc-level-1"><a href="#graph-like-data-models">Graph like Data Models</a></li>
+            <li class="toc-level-2"><a href="#graph-models">Graph Models</a></li>
+                <li class="toc-level-3"><a href="#property-graph-model">Property graph model</a></li>
+                <li class="toc-level-3"><a href="#triple-store-model">Triple Store model</a></li>
+                <li class="toc-level-3"><a href="#query-languages">Query Languages</a></li>
+            <li class="toc-level-1"><a href="#graph-queries-in-sql">Graph queries in SQL</a></li>
+            <li class="toc-level-1"><a href="#can-i-use-graph-data-models-for-many-to-one-and-one-to-many">Can I use graph data models for Many to one and one to many:</a></li>
+        </ul>
+    </nav>
+</div>
 
         <div class="content-wrapper">
             <h1 id="data-models">Data Models</h1>
@@ -360,6 +362,17 @@
 <p>Graph models would be overkill for simple one to many , while sql provides deeply connected variable-depth queries.</p>
 <p>If you are concerned only about the relationships, then go for graph models, but if your relationships are just organizational (foreign keys for grouping), use SQL.</p>
 
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
         </div>
     </main>
 
@@ -379,5 +392,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../../toc-scrollspy.js"></script>
 </body>
 </html>

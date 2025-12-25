@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theory of Everything by Stephen Hawking - My Portfolio</title>
+    <title>Steps that would help someone when setting up gradio with hugging space - My Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,21 +29,14 @@
 </div>
 
         <div class="content-wrapper">
-            <h1 id="theory-of-everything-by-stephen-hawking">Theory of Everything by Stephen Hawking</h1>
-<p>I loved this book when i read it in 10th grade, though i forgot few concepts, I think I understood theory of relativity and the singularity that resides within the black hole.</p>
-<p>I'm pumped up to find more things on space as ever before, if my career trajectory could go on that direction, I would be so grateful. I want to work with netflix, spacex, and I would like to be a pioneer in interplantery communications.</p>
+            <h1 id="steps-that-would-help-someone-when-setting-up-gradio-with-hugging-space">Steps that would help someone when setting up gradio with hugging space</h1>
+<p>Okay, I actually trained the model in paperspace gradient and exported the model to make it work in local gradio site in my computer.. but unfortunatelly, it wasn’t a easy piloting.</p>
+<p>I used this blog as the baseline for doing this "learning", it's been very helpful: <a href="https://www.tanishq.ai/blog/posts/2021-11-16-gradio-huggingface.html">blog</a> First I figured out that my fastai version mismatched with the version that model was trained on, which was <code>2.7.19</code> , in today’s time. so when I tried to run it in my local computer it spewed errors, creating a conundrum of galaxies .. just because version is not good. I hate dependencies that are not reliable. anyways. </p>
+<p>Fixed that , but then I got the error  <code>cannot instantiate posixpath on your system</code>, because I was using windows, the privilege Macs have over windows.. I should have just shifted to my linux system, but alas it has low memory and power. So, I did , what I thought should be done on cloud, here I was using gradient, which was running on Linux, making me do the unthinkable that is to do the training in my local computer. </p>
+<p>After finishing the training, I realized, the most important thing is to make sure that you put <code>learn.path=Path('.')</code>.  otherwise you are going to waste another 30 mins, thank god I used jupyter notebook, so that the variable values were stored and not erased. </p>
+<p>I uploaded it to hugging space in the same way I would a git repository and make sure to create a token for that, otherwise you can’t sign in. </p>
+<p>You might get some errors here and there like putting images in the hugging space folder will retrack you from uploading it, so you have to git lfs command with your image.</p>
 
-
-            <!-- Comments Section -->
-            <div class="comments-section">
-                <script src="https://utteranc.es/client.js"
-                        repo="loki52501/loki52501.github.io"
-                        issue-term="pathname"
-                        theme="preferred-color-scheme"
-                        crossorigin="anonymous"
-                        async>
-                </script>
-            </div>
         </div>
     </main>
 

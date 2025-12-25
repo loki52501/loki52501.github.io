@@ -20,15 +20,17 @@
     </nav>
 
     <main>
-        <nav class="toc">
-    <h3>Table of Contents</h3>
-    <ul>
-        <li class="toc-level-2"><a href="#what-i-built">What I Built</a></li>
-        <li class="toc-level-2"><a href="#results">Results</a></li>
-        <li class="toc-level-2"><a href="#key-lessons">Key Lessons</a></li>
-        <li class="toc-level-2"><a href="#next-steps">Next Steps</a></li>
-    </ul>
-</nav>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-2"><a href="#what-i-built">What I Built</a></li>
+            <li class="toc-level-2"><a href="#results">Results</a></li>
+            <li class="toc-level-2"><a href="#key-lessons">Key Lessons</a></li>
+            <li class="toc-level-2"><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+</div>
 
         <div class="content-wrapper">
             <h1 id="quic-transport-optimizations-from-a-reimplementation">QUIC Transport Optimizations from a Reimplementation</h1>
@@ -57,6 +59,17 @@
   <li>Bake in automated pcap diffing in CI</li>
 </ul>
 
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
         </div>
     </main>
 
@@ -76,5 +89,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../toc-scrollspy.js"></script>
 </body>
 </html>

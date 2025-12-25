@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Blogs - My Portfolio</title>
+    <title>Steps that would help someone when setting up gradio with hugging space - My Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../../../style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
@@ -15,20 +15,27 @@
 <body>
     <nav>
         <div class="container">
-            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
+            <a href="../../../../index.html">Home</a><a href="../../../../about.html">About</a><a href="../../../../projects.html">Projects</a><a href="../../../../blogs.html">Blog</a>
         </div>
     </nav>
 
     <main>
-        
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+        </ul>
+    </nav>
+</div>
+
         <div class="content-wrapper">
-            <h1 id="search-blogs">Search Blogs</h1>
-<p><div class="search-container">     <input type="text" id="blog-search" placeholder="Search blog posts..." aria-label="Search blogs"></p>
-<p>    <div class="search-controls">         <div class="category-filters">             <span style="font-size: 0.875rem; color: #718096; margin-right: 1rem;">Filter by:</span>             <a href="#" class="category-filter" data-category="tech">Tech</a>             <a href="#" class="category-filter" data-category="movies">Movies</a>             <a href="#" class="category-filter" data-category="random">Random</a>         </div></p>
-<p>        <div class="sort-control">             <label for="blog-sort">Sort by:</label>             <select id="blog-sort">                 <option value="date-desc">Newest First</option>                 <option value="date-asc">Oldest First</option>                 <option value="title-asc">Title (A-Z)</option>                 <option value="title-desc">Title (Z-A)</option>             </select>         </div>     </div></p>
-<p>    <p id="result-count" class="result-count"></p> </div></p>
-<p><div id="search-results" class="blog-list"></div></p>
-<p><script src="search.js"></script></p>
+            <h1 id="steps-that-would-help-someone-when-setting-up-gradio-with-hugging-space">Steps that would help someone when setting up gradio with hugging space</h1>
+<p>Okay, I actually trained the model in paperspace gradient and exported the model to make it work in local gradio site in my computer.. but unfortunatelly, it wasn’t a easy piloting.</p>
+<p>I used this blog as the baseline for doing this "learning", it's been very helpful: <a href="https://www.tanishq.ai/blog/posts/2021-11-16-gradio-huggingface.html">blog</a> First I figured out that my fastai version mismatched with the version that model was trained on, which was <code>2.7.19</code> , in today’s time. so when I tried to run it in my local computer it spewed errors, creating a conundrum of galaxies .. just because version is not good. I hate dependencies that are not reliable. anyways. </p>
+<p>Fixed that , but then I got the error  <code>cannot instantiate posixpath on your system</code>, because I was using windows, the privilege Macs have over windows.. I should have just shifted to my linux system, but alas it has low memory and power. So, I did , what I thought should be done on cloud, here I was using gradient, which was running on Linux, making me do the unthinkable that is to do the training in my local computer. </p>
+<p>After finishing the training, I realized, the most important thing is to make sure that you put <code>learn.path=Path('.')</code>.  otherwise you are going to waste another 30 mins, thank god I used jupyter notebook, so that the variable values were stored and not erased. </p>
+<p>I uploaded it to hugging space in the same way I would a git repository and make sure to create a token for that, otherwise you can’t sign in. </p>
+<p>You might get some errors here and there like putting images in the hugging space folder will retrack you from uploading it, so you have to git lfs command with your image.</p>
 
 
             <!-- Comments Section -->
@@ -62,6 +69,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
     <!-- TOC Scroll-Spy -->
-    <script src="toc-scrollspy.js"></script>
+    <script src="../../../../toc-scrollspy.js"></script>
 </body>
 </html>

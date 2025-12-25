@@ -70,17 +70,18 @@ main:has(.blog-container) {
     position: relative;
 }
 
-/* Two column layout when TOC exists */
+/* Pages with TOC - TOC goes outside on the left */
 main:has(.toc) {
-    display: flex;
-    gap: 3rem;
-    align-items: flex-start;
+    max-width: 800px;
+    position: relative;
 }
 
-/* Table of Contents - Left Sidebar */
+/* Table of Contents - Fixed Left Sidebar (outside main content) */
 .toc {
+    position: absolute;
+    left: -320px;
+    top: 0;
     width: 280px;
-    flex-shrink: 0;
 }
 
 .toc nav {
@@ -97,7 +98,6 @@ main:has(.toc) {
 
 /* Blog content wrapper - flows vertically */
 .content-wrapper {
-    flex: 1;
     max-width: 800px;
 }
 
@@ -142,6 +142,14 @@ main:has(.toc) {
     padding-left: 1rem;
 }
 
+.toc a.active {
+    color: #2c5282;
+    background-color: #ebf8ff;
+    border-left-color: #4299e1;
+    font-weight: 600;
+    padding-left: 1rem;
+}
+
 .toc li.toc-level-3 a {
     padding-left: 1.5rem;
     font-size: 0.813rem;
@@ -152,6 +160,10 @@ main:has(.toc) {
     padding-left: 1.75rem;
 }
 
+.toc li.toc-level-3 a.active {
+    padding-left: 1.75rem;
+}
+
 .toc li.toc-level-4 a {
     padding-left: 2.25rem;
     font-size: 0.75rem;
@@ -159,6 +171,10 @@ main:has(.toc) {
 }
 
 .toc li.toc-level-4 a:hover {
+    padding-left: 2.5rem;
+}
+
+.toc li.toc-level-4 a.active {
     padding-left: 2.5rem;
 }
 
@@ -866,14 +882,16 @@ table tbody tr:hover {
         padding: 0.75rem 1rem;
     }
 
-    /* TOC responsive - stack vertically on mobile */
+    /* TOC responsive - show above content on mobile */
     main:has(.toc) {
-        flex-direction: column;
+        max-width: 100%;
     }
 
     .toc {
+        position: static;
         width: 100%;
-        order: -1;
+        margin-bottom: 2rem;
+        left: 0;
     }
 
     .toc nav {
@@ -901,8 +919,10 @@ table tbody tr:hover {
     }
 
     .search-sidebar {
+        position: static;
         width: 100%;
         order: 3;
+        right: 0;
     }
 
     .sidebar-menu,
