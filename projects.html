@@ -22,272 +22,75 @@
     <main>
         
         <div class="content-wrapper">
-            <p><!-- content/projects.md --></p>
-<h1 id="projects">Projects</h1>
-<p>A collection of projects demonstrating <strong>security engineering</strong>, <strong>AI/ML systems</strong>, and <strong>infrastructure automation</strong> skills.</p>
+            <h1 id="projects">Projects</h1>
+<p>Few of my github repos Here:</p>
+<p><div id="github-repos-container"></div></p>
+<h1 id="things-ive-built">Things I've Built</h1>
+<p>Most of these started with a question I couldn't stop thinking about. Some turned into actual working systems. Others taught me why the problem was hard in the first place.</p>
 <p>---</p>
-<h2 id="edgestreamai--intelligent-operations-platform-for-live-streaming">EdgeStreamAI — Intelligent Operations Platform for Live Streaming</h2>
-<p><em>Master's Capstone Project | In Progress (Jan - May 2026)</em></p>
-<p><strong>Overview</strong></p>
-<p>Building a hybrid intelligence platform for Netflix-scale live streaming events to help engineering teams manage high-pressure situations during major events (FIFA World Cup, Super Bowl, etc.).</p>
-<p><strong>Problem</strong></p>
-<p>During Netflix's Jake Paul vs Mike Tyson fight (65M concurrent streams), 30-40 engineers were in a "launch room" triaging issues in real-time. They needed to make complex decisions quickly while processing massive amounts of telemetry data from 6,000 global edge locations.</p>
-<p><strong>Solution</strong></p>
-<p>A two-layer system combining algorithmic edge decisions with AI-powered team assistance:</p>
-<p><strong>Edge Layer (Algorithmic)</strong></p>
-<ul>
-  <li>Quality optimization: Adaptive bitrate selection, buffer management</li>
-  <li>Routing: Traffic distribution across CDN edges</li>
-  <li>Security: DDoS detection, rate limiting</li>
-  <li>Target: <5ms decision latency</li>
-</ul>
-<p><strong>AI Layer (Gemini 3 API)</strong></p>
-<ul>
-  <li>Natural language operations queries: "What's causing latency spike in EU West?"</li>
-  <li>Real-time incident analysis and root cause suggestions</li>
-  <li>Capacity prediction: "Do we have enough resources for kickoff?"</li>
-  <li>Automated postmortem generation</li>
-</ul>
-<p><strong>Security Research Component</strong></p>
-<ul>
-  <li>Adversarial attack testing: Can malicious prompts manipulate AI recommendations?</li>
-  <li>Prompt injection defense strategies</li>
-  <li>Security benchmarking for AI in operations environments</li>
-</ul>
-<p><strong>Tech Stack</strong></p>
-<ul>
-  <li>Python, Gemini 3 API, NetworkX (network simulation)</li>
-  <li>Streamlit (dashboard), SQLite (telemetry storage)</li>
-  <li>Network simulation tools for testing at scale</li>
-</ul>
-<p><strong>What I'm Learning</strong></p>
-<ul>
-  <li>System design at massive scale (200M+ concurrent users)</li>
-  <li>Trade-offs between real-time algorithmic decisions vs AI-assisted analysis</li>
-  <li>Security considerations when deploying AI in critical infrastructure</li>
-  <li>How to simulate and test distributed systems behavior</li>
-</ul>
-<p><strong>Status</strong>: Architecture complete, beginning implementation January 2026</p>
-<p><strong>Inspiration</strong>: Netflix's "Behind the Streams: Live at Netflix" blog series</p>
+<h2 id="ml-based-intrusion-detection-system">ML-Based Intrusion Detection System</h2>
+<p><em>Current - Capstone Project</em></p>
+<p><strong>The Problem:</strong> Most intrusion detection systems are like paranoid security guards - they flag everything as suspicious. Your grandmother's weird browsing pattern? Alert. Someone watching Netflix at 3am? Alert. Actual DDoS attack taking down your infrastructure? Lost in the noise.</p>
+<p><strong>What I'm Building:</strong> A machine learning system that learns to distinguish between "weird but normal" and "actually malicious" network traffic. Training it on the BCCC-Cloud-DDoS-2024 dataset - 540,000+ network flow records of real attacks and normal behavior.</p>
+<p><strong>The Interesting Part:</strong> Started with 317 features per network flow (source IP, packet size, protocol flags, timing patterns, etc.). That's too many - the model gets confused, training takes forever, and you're basically teaching it to memorize noise. </p>
+<p>Built a feature selection pipeline that reduced it to 32 critical indicators - the stuff that actually matters for detecting attacks. Training efficiency improved 85%, and the model still catches the attacks.</p>
+<p>Now integrating Gemini API so the system can explain what it found in natural language. Instead of "Alert: Anomaly detected in flow 47293," security teams get "Detected coordinated SYN flood from 47 source IPs targeting web server - classic DDoS pattern."</p>
+<p><strong>Tech:</strong> Python, TensorFlow, Gemini API, network traffic analysis</p>
+<p><strong>Status:</strong> In progress - currently tuning the false positive rate. The goal is high detection without alert fatigue.</p>
 <p>---</p>
-<h2 id="network-intrusion-detection-system">Network Intrusion Detection System</h2>
-<p><em>ML-Powered Network Security | July 2024</em></p>
-<p><strong>Overview</strong></p>
-<p>Built an anomaly detection system for network security using deep learning on the UNSW-NB15 dataset (real network traffic with labeled attacks).</p>
-<p><strong>Approach</strong></p>
-<p>Two-stage feature selection + LSTM Autoencoder:</p>
-<ol>
-  <li><strong>Stage 1 - Feature Selection</strong>: Used metaheuristic algorithms (Sine Cosine Algorithm) to reduce 42 network features to ~20 most important ones</li>
-  <li><strong>Stage 2 - Refinement</strong>: Applied Particle Swarm Optimization for final feature set optimization</li>
-  <li><strong>LSTM Autoencoder</strong>:</li>
-</ol>
-<ul>
-  <li>Encoder: Compress network traffic patterns to 4-dimensional latent space</li>
-  <li>Decoder: Reconstruct normal traffic</li>
-  <li>High reconstruction error = anomaly = potential attack</li>
-</ul>
-<p><strong>Architecture</strong></p>
-<pre><code>Input (network features) 
-  → LSTM(16) → LSTM(4) [bottleneck] 
-  → RepeatVector 
-  → LSTM(4) → LSTM(16) 
-  → Output (reconstructed features)
-</code></pre><p><strong>Results</strong></p>
-<ul>
-  <li>80% accuracy in identifying malicious network traffic</li>
-  <li>Successfully detected: DoS attacks, exploits, reconnaissance, backdoors</li>
-  <li>Demonstrated temporal pattern recognition in network behavior</li>
-</ul>
-<p><strong>Tech Stack</strong></p>
-<ul>
-  <li>Python, PyTorch, NumPy, Pandas</li>
-  <li>Metaheuristic algorithms for feature selection</li>
-  <li>UNSW-NB15 dataset (~250K network flows)</li>
-</ul>
-<p><strong>What I Learned</strong></p>
-<ul>
-  <li>Why LSTM works well for network traffic (temporal dependencies)</li>
-  <li>Feature selection reduces overfitting and computational cost</li>
-  <li>Trade-offs between model complexity and inference speed</li>
-  <li>Unsupervised learning (autoencoder) works well when attack types are diverse</li>
-</ul>
-<p><strong>Code</strong>: Available in private repository (academic integrity - contains coursework)</p>
+<h2 id="quic-router-simulation">QUIC Router Simulation</h2>
+<p><em>Side Project - Because I Got Curious</em></p>
+<p><strong>The Question:</strong> How do routers decide which packet to send first when thousands are competing for bandwidth? And can we make them smarter about it?</p>
+<p><strong>What I'm Building:</strong> A simulated QUIC protocol router environment on my computer to experiment with different queue scheduling algorithms. Testing how various queuing strategies affect latency and throughput under different load conditions.</p>
+<p><strong>Why This Matters:</strong> QUIC is the transport protocol behind HTTP/3 - it's what modern video streaming, web traffic, and encrypted connections use. Understanding queue behavior at the router level means understanding where actual bottlenecks happen when millions of people are streaming video simultaneously.</p>
+<p>The network graph thinking helps here: packets flowing through router queues, each queue is a node with capacity constraints, edges are the forwarding decisions. When you model it as a graph problem, you start asking different questions about optimization.</p>
+<p><strong>Tech:</strong> Python, network simulation, QUIC protocol implementation, algorithmic queue management</p>
+<p><strong>Status:</strong> Ongoing experiment - testing different priority scheduling algorithms</p>
 <p>---</p>
-<h2 id="static-site-generator">Static Site Generator</h2>
-<p><em>C++17 Command-Line Tool | October 2024</em></p>
-<p><strong>Overview</strong></p>
-<p>Built a minimal static site generator in modern C++ to learn the language beyond academics and automate my portfolio deployment.</p>
-<p><strong>Features</strong></p>
-<ul>
-  <li>Markdown → HTML conversion with custom parser</li>
-  <li>Template system for consistent page layout</li>
-  <li>Auto-generated navigation from content directory</li>
-  <li><code><filesystem></code> for recursive directory walking</li>
-  <li>Regex-based parsing for Markdown syntax</li>
-  <li>CLI tool with clean interface</li>
-</ul>
-<p><strong>Deployment</strong></p>
-<ul>
-  <li>GitHub Actions workflow for automatic builds</li>
-  <li>Deploys to GitHub Pages on every push to main</li>
-  <li>Zero-config deployment (just push Markdown)</li>
-</ul>
-<p><strong>Technical Highlights</strong></p>
-<ul>
-  <li>C++17 features: <code>std::filesystem</code>, <code>std::optional</code>, structured bindings</li>
-  <li>String processing without external dependencies</li>
-  <li>Cross-platform compatibility (Linux, macOS, Windows)</li>
-  <li>Clean separation: parser → template engine → file writer</li>
-</ul>
-<p><strong>What I Learned</strong></p>
-<ul>
-  <li>Modern C++ best practices (RAII, smart pointers, move semantics)</li>
-  <li>Building practical CLI tools</li>
-  <li>CI/CD with GitHub Actions</li>
-  <li>When to use C++ vs higher-level languages (this could've been Python, but I wanted C++ practice!)</li>
-</ul>
-<p><strong>Why This Matters</strong></p>
-<ul>
-  <li>Shows I can learn new languages independently</li>
-  <li>Demonstrates ability to build developer tooling</li>
-  <li>Production deployment (you're reading a page it generated!)</li>
-</ul>
-<p><strong>Source</strong>: <a href="https://github.com/loki52501">GitHub</a> <em>(link to your repo)</em></p>
+<h2 id="network-intrusion-detection-using-deep-learning">Network Intrusion Detection Using Deep Learning</h2>
+<p><em>Academic Project</em></p>
+<p><strong>The Challenge:</strong> Detect 9 different types of network attacks (DoS, exploits, reconnaissance, etc.) from network traffic patterns. Trained on 2.5 million network flows from the UNSW-NB15 dataset.</p>
+<p><strong>The Approach:</strong> Used LSTM autoencoders - basically taught the model what "normal" network behavior looks like, then flagged anything that deviated from that pattern. Hit 80% detection accuracy.</p>
+<p><strong>The Optimization Problem:</strong> Started with 42 features per flow. Used a two-stage metaheuristic optimization approach (Sine Cosine Algorithm + Particle Swarm Optimization) to reduce it to 18 critical features. This cut the false positive rate by 25% and improved real-time detection speed.</p>
+<p><strong>What I Learned:</strong> More data isn't always better. Sometimes removing the noise is more important than adding more features. Also, optimization algorithms from completely different domains (like particle swarm) can solve network security problems in unexpected ways.</p>
+<p><strong>Tech:</strong> Python, LSTM, CNN, feature engineering, metaheuristic optimization</p>
 <p>---</p>
-<h2 id="digital-library-platform">Digital Library Platform</h2>
-<p><em>Full-Stack Web Application | Feb - Aug 2024</em></p>
-<p><strong>Overview</strong></p>
-<p>Built academic resource portal for Anna University to improve e-resource access for thousands of students.</p>
-<p><strong>Architecture</strong></p>
-<ul>
-  <li><strong>Backend</strong>: Node.js with Express.js, RESTful API design</li>
-  <li><strong>Database</strong>: PostgreSQL with normalized schema</li>
-  <li><strong>Frontend</strong>: React with responsive design</li>
-  <li><strong>Features</strong>: User authentication, resource search, category browsing, admin dashboard</li>
-</ul>
-<p><strong>Technical Decisions</strong></p>
-<ul>
-  <li>PostgreSQL over MongoDB: Structured data with relationships (users, resources, categories)</li>
-  <li>REST over GraphQL: Simpler for straightforward CRUD operations</li>
-  <li>Server-side rendering for initial load performance</li>
-</ul>
-<p><strong>Impact</strong></p>
-<ul>
-  <li>Deployed for university use</li>
-  <li>Serves academic papers, journals, e-books</li>
-  <li>Improved discoverability of existing resources</li>
-</ul>
-<p><strong>What I Learned</strong></p>
-<ul>
-  <li>Full-stack development workflow</li>
-  <li>Database design and normalization</li>
-  <li>API design principles</li>
-  <li>Deployment and hosting</li>
-</ul>
+<h2 id="face-detection-mobile-app">Face Detection Mobile App</h2>
+<p><em>Undergrad Project - Learning Full Stack</em></p>
+<p><strong>What It Does:</strong> Android app that does real-time face detection using your phone camera. Point at a face, it detects it instantly.</p>
+<p><strong>The Architecture:</strong> Built a FastAPI backend deployed on Heroku that handles the actual detection using OpenCV's Haar Cascade algorithm. The Android app (Java) sends images to the API, gets back coordinates of detected faces, draws boxes in real-time.</p>
+<p>Designed it as RESTful API with asynchronous request handling so multiple users could hit the detection service simultaneously without blocking.</p>
+<p><strong>Why I Built This:</strong> Wanted to understand the full stack - mobile client, backend API, computer vision algorithm, cloud deployment, the whole graph of how data flows from camera → processing → display.</p>
+<p><strong>Tech:</strong> Android, Java, FastAPI, OpenCV, Heroku, REST APIs</p>
+<p><strong>Source:</strong> <a href="https://gitlab.com/artcreativity2019/cme-project">GitLab Repository</a></p>
 <p>---</p>
-<h2 id="nft-tracking-dashboard-competition-win">NFT Tracking Dashboard (Competition Win)</h2>
-<p><em>Google Apps Script | April 2021</em></p>
-<p><strong>Challenge</strong></p>
-<p>NIT Trichy Covalent Blockchain Competition: Build a functional blockchain application in 24 hours.</p>
-<p><strong>Solution</strong></p>
-<p>Built real-time NFT price tracking dashboard in Google Sheets using Apps Script:</p>
-<ul>
-  <li>Learned Google Apps Script in one day (never used before)</li>
-  <li>Integrated with blockchain APIs for live NFT data</li>
-  <li>Auto-updating dashboard with price alerts</li>
-  <li>Custom UI with Google Sheets as frontend</li>
-</ul>
-<p><strong>Result</strong>: 🥇 First Place</p>
-<p><strong>What It Shows</strong></p>
-<ul>
-  <li>Ability to learn new technologies rapidly under pressure</li>
-  <li>Creative problem-solving (using Sheets as UI = accessible to non-technical users)</li>
-  <li>API integration and data processing</li>
-</ul>
+<h2 id="secure-digital-library-platform">Secure Digital Library Platform</h2>
+<p><em>Built for Anna University System</em></p>
+<p><strong>The Context:</strong> 5,000+ students needed access to digital library resources. Different permissions for different user roles. Had to be secure, fast, and actually work when thousands of students hit it during exam season.</p>
+<p><strong>What I Built:</strong> Full-stack platform with OAuth 2.0 authentication, role-based access control, and containerized microservices architecture. Used Docker for deployment to make scaling easier.</p>
+<p><strong>The Results:</strong> 99.5% uptime, API response times under 200ms even during peak load. Students could actually access their resources when they needed them.</p>
+<p><strong>What Mattered:</strong> Session management security, proper RBAC implementation, and making sure the database queries didn't fall apart when traffic spiked. The boring infrastructure stuff that makes or breaks production systems.</p>
+<p><strong>Tech:</strong> Node.js, PostgreSQL, React, Docker, OAuth 2.0</p>
 <p>---</p>
-<h2 id="what-im-building-next">What I'm Building Next</h2>
-<p>After completing EdgeStreamAI (May 2026), I plan to:</p>
-<ol>
-  <li><strong>Contribute to Netflix Open Source</strong></li>
-</ol>
-<ul>
-  <li>Target: 2-3 meaningful PRs to projects like Hystrix, Vector, or network-related repos</li>
-  <li>Goal: Build relationship with Netflix engineering community</li>
-</ul>
-<ol>
-  <li><strong>Expand EdgeStreamAI Security Research</strong></li>
-</ol>
-<ul>
-  <li>Publish findings on AI security in operations environments</li>
-  <li>Create benchmark suite for testing AI robustness in infrastructure tools</li>
-</ul>
-<ol>
-  <li><strong>Learn Rust</strong></li>
-</ol>
-<ul>
-  <li>Build a simple network packet analyzer in Rust</li>
-  <li>Compare performance with Python implementations</li>
-  <li>Modern systems programming alternative to C++</li>
-</ul>
+<h2 id="nft-tracking-dashboard">NFT Tracking Dashboard</h2>
+<p><em>24-Hour Competition Project</em></p>
+<p><strong>The Situation:</strong> NIT Trichy blockchain competition. Had 24 hours. Never used Google Apps Script before.</p>
+<p><strong>The Challenge:</strong> Build a real-time dashboard tracking NFT transactions across the blockchain.</p>
+<p><strong>What I Did:</strong> Learned Google Apps Script from scratch, built a working dashboard that pulled live NFT data and displayed transaction patterns. Won first place.</p>
+<p><strong>What This Taught Me:</strong> You can learn new tools fast when you have to. Also, sometimes the right tool for the job is whatever gets it working in time, not the theoretically perfect solution.</p>
+<p><strong>Tech:</strong> Google Apps Script, blockchain APIs, rapid prototyping under pressure</p>
 <p>---</p>
-<h2 id="technical-interests">Technical Interests</h2>
-<p>Beyond these projects, I'm continuously learning:</p>
-<p><strong>Reading</strong></p>
-<ul>
-  <li>"Designing Data-Intensive Applications" by Martin Kleppmann (in progress)</li>
-  <li>Netflix Tech Blog (streaming infrastructure deep dives)</li>
-  <li>Security research papers on AI vulnerabilities</li>
-</ul>
-<p><strong>Daily Practice</strong></p>
-<ul>
-  <li>LeetCode problems (maintaining algorithm skills)</li>
-  <li>System design exercises</li>
-  <li>Following security advisories and CVEs</li>
-</ul>
-<p><strong>Exploring</strong></p>
-<ul>
-  <li>Kubernetes and container orchestration</li>
-  <li>Distributed systems patterns (Raft, Paxos)</li>
-  <li>Modern network protocols (QUIC, HTTP/3)</li>
-</ul>
+<h2 id="other-experiments">Other Experiments</h2>
+<p><strong>3D Campus Digital Twin</strong> - Modeled my entire undergrad college in 3D using Blender. Completely useless for my career but taught me a lot about visualizing complex spatial systems. Sometimes the detours are worth it.</p>
 <p>---</p>
-<h2 id="want-to-collaborate">Want to Collaborate?</h2>
-<p>If you're working on:</p>
-<ul>
-  <li>Large-scale streaming infrastructure</li>
-  <li>AI security and robustness</li>
-  <li>Network security at scale</li>
-  <li>Cloud security automation</li>
-</ul>
-<p>I'd love to discuss technical approaches, trade-offs, and challenges. Reach out at <strong>lokeshlks01@gmail.com</strong>.</p>
+<h2 id="what-connects-these">What Connects These</h2>
+<p>Looking back, there's a pattern: I'm drawn to problems where you need to understand the entire system - how data flows, where bottlenecks form, where attacks happen, where things break under load.</p>
+<p>Whether it's packets moving through router queues, network traffic patterns hiding attacks, or users hitting a database during exams - they're all graph problems. Nodes, edges, flow, constraints.</p>
+<p>Understanding the graph means understanding where the interesting problems are.</p>
 <p>---</p>
-<p><em>Projects are ordered by recency and relevance to my career goals. All code is available upon request (some projects involve coursework and respect academic integrity policies).</em></p>
-<h2 id="optional-research--writing">(Optional) Research & Writing</h2>
-<h3 id="ai-collaboration-shared-vs-individual-contexts">AI Collaboration: Shared vs. Individual Contexts</h3>
-<p>A research initiative on how groups collaborate with AI tools:</p>
-<ul>
-  <li>Compares <strong>shared group context</strong> vs <strong>individual context</strong> when using LLMs</li>
-  <li>Looks at information sharing, dominance, and creativity in group problem-solving</li>
-  <li>Connects social-informatics theory with practical AI tool design</li>
-</ul>
-<p>This work shows:</p>
-<ul>
-  <li>Ability to <strong>reason about complex socio-technical systems</strong></li>
-  <li>Comfort reading and synthesizing <strong>research literature</strong></li>
-  <li>Interest in how tools shape <strong>collaboration and cognition</strong></li>
-</ul>
+<p><strong>Want to talk about any of these?</strong> <a href="mailto:lokeshlks01@gmail.com">Email me</a> or check out my <a href="https://github.com/loki52501">GitHub</a></p>
 
-
-            <!-- Comments Section -->
-            <div class="comments-section">
-                <script src="https://utteranc.es/client.js"
-                        repo="loki52501/loki52501.github.io"
-                        issue-term="pathname"
-                        theme="preferred-color-scheme"
-                        crossorigin="anonymous"
-                        async>
-                </script>
-            </div>
+            
         </div>
     </main>
 
@@ -310,5 +113,7 @@
 
     <!-- TOC Scroll-Spy -->
     <script src="toc-scrollspy.js"></script>
+    <!-- GitHub Repos Preview -->
+    <script src="github-repos.js"></script>
 </body>
 </html>

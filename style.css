@@ -1095,3 +1095,129 @@ table tbody tr:hover {
         padding-left: 12px;
     }
 }
+
+/* ===================================
+   GitHub Repos Preview
+   =================================== */
+
+#github-repos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.loading-repos,
+.repos-error {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #718096;
+    font-size: 1rem;
+    padding: 2rem;
+}
+
+.repo-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.repo-card:hover {
+    border-color: #4299e1;
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    transform: translateY(-2px);
+}
+
+.repo-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.repo-icon {
+    color: #718096;
+    flex-shrink: 0;
+}
+
+.repo-name {
+    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2b6cb0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.repo-card:hover .repo-name {
+    color: #2c5282;
+    text-decoration: underline;
+}
+
+.repo-description {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #4a5568;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.repo-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+    color: #718096;
+    margin-bottom: 0.5rem;
+}
+
+.repo-language {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.language-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.repo-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.repo-stat svg {
+    color: #a0aec0;
+}
+
+.repo-updated {
+    font-size: 0.75rem;
+    color: #a0aec0;
+}
+
+/* Responsive for repo cards */
+@media (max-width: 768px) {
+    #github-repos-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .repo-card {
+        padding: 1.25rem;
+    }
+}
