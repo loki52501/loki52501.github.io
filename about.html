@@ -23,56 +23,53 @@
         
         <div class="content-wrapper">
             <h1 id="about-me">About Me</h1>
-<h2 id="how-i-think-about-things">How I Think About Things</h2>
-<p>I see the world as a network.</p>
-<p>Not metaphorically - literally. Everything is nodes and edges. Routers connected by fiber. People connected by relationships. Chess pieces connected by possible moves. Movie plots connected by thematic threads. Technologies connected by protocols.</p>
-<p>This isn't just how I approach technical problems. It's genuinely how my brain works. When I look at any system - a distributed network, a security architecture, a movie's narrative structure, human institutions - I'm mapping the graph. Where are the nodes? What are the edges? How does information flow? Where are the bottlenecks? Where are the trust boundaries? Where does it break?</p>
-<p>Understanding the graph means understanding everything else.</p>
-<h2 id="what-fascinates-me">What Fascinates Me</h2>
-<p><strong>Infrastructure most people never think about.</strong></p>
-<p>Submarine cables routing petabytes of data across oceans. How does a packet know which path to take through thousands of routers? How do CDNs serve 4K video to millions simultaneously without melting? How do protocols like QUIC rewrite the rules of low-latency communication?</p>
-<p>These aren't abstract questions. These are the systems that enable everything else. When routing protocols fail, entire regions lose connectivity. When streaming infrastructure bottlenecks, services collapse. When security fails, real damage happens to real people.</p>
-<p>I'm drawn to problems that affect humanity at scale. Not because I have delusions of grandeur, but because the leverage is there. Making infrastructure work better - faster, more securely, more reliably - means serving billions of people who'll never know your name.</p>
-<p>That alignment between technical curiosity and serving people - that's what I'm looking for.</p>
+<h2 id="what-i-do">What I Do</h2>
+<p>I build ML systems that detect threats and deploy them into production. I secure the infrastructure those systems run on. And I think about what happens when both break at the same time.</p>
+<p>That puts me at the intersection of <strong>AI engineering</strong>, <strong>MLSecOps</strong>, and <strong>security engineering</strong> — which is exactly where I want to be. The most interesting problems don't sit neatly in one box. A production ML model is also an attack surface. An IAM pipeline is also a data pipeline. A network intrusion detector is also a feature engineering problem. Understanding the full stack — from model architecture to cloud deployment to access control to protocol behavior — is what lets you build things that actually hold up.</p>
+<p>---</p>
+<h2 id="how-i-think">How I Think</h2>
+<p>I see everything as a graph. Not as a metaphor — as an actual analytical frame.</p>
+<p>Network traffic is a graph of flows, protocols, and timing relationships. An IAM system is a graph of identities, permissions, and trust boundaries. A machine learning model is a graph of features, weights, and activations. An attack is a graph traversal — an adversary moving through trust boundaries toward a target node.</p>
+<p>When I look at a system, I'm mapping it: where are the nodes, what are the edges, how does information flow, where does it bottleneck, where does it break under adversarial conditions?</p>
+<p>This lens works for both building and breaking systems. Which is the point.</p>
+<p>---</p>
 <h2 id="the-journey-so-far">The Journey So Far</h2>
-<p><strong>Started skating in high school.</strong> Learned that falling is just part of the process. What matters is whether you get back up.</p>
-<p><strong>Bounced around in undergrad.</strong> Built ML projects (face detection, malware classification). Randomly learned 3D modeling and created a digital twin of my entire college. That last one was objectively useless for my career, but I learned how to visualize complex systems in three dimensions. Sometimes the detours teach you more than the direct path.</p>
-<p><strong>Got serious about networks and security in grad school.</strong> Penn State's cybersecurity program taught me to reverse engineer binaries, design secure LANs, understand how attacks actually work versus how academic papers say they work. The gap between theory and practice is where interesting problems live.</p>
-<p><strong>Picked up certifications</strong> (Security+, CCNA) because that's the game you play to prove you know the basics. They're useful foundations - how encryption actually works, how routers make forwarding decisions, what companies use for security architecture. But the real learning happened breaking things and trying to build them better.</p>
-<p><strong>Still play chess</strong> (badly, but consistently). No rating, just <a href="https://www.chess.com/member/lkslokesh">games on chess.com</a> and a lot of terrible endgames. Turns out pattern recognition from chess helps with network traffic analysis. The ability to see three moves ahead, to recognize patterns, to understand position over material - it all translates.</p>
-<h2 id="what-im-working-toward">What I'm Working Toward</h2>
-<p>I want to work on the infrastructure that keeps the internet running.</p>
-<p>Whether that's:</p>
+<p><strong>Integrated MSc in IT (5-year program):</strong> Built ML systems from scratch during undergrad — face detection mobile app with a FastAPI backend on Heroku, a network intrusion detector with LSTM autoencoders trained on 2.5M network flows, a 3D digital twin of my entire campus in Blender just to understand spatial systems. Won a 24-hour hackathon at NIT Trichy building an NFT tracking dashboard in Google Apps Script — a tool I'd never touched. Learned that you can absorb new tools fast when you're actually shipping something.</p>
+<p><strong>Industry — Three Security Domains:</strong></p>
+<p>At <strong>iMerit</strong>, automated identity lifecycle management across Ivanti, Google Workspace, and Active Directory using Python and REST pipelines. Cut provisioning errors significantly and reduced onboarding time by ~60%. Learned what RBAC looks like when it has to work for real organizations with messy, inconsistent data.</p>
+<p>At <strong>Invisbl</strong>, refactored AWS IAM to align with NIST 800-53 AC controls and CIS AWS Foundations benchmarks. Built detection pipelines with Python, Lambda, and Elasticsearch — flagging access anomalies, privilege escalations, configuration drift. First time I understood that cloud security is really a logging and detection problem as much as a configuration problem.</p>
+<p>At <strong>Anna University</strong>, built a hybrid LSTM-CNN intrusion detection system on the UNSW-NB15 dataset (2.5M flows, 9 attack categories). Used a two-stage metaheuristic optimization pipeline — Sine Cosine Algorithm then Particle Swarm Optimization — to reduce features from 42 to 18. That cut false positives by 25% and improved detection latency. First time I really understood that feature selection <em>is</em> the work, not a preprocessing step you do before the real work.</p>
+<p><strong>MS in Cybersecurity, Penn State (3.8 GPA, graduating May 2026):</strong> Reverse-engineered binaries. Designed secure network architectures. Studied how attacks actually work versus how papers describe them. Got Security+ and CCNA to solidify the fundamentals — how encryption works under the hood, how BGP makes forwarding decisions, what companies actually deploy for network access control.</p>
+<p>---</p>
+<h2 id="what-im-building-now">What I'm Building Now</h2>
+<p><strong>Temporal CNN-Based Intrusion Detection System (Capstone):</strong> Training on BCCC-Cloud-DDoS-2024 — 540,000+ real DDoS and normal traffic flows. The architecture is a Temporal Convolutional Network: it captures sequential patterns in packet timing, inter-arrival intervals, and flow behavior in a way that standard CNNs miss and LSTMs overfit on sparse data.</p>
+<p>Started with 317 features per flow (packet sizes, inter-arrival times, TCP flags, flow durations, protocol distributions). That many features creates noise and slows training; the model starts memorizing artifacts. Built a feature selection pipeline that identified 32 critical indicators — 90% dimensionality reduction — without meaningful accuracy loss. Training efficiency improved 85%.</p>
+<p>Now integrating the Gemini API to generate natural language alert explanations: instead of "anomaly detected in flow 47293," security teams see "coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained over 3-minute window targeting port 443." Because a detection system that can't communicate what it found is only half a system.</p>
+<p><strong>QUIC Router Simulation:</strong> Simulating QUIC protocol behavior to compare queue scheduling algorithms — FIFO, Weighted Fair Queuing, Hierarchical Packet Fair Queuing — under varying load conditions. Specifically interested in tail latency (P99) behavior, because that's where streaming applications actually fail. QUIC is what HTTP/3 runs on, and understanding queue dynamics at this layer means understanding where real bottlenecks form when millions of flows compete for bandwidth.</p>
+<p><strong>Self-Hosted AI Inference Stack:</strong> Running LLM inference on local hardware. The goal isn't just cost savings — it's understanding the full inference stack: quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests. If you're building systems that depend on AI, you should understand what happens when you own the compute.</p>
+<p>---</p>
+<h2 id="what-im-looking-for">What I'm Looking For</h2>
+<p>Roles where ML and security actually overlap in production:</p>
 <ul>
-  <li>Optimizing queue algorithms for streaming infrastructure</li>
-  <li>Building ML systems that detect threats before damage happens</li>
-  <li>Designing networks that survive intelligent attacks</li>
-  <li>Improving protocols that route data across continents</li>
-  <li>Securing systems that billions of people rely on without thinking about</li>
+  <li><strong>MLSecOps</strong> — applying ML to security operations, or securing ML pipelines themselves</li>
+  <li><strong>AI Engineering</strong> — building and deploying ML systems, especially in adversarial or safety-critical contexts</li>
+  <li><strong>Security Engineering</strong> — cloud security, network detection, identity and access</li>
+  <li><strong>MLOps</strong> — model deployment, monitoring, retraining pipelines, inference infrastructure</li>
 </ul>
-<p>The specific problem matters less than the scale and the stakes. I want to work on things where getting it right means people's lives work better, and getting it wrong means real consequences.</p>
-<h2 id="what-makes-me-tick">What Makes Me Tick</h2>
-<p><strong>Curiosity about how things actually work</strong> at the lowest levels. Not the abstraction - the reality. How do bits traverse through submarine cables? How do routers decide in microseconds? How do you design systems that fail gracefully under attack?</p>
-<p><strong>The gap between theory and practice.</strong> Academic papers describe perfect security. Reality is messy network traffic, zero-day exploits, users clicking things they shouldn't. That messiness is where the interesting problems are.</p>
-<p><strong>Understanding systems from multiple angles.</strong> That's why I went from ML to 3D art to network security. Each lens shows you something different. The graph thinking connects it all.</p>
-<p><strong>The philosophy behind the technology.</strong> I read a lot. Watch a lot of movies. Think about how technologies reshape human relationships, institutions, possibilities. Write about it on my <a href="your-blog-link">blog</a>. The technical problems don't exist in a vacuum - they're embedded in human contexts, human needs, human consequences.</p>
-<h2 id="the-bigger-picture">The Bigger Picture</h2>
-<p>We're living through something unprecedented. The internet, distributed systems, AI, the infrastructure that connects billions of people - this is the precipice of our century. </p>
-<p>I'm not naive about it. Technology creates problems as much as it solves them. Surveillance, misinformation, concentration of power, environmental costs - they're real.</p>
-<p>But the problems don't go away by ignoring the technology. They get solved by people who understand the systems deeply enough to see where they break, where they harm, where they could work differently.</p>
-<p>I want to be one of those people. Not because I think I'm special, but because the problems are interesting and the stakes matter.</p>
+<p>I want to work on problems that affect real users at scale, where getting it wrong has real consequences. The leverage is there and the problems are genuinely interesting.</p>
+<p><strong>Open to:</strong> Full-time roles starting June 2026. F-1 OPT eligible.</p>
+<p>---</p>
+<h2 id="outside-work">Outside Work</h2>
+<p><strong>Chess</strong> — no rating, just games on <a href="https://www.chess.com/member/lkslokesh">chess.com/member/lkslokesh</a> and a lot of questionable endgames. Pattern recognition from chess actually transfers to network traffic analysis — you learn to see structure in noise.</p>
+<p><strong>Reading</strong> — working through <em>Designing Data-Intensive Applications</em>. The reliability chapter maps cleanly onto security architecture: hardware faults, software bugs, and human error are just different layers of the same threat model.</p>
+<p><strong>Skating</strong> — taught me that falling is just data. What matters is whether you adjust and try again with better information.</p>
+<p>---</p>
 <h2 id="what-i-believe">What I Believe</h2>
-<p><strong>Everything is interconnected.</strong> Actions ripple through networks in ways you can't always predict. Understanding those connections - the graph - is how you navigate complexity.</p>
-<p><strong>Alignment matters more than credentials.</strong> What you're trying to accomplish, whether your interests align with serving people, whether you're solving problems that matter - that's what counts. The certificates and degrees are just signals in a game we all play.</p>
-<p><strong>Falling down is part of the process.</strong> Skating taught me that. Chess teaches me that. Every failed project teaches me that. What matters is getting back up and trying again with better understanding.</p>
-<p><strong>The best work happens at intersections.</strong> Between security and ML. Between infrastructure and algorithms. Between technical depth and philosophical breadth. The interesting problems aren't neatly categorized.</p>
-<h2 id="right-now">Right Now</h2>
-<p>Finishing my MS in Cybersecurity at Penn State (May 2026, 3.8 GPA). Building an ML-based intrusion detection system. Simulating QUIC routers to experiment with queue scheduling. Reading, watching films, playing chess, thinking about graphs.</p>
-<p>Looking for roles in network engineering, streaming infrastructure, ML engineering, or security starting June 2026. Specifically places where people are solving real infrastructure problems that affect humans at scale.</p>
-<p>If you're working on protocols, queues, security systems, ML applications, or any infrastructure that needs to work when millions of people depend on it - I want to hear about what you're building.</p>
+<p>The gap between theory and practice is where the interesting problems live. Papers describe perfect detection systems. Reality is noisy flows, adversarial evasion, alert fatigue, and teams that need to act in seconds.</p>
+<p>Building systems that hold up in that reality — not just on benchmark datasets — is what I'm trying to get good at.</p>
 <p>---</p>
 <p><strong>Let's talk:</strong> <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a></p>
-<p><strong>Other places:</strong> <a href="https://github.com/loki52501">GitHub</a> | <a href="blog/">Blog</a> | <a href="https://www.chess.com/member/lkslokesh">Chess games</a></p>
+<p><strong>Other places:</strong> <a href="https://github.com/loki52501">GitHub</a> | <a href="blog/">Blog</a> | <a href="https://www.chess.com/member/lkslokesh">Chess</a></p>
 <p>---</p>
 <p><em>"We used to look up at the sky and wonder at our place in the stars. Now we just look down, and worry about our place in the dirt."</em></p>
 <p><em>I'm still looking up.</em></p>

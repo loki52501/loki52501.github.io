@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills - My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
+        </div>
+    </nav>
+
+    <main>
+        
+        <div class="content-wrapper">
+            <h1 id="skills">Skills</h1>
+<p>Not a list of things I've heard of. A list of things I've used to build something real.</p>
+<p>---</p>
+<h2 id="languages">Languages</h2>
+<p><strong>Python</strong> — Primary language. Production IAM pipelines, ML model training and evaluation, REST APIs with FastAPI, detection pipelines, data processing at scale (2.5M+ records), scripting cloud automation. This is where I do most of my serious work.</p>
+<p><strong>C++</strong> — Built a custom static site generator from scratch: markdown parser, Jupyter notebook converter, incremental build cache with file hashing, SQLite integration, modular architecture across 15+ compilation units. C++17 with CMake and Make.</p>
+<p><strong>Java</strong> — Android development. Built the mobile client for a real-time face detection app with asynchronous REST calls and camera overlay rendering.</p>
+<p><strong>SQL</strong> — PostgreSQL for production applications (digital library platform, 5K+ users). SQLite for embedded database in C++ projects. Query optimization matters when you have concurrent users during exam season.</p>
+<p><strong>JavaScript</strong> — Client-side search and filtering logic for static sites. React for frontend components in the DSA coaching platform.</p>
+<p><strong>Bash/Shell</strong> — Automation scripts, deployment pipelines, Linux system administration, inference stack setup.</p>
+<p>---</p>
+<h2 id="machine-learning--ai">Machine Learning & AI</h2>
+<p><strong>Architectures I've trained:</strong></p>
+<ul>
+  <li>Temporal Convolutional Networks (TCN) — sequential flow analysis for DDoS detection</li>
+  <li>LSTM Autoencoders — anomaly detection on network traffic (UNSW-NB15)</li>
+  <li>Hybrid LSTM-CNN — multi-class attack classification across 9 attack categories</li>
+  <li>Haar Cascade CNNs — real-time face detection via OpenCV</li>
+</ul>
+<p><strong>What I understand beyond the model:</strong></p>
+<ul>
+  <li>Feature selection as a core engineering discipline, not a preprocessing afterthought</li>
+  <li>Metaheuristic optimization: Sine Cosine Algorithm, Particle Swarm Optimization — used in production research to solve feature selection as a search problem</li>
+  <li>Dimensionality reduction under accuracy constraints (317 → 32 features, 90% reduction, minimal accuracy loss)</li>
+  <li>False positive rate as the production metric that matters in security contexts — not just accuracy or F1</li>
+</ul>
+<p><strong>Frameworks:</strong> TensorFlow · Keras · scikit-learn · Pandas · NumPy</p>
+<p><strong>LLM Integration:</strong> Gemini API — building natural language alert explanation pipelines for IDS output. Prompt engineering for structured security event summarization.</p>
+<p><strong>Local Inference:</strong> llama.cpp · quantized model deployment (GGUF/GGML) · throughput and latency benchmarking under concurrent load</p>
+<p>---</p>
+<h2 id="security-engineering">Security Engineering</h2>
+<p><strong>Identity & Access Management:</strong></p>
+<ul>
+  <li>Automated IAM lifecycle (provision → modify → deprovision) across Ivanti, Google Workspace, and Active Directory</li>
+  <li>RBAC implementation for production systems with 5,000+ users</li>
+  <li>OAuth 2.0 — designed and implemented for a production digital library platform</li>
+  <li>Session management, privilege escalation detection, access anomaly flagging</li>
+</ul>
+<p><strong>Cloud Security (AWS):</strong></p>
+<ul>
+  <li>IAM policy refactoring to NIST 800-53 AC controls and CIS AWS Foundations Benchmarks v1.4</li>
+  <li>Detection pipelines for configuration drift, privilege escalation, access anomalies</li>
+  <li>AWS Lambda for event-driven detection logic</li>
+  <li>Elasticsearch for log aggregation and anomaly search</li>
+</ul>
+<p><strong>Network Security:</strong></p>
+<ul>
+  <li>Intrusion Detection System design — academic research and capstone project</li>
+  <li>Protocol analysis: TCP/IP, UDP, QUIC, BGP fundamentals</li>
+  <li>Traffic flow feature engineering: packet size distributions, inter-arrival times, TCP flag patterns, flow duration statistics</li>
+  <li>Wireshark for packet analysis</li>
+  <li>Network architecture design — studied in depth at Penn State</li>
+</ul>
+<p><strong>Security Concepts I Can Apply (Not Just Define):</strong></p>
+<ul>
+  <li>MITRE ATT&CK framework — mapping detection rules to TTP coverage</li>
+  <li>NIST 800-53 control families — AC, AU, SI in particular</li>
+  <li>CIS Benchmarks — AWS Foundations, practical hardening</li>
+  <li>Secure network architecture — segmentation, DMZ design, access control layers</li>
+  <li>Binary analysis fundamentals — reverse engineering coursework at Penn State</li>
+</ul>
+<p>---</p>
+<h2 id="cloud--infrastructure">Cloud & Infrastructure</h2>
+<p><strong>AWS:</strong> IAM · Lambda · CloudWatch · S3 · foundational compute and networking</p>
+<p><strong>Docker:</strong> Containerized microservices for the digital library platform. Container-based deployment for reproducibility and horizontal scaling.</p>
+<p><strong>GitHub Actions:</strong> CI/CD pipeline for automated site generation and deployment to GitHub Pages.</p>
+<p><strong>Linux:</strong> Primary development environment. System administration, process management, network configuration, inference stack setup on local hardware.</p>
+<p><strong>FastAPI:</strong> REST API backends — face detection service, DSA coaching platform backend. Async request handling, endpoint documentation, dependency injection.</p>
+<p><strong>Elasticsearch:</strong> Log aggregation and search for cloud security detection pipelines at Invisbl.</p>
+<p>---</p>
+<h2 id="tools--platforms">Tools & Platforms</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ML/Data</td>
+      <td>TensorFlow, scikit-learn, Pandas, NumPy, Jupyter</td>
+    </tr>
+    <tr>
+      <td>Monitoring</td>
+      <td>Elasticsearch, CloudWatch</td>
+    </tr>
+    <tr>
+      <td>Identity</td>
+      <td>Ivanti, Google Workspace Admin, Active Directory</td>
+    </tr>
+    <tr>
+      <td>Databases</td>
+      <td>PostgreSQL, SQLite, MySQL</td>
+    </tr>
+    <tr>
+      <td>Version Control</td>
+      <td>Git, GitHub, GitLab</td>
+    </tr>
+    <tr>
+      <td>Containers</td>
+      <td>Docker</td>
+    </tr>
+    <tr>
+      <td>API</td>
+      <td>FastAPI, REST, Postman</td>
+    </tr>
+    <tr>
+      <td>Networking</td>
+      <td>Wireshark, QUIC stack</td>
+    </tr>
+    <tr>
+      <td>Local AI</td>
+      <td>llama.cpp, GGUF quantization</td>
+    </tr>
+    <tr>
+      <td>Build Systems</td>
+      <td>CMake, Make, GitHub Actions</td>
+    </tr>
+  </tbody>
+</table>
+<p>---</p>
+<h2 id="certifications">Certifications</h2>
+<p><strong><a href="images/CompTIA%20Security+%20ce%20certificate.pdf">CompTIA Security+</a></strong> Cryptography, PKI, network security protocols, threat management, vulnerability assessment, identity and access management, risk management. Got this to formalize the fundamentals I'd been applying in security engineering roles.</p>
+<p><strong><a href="images/Cisco%20Certified%20Network%20Associate%20certificate.pdf">Cisco CCNA</a></strong> Routing protocols (OSPF, BGP behavior, EIGRP), switching, VLANs, subnetting, network access control, WAN technologies. The CCNA forced me to understand what actually happens on the wire — not just the abstractions.</p>
+<p>---</p>
+<h2 id="education">Education</h2>
+<p><strong>MS in Cybersecurity — Penn State University</strong> GPA: 3.8 · Graduating May 2026 Coursework: Network security, secure network architecture, binary analysis and reverse engineering, applied cryptography, risk management, cloud security</p>
+<p><strong>Integrated MSc in Information Technology (5-year program)</strong> Coursework: Machine learning, data structures and algorithms, database systems, computer networks, operating systems, distributed systems</p>
+<p>---</p>
+<h2 id="what-im-learning-right-now">What I'm Learning Right Now</h2>
+<ul>
+  <li>P99 tail latency behavior in QUIC queue scheduling (ongoing simulation work)</li>
+  <li>Local LLM inference optimization — quantization tradeoffs, memory bandwidth limits, concurrent request handling</li>
+  <li><em>Designing Data-Intensive Applications</em> — reliability, consensus, and replication chapters map directly onto security architecture thinking</li>
+</ul>
+<p>---</p>
+<p><em>If something here overlaps with what you're building, <a href="mailto:lokeshlks01@gmail.com">let's talk</a>.</em></p>
+
+            
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="mailto:lokeshlks01@gmail.com">Email</a>
+            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
+        </div>
+        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
+    </footer>
+
+    <!-- Prism.js scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="toc-scrollspy.js"></script>
+    <!-- GitHub Repos Preview -->
+    <script src="github-repos.js"></script>
+</body>
+</html>

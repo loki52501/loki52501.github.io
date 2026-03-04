@@ -23,72 +23,113 @@
         
         <div class="content-wrapper">
             <h1 id="projects">Projects</h1>
-<p>Few of my github repos Here:</p>
 <p><div id="github-repos-container"></div></p>
 <h1 id="things-ive-built">Things I've Built</h1>
-<p>Most of these started with a question I couldn't stop thinking about. Some turned into actual working systems. Others taught me why the problem was hard in the first place.</p>
+<p>Most of these started with a question I couldn't stop thinking about. Some turned into production systems. Others taught me why the problem was hard.</p>
 <p>---</p>
-<h2 id="ml-based-intrusion-detection-system">ML-Based Intrusion Detection System</h2>
-<p><em>Current - Capstone Project</em></p>
-<p><strong>The Problem:</strong> Most intrusion detection systems are like paranoid security guards - they flag everything as suspicious. Your grandmother's weird browsing pattern? Alert. Someone watching Netflix at 3am? Alert. Actual DDoS attack taking down your infrastructure? Lost in the noise.</p>
-<p><strong>What I'm Building:</strong> A machine learning system that learns to distinguish between "weird but normal" and "actually malicious" network traffic. Training it on the BCCC-Cloud-DDoS-2024 dataset - 540,000+ network flow records of real attacks and normal behavior.</p>
-<p><strong>The Interesting Part:</strong> Started with 317 features per network flow (source IP, packet size, protocol flags, timing patterns, etc.). That's too many - the model gets confused, training takes forever, and you're basically teaching it to memorize noise. </p>
-<p>Built a feature selection pipeline that reduced it to 32 critical indicators - the stuff that actually matters for detecting attacks. Training efficiency improved 85%, and the model still catches the attacks.</p>
-<p>Now integrating Gemini API so the system can explain what it found in natural language. Instead of "Alert: Anomaly detected in flow 47293," security teams get "Detected coordinated SYN flood from 47 source IPs targeting web server - classic DDoS pattern."</p>
-<p><strong>Tech:</strong> Python, TensorFlow, Gemini API, network traffic analysis</p>
-<p><strong>Status:</strong> In progress - currently tuning the false positive rate. The goal is high detection without alert fatigue.</p>
+<h2 id="temporal-cnn-based-intrusion-detection-system">Temporal CNN-Based Intrusion Detection System</h2>
+<p><em>Capstone Project · Active</em></p>
+<p><strong>The Problem:</strong> DDoS detection is a sequence problem, not a snapshot problem. A single packet tells you almost nothing. A sequence of packets — their timing, inter-arrival deltas, rate ramp — tells you everything. Most detection systems either ignore this (static thresholds), overfit it (LSTM on sparse flows), or drown in it (317 features per flow, all noise).</p>
+<p><strong>The Architecture:</strong> Temporal Convolutional Network trained on BCCC-Cloud-DDoS-2024 — 540,000+ real flows, mix of DDoS and benign traffic. TCNs handle sequential patterns better than LSTMs on this kind of data: no vanishing gradients, parallelizable training, stable receptive fields across variable-length flows.</p>
+<p><strong>Feature Engineering:</strong></p>
+<ol>
+  <li>The model doesn't need all of them; most are correlated or irrelevant to attack signatures.</li>
+</ol>
+<p>Built an automated feature selection pipeline that identified 32 critical indicators. 90% dimensionality reduction. Training efficiency improved 85%. Detection accuracy held. The 32 features that survived are the ones that actually discriminate attacks — not statistical noise amplified by high dimensionality.</p>
+<p><strong>Explainability:</strong> Integrating Gemini API to generate natural language alert explanations. Instead of <code>ALERT: flow_id=47293 label=anomaly confidence=0.94</code>, security teams get:</p>
+<p>> "Coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained 3-minute window targeting port 443. Consistent with volumetric DDoS. Recommend upstream rate limiting."</p>
+<p>The detection accuracy matters. So does whether the team can act on it in 30 seconds.</p>
+<p><strong>Tech:</strong> Python · TensorFlow · Temporal CNN · Gemini API · Pandas · scikit-learn · network flow analysis</p>
+<p><strong>Status:</strong> Tuning false positive rate. Detection without alert fatigue is the actual benchmark.</p>
 <p>---</p>
 <h2 id="quic-router-simulation">QUIC Router Simulation</h2>
-<p><em>Side Project - Because I Got Curious</em></p>
-<p><strong>The Question:</strong> How do routers decide which packet to send first when thousands are competing for bandwidth? And can we make them smarter about it?</p>
-<p><strong>What I'm Building:</strong> A simulated QUIC protocol router environment on my computer to experiment with different queue scheduling algorithms. Testing how various queuing strategies affect latency and throughput under different load conditions.</p>
-<p><strong>Why This Matters:</strong> QUIC is the transport protocol behind HTTP/3 - it's what modern video streaming, web traffic, and encrypted connections use. Understanding queue behavior at the router level means understanding where actual bottlenecks happen when millions of people are streaming video simultaneously.</p>
-<p>The network graph thinking helps here: packets flowing through router queues, each queue is a node with capacity constraints, edges are the forwarding decisions. When you model it as a graph problem, you start asking different questions about optimization.</p>
-<p><strong>Tech:</strong> Python, network simulation, QUIC protocol implementation, algorithmic queue management</p>
-<p><strong>Status:</strong> Ongoing experiment - testing different priority scheduling algorithms</p>
+<p><em>Side Project · Ongoing</em></p>
+<p><strong>The Question:</strong> When 10,000 flows compete for 1Gbps, which packet gets sent first — and what does that choice do to tail latency?</p>
+<p><strong>What I'm Building:</strong> Simulated QUIC router environment to test queue scheduling algorithms under real load conditions:</p>
+<ul>
+  <li><strong>FIFO</strong> — first in, first out. Simple. Brutal to latency-sensitive flows.</li>
+  <li><strong>Weighted Fair Queuing (WFQ)</strong> — weighted bandwidth allocation per flow class.</li>
+  <li><strong>Hierarchical Packet Fair Queuing (HPFQ)</strong> — nested fairness, closer to what real CDN infrastructure runs.</li>
+</ul>
+<p>Measuring P99 tail latency specifically — not mean, not median. P99 is where video streaming stutters, where WebRTC calls drop frames, where the user experience degrades. Mean latency looks fine right up until it doesn't.</p>
+<p><strong>Why QUIC:</strong> QUIC is the transport layer behind HTTP/3. Every modern browser uses it. Understanding queue scheduling behavior at this layer means understanding where real internet bottlenecks form — not in theory, but under concurrent mixed-priority traffic.</p>
+<p><strong>Tech:</strong> Python · network simulation · QUIC protocol stack · algorithmic queue management</p>
+<p>---</p>
+<h2 id="dsa-coaching-platform">DSA Coaching Platform</h2>
+<p><em>Full-Stack Project</em></p>
+<p><strong>The Problem:</strong> Most DSA prep resources are either passive (YouTube videos) or expensive (paid tutors). Students who learn by doing and explaining need something in between — a space where they can work through problems, see structured breakdowns, and build intuition rather than memorize patterns.</p>
+<p><strong>What I Built:</strong> Full-stack web platform for interactive DSA coaching. Students work through curated problem sets organized by concept — not just difficulty. Each problem includes structured approach breakdowns, edge case analysis, and complexity proofs. Built the backend API, content system, and frontend from scratch.</p>
+<p><strong>What It Taught Me:</strong> Content organization is a design problem. How you structure information determines how people learn from it. The graph thinking applies: prerequisites are edges, concepts are nodes, and good pedagogy is shortest-path from confusion to understanding.</p>
+<p><strong>Tech:</strong> Python · FastAPI · React · PostgreSQL · Docker</p>
+<p>---</p>
+<h2 id="self-hosted-ai-inference-stack">Self-Hosted AI Inference Stack</h2>
+<p><em>Infrastructure Project · Ongoing</em></p>
+<p><strong>Why Self-Host:</strong> Running inference through APIs gives you outputs. Running it on your own hardware gives you understanding. Quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests, thermal throttling at sustained load — these are the constraints that matter when you're building production AI systems, and you don't learn them from API calls.</p>
+<p><strong>What I Run:</strong> Local LLM inference stack on personal hardware. Quantized models (GGUF/GGML), inference backends, load testing under simulated concurrent requests. Measuring actual throughput, token/sec at various batch sizes, and latency degradation curves.</p>
+<p><strong>What I've Learned:</strong></p>
+<ul>
+  <li>Quantization at 4-bit vs 8-bit is not a clean accuracy tradeoff — it's model and task specific</li>
+  <li>Memory bandwidth, not compute, is usually the bottleneck for inference</li>
+  <li>Concurrent request handling at the inference layer requires the same thinking as concurrent request handling at any API layer</li>
+</ul>
+<p><strong>Tech:</strong> Linux · CUDA/CPU inference backends · llama.cpp · Python · local networking</p>
 <p>---</p>
 <h2 id="network-intrusion-detection-using-deep-learning">Network Intrusion Detection Using Deep Learning</h2>
-<p><em>Academic Project</em></p>
-<p><strong>The Challenge:</strong> Detect 9 different types of network attacks (DoS, exploits, reconnaissance, etc.) from network traffic patterns. Trained on 2.5 million network flows from the UNSW-NB15 dataset.</p>
-<p><strong>The Approach:</strong> Used LSTM autoencoders - basically taught the model what "normal" network behavior looks like, then flagged anything that deviated from that pattern. Hit 80% detection accuracy.</p>
-<p><strong>The Optimization Problem:</strong> Started with 42 features per flow. Used a two-stage metaheuristic optimization approach (Sine Cosine Algorithm + Particle Swarm Optimization) to reduce it to 18 critical features. This cut the false positive rate by 25% and improved real-time detection speed.</p>
-<p><strong>What I Learned:</strong> More data isn't always better. Sometimes removing the noise is more important than adding more features. Also, optimization algorithms from completely different domains (like particle swarm) can solve network security problems in unexpected ways.</p>
-<p><strong>Tech:</strong> Python, LSTM, CNN, feature engineering, metaheuristic optimization</p>
-<p>---</p>
-<h2 id="face-detection-mobile-app">Face Detection Mobile App</h2>
-<p><em>Undergrad Project - Learning Full Stack</em></p>
-<p><strong>What It Does:</strong> Android app that does real-time face detection using your phone camera. Point at a face, it detects it instantly.</p>
-<p><strong>The Architecture:</strong> Built a FastAPI backend deployed on Heroku that handles the actual detection using OpenCV's Haar Cascade algorithm. The Android app (Java) sends images to the API, gets back coordinates of detected faces, draws boxes in real-time.</p>
-<p>Designed it as RESTful API with asynchronous request handling so multiple users could hit the detection service simultaneously without blocking.</p>
-<p><strong>Why I Built This:</strong> Wanted to understand the full stack - mobile client, backend API, computer vision algorithm, cloud deployment, the whole graph of how data flows from camera → processing → display.</p>
-<p><strong>Tech:</strong> Android, Java, FastAPI, OpenCV, Heroku, REST APIs</p>
-<p><strong>Source:</strong> <a href="https://gitlab.com/artcreativity2019/cme-project">GitLab Repository</a></p>
+<p><em>Research Project · Anna University</em></p>
+<p><strong>The Challenge:</strong> Detect 9 different attack types (DoS, exploits, reconnaissance, brute force, backdoors, and more) from raw network flow records. Dataset: UNSW-NB15 — 2.5 million flows, 49 raw features, real attack captures.</p>
+<p><strong>The Architecture:</strong> Hybrid LSTM-CNN: LSTM to capture sequential flow behavior across time, CNN to detect local feature patterns within individual flows. Together they handle both temporal dependencies and spatial feature interactions.</p>
+<p><strong>The Optimization Problem:</strong></p>
+<ol>
+  <li>Many correlated. Some carry no signal for attack discrimination. Training on all 42 adds noise and inflates model complexity.</li>
+</ol>
+<p>Built a two-stage metaheuristic pipeline:</p>
+<ol>
+  <li><strong>Sine Cosine Algorithm (SCA)</strong> — global search across feature space</li>
+  <li><strong>Particle Swarm Optimization (PSO)</strong> — local refinement of candidate feature sets</li>
+</ol>
+<p>Result: 42 → 18 features. False positive rate dropped 25%. Real-time detection latency improved. The interesting part: PSO from swarm intelligence literature solved a network security problem better than manual feature engineering.</p>
+<p><strong>What I Learned:</strong> Feature selection <em>is</em> the work. Not a preprocessing step. The 18 features that survived are the ones that actually separate attack behavior from normal flow patterns. Everything else is noise that makes your model worse.</p>
+<p><strong>Tech:</strong> Python · TensorFlow · LSTM · CNN · metaheuristic optimization · UNSW-NB15</p>
 <p>---</p>
 <h2 id="secure-digital-library-platform">Secure Digital Library Platform</h2>
-<p><em>Built for Anna University System</em></p>
-<p><strong>The Context:</strong> 5,000+ students needed access to digital library resources. Different permissions for different user roles. Had to be secure, fast, and actually work when thousands of students hit it during exam season.</p>
-<p><strong>What I Built:</strong> Full-stack platform with OAuth 2.0 authentication, role-based access control, and containerized microservices architecture. Used Docker for deployment to make scaling easier.</p>
-<p><strong>The Results:</strong> 99.5% uptime, API response times under 200ms even during peak load. Students could actually access their resources when they needed them.</p>
-<p><strong>What Mattered:</strong> Session management security, proper RBAC implementation, and making sure the database queries didn't fall apart when traffic spiked. The boring infrastructure stuff that makes or breaks production systems.</p>
-<p><strong>Tech:</strong> Node.js, PostgreSQL, React, Docker, OAuth 2.0</p>
+<p><em>Production System · Anna University</em></p>
+<p><strong>The Context:</strong></p>
+<ol>
+  <li>Different access levels for students, faculty, and administrators. Had to handle traffic spikes during exam season without falling over.</li>
+</ol>
+<p><strong>What I Built:</strong> Full-stack platform with OAuth 2.0 authentication, role-based access control, and containerized microservices. PostgreSQL backend. Docker deployment for horizontal scaling.</p>
+<p><strong>The Results:</strong></p>
+<ol>
+  <li>5% uptime. Sub-200ms API responses under peak load. Students could access resources when they needed them — exam night included.</li>
+</ol>
+<p><strong>What Mattered:</strong> Session management correctness, RBAC implementation that didn't have privilege escalation gaps, and database queries that didn't degrade under concurrent reads. The boring infrastructure correctness that makes or breaks production systems.</p>
+<p><strong>Tech:</strong> Node.js · PostgreSQL · React · Docker · OAuth 2.0 · RBAC</p>
+<p>---</p>
+<h2 id="face-detection-mobile-app">Face Detection Mobile App</h2>
+<p><em>Undergrad Project</em></p>
+<p><strong>The Architecture:</strong> Android app (Java) → FastAPI backend on Heroku → OpenCV Haar Cascade detection → bounding box coordinates → real-time camera overlay.</p>
+<p>Async request handling on the backend so multiple concurrent users don't block each other. RESTful API with documented endpoints so the mobile client stays decoupled from detection logic.</p>
+<p><strong>Why I Built It:</strong> Wanted to understand the full stack: mobile client, API design, computer vision algorithm, cloud deployment, how data actually flows from camera pixel to screen annotation. The full graph, end to end.</p>
+<p><strong>Tech:</strong> Android · Java · FastAPI · OpenCV · Heroku · REST</p>
+<p><strong>Source:</strong> <a href="https://gitlab.com/artcreativity2019/cme-project">GitLab</a></p>
 <p>---</p>
 <h2 id="nft-tracking-dashboard">NFT Tracking Dashboard</h2>
-<p><em>24-Hour Competition Project</em></p>
-<p><strong>The Situation:</strong> NIT Trichy blockchain competition. Had 24 hours. Never used Google Apps Script before.</p>
-<p><strong>The Challenge:</strong> Build a real-time dashboard tracking NFT transactions across the blockchain.</p>
-<p><strong>What I Did:</strong> Learned Google Apps Script from scratch, built a working dashboard that pulled live NFT data and displayed transaction patterns. Won first place.</p>
-<p><strong>What This Taught Me:</strong> You can learn new tools fast when you have to. Also, sometimes the right tool for the job is whatever gets it working in time, not the theoretically perfect solution.</p>
-<p><strong>Tech:</strong> Google Apps Script, blockchain APIs, rapid prototyping under pressure</p>
+<p><em>24-Hour Hackathon · NIT Trichy · First Place</em></p>
+<p><strong>The Situation:</strong> NIT Trichy blockchain competition. 24 hours. Tool I'd never touched: Google Apps Script.</p>
+<p><strong>What I Built:</strong> Real-time dashboard tracking NFT transactions across the blockchain. Live data pulls, transaction pattern visualization, working in 24 hours.</p>
+<p><strong>What It Taught Me:</strong> You can absorb a new tool fast when you're shipping something real. Also: sometimes the right tool is whatever gets it working in time, not the theoretically perfect solution.</p>
+<p><strong>Tech:</strong> Google Apps Script · blockchain APIs · rapid prototyping</p>
 <p>---</p>
-<h2 id="other-experiments">Other Experiments</h2>
-<p><strong>3D Campus Digital Twin</strong> - Modeled my entire undergrad college in 3D using Blender. Completely useless for my career but taught me a lot about visualizing complex spatial systems. Sometimes the detours are worth it.</p>
+<h2 id="3d-campus-digital-twin">3D Campus Digital Twin</h2>
+<p><em>Undergrad Exploration</em></p>
+<p>Modeled my entire undergrad campus in 3D using Blender. Completely unrelated to my career. Taught me a lot about representing complex spatial systems — how you abstract real-world geometry into navigable, queryable representations.</p>
+<p>Sometimes the detours are worth it.</p>
 <p>---</p>
 <h2 id="what-connects-these">What Connects These</h2>
-<p>Looking back, there's a pattern: I'm drawn to problems where you need to understand the entire system - how data flows, where bottlenecks form, where attacks happen, where things break under load.</p>
-<p>Whether it's packets moving through router queues, network traffic patterns hiding attacks, or users hitting a database during exams - they're all graph problems. Nodes, edges, flow, constraints.</p>
-<p>Understanding the graph means understanding where the interesting problems are.</p>
+<p>Feature selection appears in three separate projects. Graph thinking shows up in every one. The gap between benchmark accuracy and production usefulness is the recurring constraint.</p>
+<p>Whether it's packets through router queues, network flows hiding attacks, or users hitting a database during exams — the structure is the same. Understand the graph. Find where it breaks. Build the thing that holds.</p>
 <p>---</p>
-<p><strong>Want to talk about any of these?</strong> <a href="mailto:lokeshlks01@gmail.com">Email me</a> or check out my <a href="https://github.com/loki52501">GitHub</a></p>
+<p><strong>Want to talk about any of these?</strong> <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a> · <a href="https://github.com/loki52501">GitHub</a></p>
 
             
         </div>

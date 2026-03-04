@@ -24,9 +24,10 @@
     <nav>
         <h3>Table of Contents</h3>
         <ul>
-            <li class="toc-level-2"><a href="#identity-automation-imerit">Identity Automation (iMerit)</a></li>
-            <li class="toc-level-2"><a href="#cloud-security-invisbl">Cloud Security (Invisbl)</a></li>
-            <li class="toc-level-2"><a href="#network-detection-anna-university">Network Detection (Anna University)</a></li>
+            <li class="toc-level-2"><a href="#identity-automation--imerit">Identity Automation — iMerit</a></li>
+            <li class="toc-level-2"><a href="#cloud-security--invisbl">Cloud Security — Invisbl</a></li>
+            <li class="toc-level-2"><a href="#network-intrusion-detection--anna-university">Network Intrusion Detection — Anna University</a></li>
+            <li class="toc-level-2"><a href="#the-thread-across-all-three">The Thread Across All Three</a></li>
         </ul>
     </nav>
 </div>
@@ -34,22 +35,36 @@
         <div class="content-wrapper">
             <h1 id="notes-from-security-internships">Notes from Security Internships</h1>
 <p><em>Published on 2025-10-15</em></p>
-<p>Highlights across identity, cloud security, and network detection work. All lead to choosing my cybersecurity career. </p>
-<h2 id="identity-automation-imerit">Identity Automation (iMerit)</h2>
+<p>Three internships, three domains: identity and access management, cloud security, network intrusion detection. Each one taught me something about security that I couldn't have learned from a textbook or a lab environment — because real systems are messier, more constrained, and more interesting than anything designed for learning.</p>
+<p>---</p>
+<h2 id="identity-automation--imerit">Identity Automation — iMerit</h2>
+<p>The problem wasn't technical at the start. It was organizational: Ivanti, Google Workspace, and Active Directory were all supposed to reflect the same state of who works at the company and what they have access to. They didn't. Employees who had left still had active accounts in one system. New hires were provisioned in two of three systems and waiting on the third. Access modifications happened manually, which meant they happened inconsistently.</p>
+<p>I built Python pipelines that automated the full identity lifecycle — provision on hire, modify on role change, deprovision on exit — across all three systems via REST APIs. The pipelines didn't just execute actions; they checked consistency first: if the state in one system diverged from the source of truth, the pipeline flagged it before making changes.</p>
+<p><strong>Result:</strong> Onboarding time cut ~60%. Access errors dropped significantly. More importantly, access state became auditable — you could query it and trust the answer.</p>
+<p><strong>What I learned:</strong> RBAC looks clean in theory. In practice, it has years of accumulated exceptions, role sprawl, and legacy permissions that nobody wants to touch in case something breaks. Automation forces you to confront the actual state of the system, not the intended state.</p>
+<p>---</p>
+<h2 id="cloud-security--invisbl">Cloud Security — Invisbl</h2>
+<p>The goal was to make AWS IAM align with NIST 800-53 AC controls and the CIS AWS Foundations Benchmark. That means: least privilege, separation of duties, no wildcard permissions in production, MFA everywhere, no root API keys in use.</p>
+<p>Mapping the current state to those controls required building detection first. I built pipelines using Python, Lambda, and Elasticsearch that continuously flagged:</p>
 <ul>
-  <li>Automated onboarding/offboarding across Ivanti, Google Workspace, and AD; cut access errors and ~60% onboarding time.</li>
-  <li>Standardized RBAC via Python + REST pipelines.</li>
+  <li>Privilege escalation events (a role gaining permissions it didn't have yesterday)</li>
+  <li>Configuration drift (security group rules changing outside the change management process)</li>
+  <li>Access anomalies (API calls from unexpected regions, service accounts used outside their intended scope)</li>
 </ul>
-<h2 id="cloud-security-invisbl">Cloud Security (Invisbl)</h2>
-<ul>
-  <li>Refactored AWS IAM in line with NIST 800-53 AC and CIS AWS Foundations.</li>
-  <li>Built Python + Lambda + Elasticsearch detections for high-priority events (ISO/IEC 27001 ops-aligned).</li>
-</ul>
-<h2 id="network-detection-anna-university">Network Detection (Anna University)</h2>
-<ul>
-  <li>Hybrid LSTM-CNN on UNSW-NB15 caught malicious traffic (~80% accuracy).</li>
-  <li>Treated reporting like incident response docs for faculty stakeholders.</li>
-</ul>
+<p>The detection pipeline didn't just log events — it enriched them with context: which IAM principal, what action, what resource, when, from where, and whether this behavior had precedent in the account's history.</p>
+<p><strong>What I learned:</strong> Cloud security is fundamentally a logging and detection problem. The attack surface — IAM policies, service roles, cross-account trust — is too large to manually audit. You need continuous visibility. And visibility requires that your logs are structured, centralized, and queryable. If you can't search your logs in under 30 seconds, you don't have visibility; you have a pile of data.</p>
+<p>Also: CIS benchmarks are a floor, not a ceiling. They tell you what not to do. They don't tell you what your threat model actually requires.</p>
+<p>---</p>
+<h2 id="network-intrusion-detection--anna-university">Network Intrusion Detection — Anna University</h2>
+<p>This was research, not a production system — but the constraints were real. The dataset was UNSW-NB15: 2.5 million network flow records, 9 attack categories (DoS, exploits, reconnaissance, brute force, backdoor, shellcode, worms, fuzzers, generic). The task was multi-class classification from flow-level features.</p>
+<p>I built a hybrid LSTM-CNN architecture. The LSTM captured sequential behavior across packets in a flow; the CNN extracted local feature patterns. Together they handled both the temporal dynamics and the feature interactions that matter for distinguishing, say, a reconnaissance scan from a brute force attempt.</p>
+<p>The interesting work was feature selection. 42 features after initial processing. Many were correlated — multiple byte count metrics measuring the same underlying signal. I used a two-stage metaheuristic pipeline: Sine Cosine Algorithm for global search across the feature space, then Particle Swarm Optimization for local refinement. Result: 42 → 18 features. False positive rate down 25%. Detection latency improved.</p>
+<p>The insight that stayed with me: SCA and PSO are from completely different domains — swarm intelligence, physics-inspired optimization — and they solved a network security feature selection problem better than manual domain-guided selection. The abstraction of "search over a feature subset space" doesn't care where the search algorithm came from.</p>
+<p><strong>What I learned:</strong> More features is not better signal. Most features in high-dimensional datasets are correlated noise. The model that trains on 18 carefully selected features generalizes better than the model that trains on all 42, because it's learning the signal instead of memorizing the noise distribution. Feature selection is the work, not a step before the work.</p>
+<p>---</p>
+<h2 id="the-thread-across-all-three">The Thread Across All Three</h2>
+<p>Every one of these problems was fundamentally about <strong>knowing the actual state of a system</strong> — not its intended state, its documented state, or its theoretical state. The IAM system that's supposed to be clean but has years of drift. The AWS account that's supposed to follow least privilege but has accumulated exceptions. The network that's supposed to be normal but has flows that don't match any known-good behavior.</p>
+<p>Security is what happens when the gap between intended state and actual state gets exploited. The job is to close that gap, and to detect when it opens again.</p>
 
             
             <!-- Comments Section -->

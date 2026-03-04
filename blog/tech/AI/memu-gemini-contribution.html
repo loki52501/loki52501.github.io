@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contributing Gemini AI Support to memU - My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../style.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../../../index.html">Home</a><a href="../../../about.html">About</a><a href="../../../projects.html">Projects</a><a href="../../../blogs.html">Blog</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-2"><a href="#what-the-contribution-involved">What the Contribution Involved</a></li>
+            <li class="toc-level-2"><a href="#why-this-matters">Why This Matters</a></li>
+            <li class="toc-level-2"><a href="#what-i-learned">What I Learned</a></li>
+            <li class="toc-level-2"><a href="#the-meta-point">The Meta Point</a></li>
+        </ul>
+    </nav>
+</div>
+
+        <div class="content-wrapper">
+            <h1 id="contributing-gemini-ai-support-to-memu">Contributing Gemini AI Support to memU</h1>
+<p><em>Published on 2026-03-01</em></p>
+<p>memU is a personal memory layer for AI assistants — an MCP (Model Context Protocol) server that lets tools like Claude Code retrieve and store memories across sessions. Instead of every conversation starting from zero context, memU persists what matters: user preferences, project patterns, past decisions, accumulated context.</p>
+<p>The project already supported OpenAI embeddings for semantic memory retrieval. I added Gemini AI as a supported provider.</p>
+<p>---</p>
+<h2 id="what-the-contribution-involved">What the Contribution Involved</h2>
+<p>memU's memory system works by embedding memories as vectors and retrieving the most semantically similar ones at query time. The embedding provider determines the quality and cost of that retrieval.</p>
+<p>Adding Gemini support meant:</p>
+<p><strong>1. Integrating the Gemini embedding API</strong> Google's <code>text-embedding-004</code> model — mapping memory strings to dense vectors in a compatible embedding space. This required understanding the Gemini API's embedding endpoint, its input constraints (token limits, batch behavior), and how to normalize outputs to be comparable with the existing retrieval logic.</p>
+<p><strong>2. Making the provider switchable</strong> Hard-coding OpenAI into the retrieval pipeline would make it brittle. The cleaner solution was abstracting the embedding call behind a provider interface so users can configure which model backs their memory store. OpenAI, Gemini, or future providers — the retrieval logic stays unchanged.</p>
+<p><strong>3. Handling the API differences</strong> OpenAI and Gemini have different request shapes, rate limits, and error surfaces. The Gemini provider needed its own error handling and retry logic without leaking those details into the core retrieval system.</p>
+<p><strong>4. Testing retrieval quality</strong> Embedding quality affects which memories surface for a given query. I ran comparative retrieval tests — same memory set, same query, different providers — to verify that Gemini embeddings returned semantically coherent results rather than random noise.</p>
+<p>---</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>memU with only OpenAI support creates a hard dependency: you need an OpenAI API key and you pay OpenAI's embedding costs for every retrieval. Adding Gemini gives users a choice — Google's embedding model is fast, well-priced, and deeply integrated with the Gemini ecosystem.</p>
+<p>For anyone building Claude Code workflows who already uses Gemini elsewhere, this removes the friction of needing a second AI provider just for memory.</p>
+<p>---</p>
+<h2 id="what-i-learned">What I Learned</h2>
+<p><strong>Open-source contributions are about interface design more than implementation.</strong> The implementation of the Gemini API call is simple. The interesting decision was where to put the abstraction boundary — how to make adding a third provider later require minimal changes. Getting that boundary wrong means every new provider is a surgical refactor.</p>
+<p><strong>Embedding models are not interchangeable.</strong> <code>text-embedding-ada-002</code> and <code>text-embedding-004</code> produce vectors in different spaces. You can't mix embeddings from different models in the same vector store without re-embedding everything. If a user switches providers, their stored memories need to be re-indexed. This was a constraint worth documenting explicitly.</p>
+<p><strong>Small, well-scoped contributions compound.</strong> This wasn't a massive feature. It was one provider added cleanly, with tests, to an existing system. But it makes the project genuinely more useful for a set of users who weren't served before. That's enough.</p>
+<p>---</p>
+<h2 id="the-meta-point">The Meta Point</h2>
+<p>I use memU in my own Claude Code sessions — it's how context about my projects, preferences, and patterns persists across conversations. Contributing to a tool you actually depend on is a different kind of motivation than contributing to something abstract. You know exactly what the user wants because you are the user.</p>
+
+            
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
+        
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="mailto:lokeshlks01@gmail.com">Email</a>
+            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
+        </div>
+        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
+    </footer>
+
+    <!-- Prism.js scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../../toc-scrollspy.js"></script>
+    <!-- GitHub Repos Preview -->
+    <script src="../../../github-repos.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Temporal CNN for DDoS Detection - My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../style.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../../../index.html">Home</a><a href="../../../about.html">About</a><a href="../../../projects.html">Projects</a><a href="../../../blogs.html">Blog</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-2"><a href="#the-dataset">The Dataset</a></li>
+            <li class="toc-level-2"><a href="#why-temporal-cnn-over-lstm">Why Temporal CNN Over LSTM</a></li>
+            <li class="toc-level-2"><a href="#the-feature-selection-problem">The Feature Selection Problem</a></li>
+            <li class="toc-level-2"><a href="#making-alerts-actionable">Making Alerts Actionable</a></li>
+            <li class="toc-level-2"><a href="#whats-left">What's Left</a></li>
+            <li class="toc-level-2"><a href="#takeaways">Takeaways</a></li>
+        </ul>
+    </nav>
+</div>
+
+        <div class="content-wrapper">
+            <h1 id="building-a-temporal-cnn-for-ddos-detection">Building a Temporal CNN for DDoS Detection</h1>
+<p><em>Published on 2026-02-18</em></p>
+<p>The capstone started as a straightforward ML project: train a model to detect DDoS attacks. It became something more interesting when I realized the real problem wasn't the model — it was everything that happens before and after the model.</p>
+<p>---</p>
+<h2 id="the-dataset">The Dataset</h2>
+<p>BCCC-Cloud-DDoS-2024. 540,000+ network flow records — real DDoS traffic and real benign traffic captured from cloud infrastructure. Not synthetic. Not replayed. Actual attack captures, which means actual noise, actual label ambiguity, actual edge cases.</p>
+<ol>
+  <li>Packet sizes, inter-arrival times, TCP flag distributions, flow duration statistics, byte ratios, protocol breakdowns. That's the raw representation of a network flow if you extract everything you possibly can.</li>
+</ol>
+<p>---</p>
+<h2 id="why-temporal-cnn-over-lstm">Why Temporal CNN Over LSTM</h2>
+<p>The obvious choice for sequential network traffic data is LSTM. Most papers use it. Here's why I didn't:</p>
+<p>Network flows have <strong>variable-length sequences with non-uniform spacing</strong>. An LSTM processes these step by step, and on sparse data — flows with few packets but long durations — it either overfits the sparse signal or gets lost in the padding.</p>
+<p>A Temporal Convolutional Network uses dilated causal convolutions with fixed receptive fields. It sees the sequence in parallel, the dilation controls how far back it looks, and it's stable on variable-length inputs. For traffic classification where the pattern lives in how packet arrivals <em>cluster over time</em> rather than in long-range dependencies, TCN is the better architectural fit.</p>
+<p>Training is also faster. Parallelizable across the sequence dimension, unlike the sequential hidden state updates in LSTM.</p>
+<p>---</p>
+<h2 id="the-feature-selection-problem">The Feature Selection Problem</h2>
+<ol>
+  <li>It's actually a liability.</li>
+</ol>
+<p>Features derived from the same underlying signal — like multiple byte-count metrics — are correlated. Correlated features don't add information; they add noise and inflate model complexity. A model trained on 317 features memorizes the training distribution instead of learning the signal.</p>
+<p>I built an automated feature selection pipeline: variance thresholding to remove near-zero-variance features, then mutual information ranking against attack labels, then recursive elimination with cross-validation. Final result: <strong>32 features out of 317</strong>. 90% reduction.</p>
+<p>What survived: inter-arrival time statistics, SYN/ACK ratio, packets-per-second ramp rate, flow duration, bytes-per-packet distribution. The features that describe <em>how a flow behaves over time</em> — not just what it looks like at a snapshot.</p>
+<p>Training efficiency improved 85%. Detection accuracy held. The 32-feature model generalizes better than the 317-feature model because it's not memorizing noise.</p>
+<p>The lesson: feature selection is the work. Not a preprocessing checkbox before the "real" ML begins.</p>
+<p>---</p>
+<h2 id="making-alerts-actionable">Making Alerts Actionable</h2>
+<p>Detection accuracy at 95%+ sounds like success. It isn't, if a SOC analyst gets an alert that says:</p>
+<pre><code>ALERT | flow_id=47293 | label=DDoS | confidence=0.94
+</code></pre><p>That tells them nothing actionable. Which source IPs? What attack vector? What rate? How long?</p>
+<p>I integrated the Gemini API into the post-detection layer. The model produces a classification and confidence. A structured prompt feeds the flow's key feature values into Gemini, which outputs a natural-language explanation:</p>
+<p>> "Coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained 3-minute window targeting port 443. Consistent with volumetric DDoS. Source IPs show no prior legitimate traffic in session history."</p>
+<p>The detection finds the attack. The explanation tells you what to do about it.</p>
+<p>---</p>
+<h2 id="whats-left">What's Left</h2>
+<p>Tuning the false positive rate on the 32-feature model. High detection with low false positives is the actual benchmark in a real SOC environment — not accuracy on a balanced test set. Currently profiling which benign traffic patterns the model misclassifies and whether those are fixable with better feature engineering or require a different classification threshold per traffic class.</p>
+<p>---</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+  <li>TCN is a better fit than LSTM for variable-length, sparse network flow sequences</li>
+  <li>Feature selection isn't preprocessing — it's the core engineering decision that determines whether your model generalizes</li>
+  <li>A detection system that can't explain its output is half a system</li>
+  <li>False positive rate matters more than accuracy in production security contexts</li>
+</ul>
+
+            
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
+        
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="mailto:lokeshlks01@gmail.com">Email</a>
+            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
+        </div>
+        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
+    </footer>
+
+    <!-- Prism.js scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../../toc-scrollspy.js"></script>
+    <!-- GitHub Repos Preview -->
+    <script src="../../../github-repos.js"></script>
+</body>
+</html>
