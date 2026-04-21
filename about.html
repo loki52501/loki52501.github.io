@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - My Portfolio</title>
+    <title>About me - My Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,54 +22,24 @@
     <main>
         
         <div class="content-wrapper">
-            <h1 id="about-me">About Me</h1>
-<h2 id="what-i-do">What I Do</h2>
-<p>I build ML systems that detect threats and deploy them into production. I secure the infrastructure those systems run on. And I think about what happens when both break at the same time.</p>
-<p>That puts me at the intersection of <strong>AI engineering</strong>, <strong>MLSecOps</strong>, and <strong>security engineering</strong> — which is exactly where I want to be. The most interesting problems don't sit neatly in one box. A production ML model is also an attack surface. An IAM pipeline is also a data pipeline. A network intrusion detector is also a feature engineering problem. Understanding the full stack — from model architecture to cloud deployment to access control to protocol behavior — is what lets you build things that actually hold up.</p>
-<p>---</p>
-<h2 id="how-i-think">How I Think</h2>
-<p>I see everything as a graph. Not as a metaphor — as an actual analytical frame.</p>
-<p>Network traffic is a graph of flows, protocols, and timing relationships. An IAM system is a graph of identities, permissions, and trust boundaries. A machine learning model is a graph of features, weights, and activations. An attack is a graph traversal — an adversary moving through trust boundaries toward a target node.</p>
-<p>When I look at a system, I'm mapping it: where are the nodes, what are the edges, how does information flow, where does it bottleneck, where does it break under adversarial conditions?</p>
-<p>This lens works for both building and breaking systems. Which is the point.</p>
-<p>---</p>
-<h2 id="the-journey-so-far">The Journey So Far</h2>
-<p><strong>Integrated MSc in IT (5-year program):</strong> Built ML systems from scratch during undergrad — face detection mobile app with a FastAPI backend on Heroku, a network intrusion detector with LSTM autoencoders trained on 2.5M network flows, a 3D digital twin of my entire campus in Blender just to understand spatial systems. Won a 24-hour hackathon at NIT Trichy building an NFT tracking dashboard in Google Apps Script — a tool I'd never touched. Learned that you can absorb new tools fast when you're actually shipping something.</p>
-<p><strong>Industry — Three Security Domains:</strong></p>
-<p>At <strong>iMerit</strong>, automated identity lifecycle management across Ivanti, Google Workspace, and Active Directory using Python and REST pipelines. Cut provisioning errors significantly and reduced onboarding time by ~60%. Learned what RBAC looks like when it has to work for real organizations with messy, inconsistent data.</p>
-<p>At <strong>Invisbl</strong>, refactored AWS IAM to align with NIST 800-53 AC controls and CIS AWS Foundations benchmarks. Built detection pipelines with Python, Lambda, and Elasticsearch — flagging access anomalies, privilege escalations, configuration drift. First time I understood that cloud security is really a logging and detection problem as much as a configuration problem.</p>
-<p>At <strong>Anna University</strong>, built a hybrid LSTM-CNN intrusion detection system on the UNSW-NB15 dataset (2.5M flows, 9 attack categories). Used a two-stage metaheuristic optimization pipeline — Sine Cosine Algorithm then Particle Swarm Optimization — to reduce features from 42 to 18. That cut false positives by 25% and improved detection latency. First time I really understood that feature selection <em>is</em> the work, not a preprocessing step you do before the real work.</p>
-<p><strong>MS in Cybersecurity, Penn State (3.8 GPA, graduating May 2026):</strong> Reverse-engineered binaries. Designed secure network architectures. Studied how attacks actually work versus how papers describe them. Got Security+ and CCNA to solidify the fundamentals — how encryption works under the hood, how BGP makes forwarding decisions, what companies actually deploy for network access control.</p>
-<p>---</p>
-<h2 id="what-im-building-now">What I'm Building Now</h2>
-<p><strong>Temporal CNN-Based Intrusion Detection System (Capstone):</strong> Training on BCCC-Cloud-DDoS-2024 — 540,000+ real DDoS and normal traffic flows. The architecture is a Temporal Convolutional Network: it captures sequential patterns in packet timing, inter-arrival intervals, and flow behavior in a way that standard CNNs miss and LSTMs overfit on sparse data.</p>
-<p>Started with 317 features per flow (packet sizes, inter-arrival times, TCP flags, flow durations, protocol distributions). That many features creates noise and slows training; the model starts memorizing artifacts. Built a feature selection pipeline that identified 32 critical indicators — 90% dimensionality reduction — without meaningful accuracy loss. Training efficiency improved 85%.</p>
-<p>Now integrating the Gemini API to generate natural language alert explanations: instead of "anomaly detected in flow 47293," security teams see "coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained over 3-minute window targeting port 443." Because a detection system that can't communicate what it found is only half a system.</p>
-<p><strong>QUIC Router Simulation:</strong> Simulating QUIC protocol behavior to compare queue scheduling algorithms — FIFO, Weighted Fair Queuing, Hierarchical Packet Fair Queuing — under varying load conditions. Specifically interested in tail latency (P99) behavior, because that's where streaming applications actually fail. QUIC is what HTTP/3 runs on, and understanding queue dynamics at this layer means understanding where real bottlenecks form when millions of flows compete for bandwidth.</p>
-<p><strong>Self-Hosted AI Inference Stack:</strong> Running LLM inference on local hardware. The goal isn't just cost savings — it's understanding the full inference stack: quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests. If you're building systems that depend on AI, you should understand what happens when you own the compute.</p>
-<p>---</p>
-<h2 id="what-im-looking-for">What I'm Looking For</h2>
-<p>Roles where ML and security actually overlap in production:</p>
+            <h1 id="about-me">About me</h1>
+<p>I care about building AI that people can actually trust.</p>
+<p>My name is Lokesh, and I'm a researcher and engineer working on the messy, human side of artificial intelligence. Right now, I'm finishing my M.S. in Cybersecurity Operations and Technology at Penn State, but my real focus is on a problem that sits somewhere between engineering and philosophy: <strong>how do we make AI systems safe enough, observable enough, and responsible enough that real people can rely on them?</strong></p>
+<p>Most of my work centers on <strong>understanding AI behavior</strong>—not just whether a model gets the right answer, but <em>why</em> it got there. I've spent a lot of time studying how large language models cave to pressure, repeat back what they think you want to hear, or generate confident reasoning that doesn't actually match their internal process. In my research on sycophancy and chain-of-thought faithfulness, I've seen models abandon correct answers when pushed, or rationalize biases they shouldn't have. That's a trust problem, and I think it's one of the most important problems in AI right now.</p>
+<p>But I'm not just interested in breaking things in a lab. What motivates me is <strong>making AI observable and accountable in the real world</strong>—building systems where you can trace a decision back to its source, understand whether your agent is reasoning or just pattern-matching, and catch failure modes before they impact someone.</p>
+<p>Right now, I'm living that challenge quite literally. My parents run an organic business, and I'm building an AI system to help them modernize it. I'm automating item procurement and delivery decisions—predicting inventory needs and optimizing logistics so they can focus on growing the business instead of managing spreadsheets. The part I'm most excited about is the customer side: evaluating a person's medical conditions to suggest organic items that fit their specific health needs, along with appropriate dosages. I want to be clear—this isn't a doctor, and it doesn't diagnose anything. It's a smart wellness assistant that offers personalized guidance, helping customers make informed choices about organic food based on their own health context. Because this affects my own family and our community, I can't afford to get the "responsible AI" part wrong. It has to be transparent, handle data carefully, and actually make people's lives easier.</p>
+<p>This is the kind of <strong>business problem-to-AI solution</strong> translation I love. A lot of organizations know they want to use AI, but struggle to frame the problem in a way a model can actually solve. I enjoy that work—taking a real operational pain point, figuring out what data and architecture actually fit, and shipping something that doesn't just perform well on a benchmark but makes someone's day better. Whether it's detecting anomalous network traffic with 94% accuracy or helping a family business serve its customers more thoughtfully, I try to stay grounded in outcomes.</p>
+<p>My path into this space started during my undergrad at Anna University, where I worked as an AI Researcher building neural network models to identify malicious network packets. I worked with Convolutional Neural Networks and Long Short-Term Memory (LSTM) architectures, and that experience became the cornerstone of my master's research on resource-efficient DDoS attack identification using BiLSTM and CNN ensemble models. I've also shipped production code at Imerit, where I built and managed user identification systems across their platform—making the onboarding process smoother and more secure for new employees. On the technical side, I spend most of my time in Python, PyTorch, and the HuggingFace ecosystem, with backend work in FastAPI, Docker, and AWS. I teach Data Structures and Algorithms to grad students at Penn State, which keeps me honest about explaining complex ideas clearly—and reminds me that good systems are built by people who understand the fundamentals, not just the hype cycle. If you're working on AI safety, building agents that need to be auditable, or figuring out how to deploy AI responsibly without sacrificing performance, I'd love to chat. I'm always open to conversations about making these systems work better for the people who actually use them</p>
+<p>If you're working on AI safety, building agents that need to be auditable, or figuring out how to deploy AI responsibly without sacrificing performance, I'd love to chat. I'm always open to conversations about making these systems work better for the people who actually use them.</p>
 <ul>
-  <li><strong>MLSecOps</strong> — applying ML to security operations, or securing ML pipelines themselves</li>
-  <li><strong>AI Engineering</strong> — building and deploying ML systems, especially in adversarial or safety-critical contexts</li>
-  <li><strong>Security Engineering</strong> — cloud security, network detection, identity and access</li>
-  <li><strong>MLOps</strong> — model deployment, monitoring, retraining pipelines, inference infrastructure</li>
+  <li><strong>Email:</strong> lokeshlks01@gmail.com</li>
+  <li><strong>Website:</strong> <a href="https://lkslokesh.com">lkslokesh.com</a></li>
+  <li><strong>GitHub:</strong> <a href="https://github.com/loki52501">github.com/loki52501</a></li>
+  <li><strong>Phone:</strong> 814-280-3477</li>
 </ul>
-<p>I want to work on problems that affect real users at scale, where getting it wrong has real consequences. The leverage is there and the problems are genuinely interesting.</p>
-<p><strong>Open to:</strong> Full-time roles starting June 2026. F-1 OPT eligible.</p>
-<p>---</p>
-<h2 id="outside-work">Outside Work</h2>
-<p><strong>Chess</strong> — no rating, just games on <a href="https://www.chess.com/member/lkslokesh">chess.com/member/lkslokesh</a> and a lot of questionable endgames. Pattern recognition from chess actually transfers to network traffic analysis — you learn to see structure in noise.</p>
-<p><strong>Reading</strong> — working through <em>Designing Data-Intensive Applications</em>. The reliability chapter maps cleanly onto security architecture: hardware faults, software bugs, and human error are just different layers of the same threat model.</p>
-<p><strong>Skating</strong> — taught me that falling is just data. What matters is whether you adjust and try again with better information.</p>
-<p>---</p>
-<h2 id="what-i-believe">What I Believe</h2>
-<p>The gap between theory and practice is where the interesting problems live. Papers describe perfect detection systems. Reality is noisy flows, adversarial evasion, alert fatigue, and teams that need to act in seconds.</p>
-<p>Building systems that hold up in that reality — not just on benchmark datasets — is what I'm trying to get good at.</p>
 <p>---</p>
 <p><strong>Let's talk:</strong> <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a></p>
-<p><strong>Other places:</strong> <a href="https://github.com/loki52501">GitHub</a> | <a href="blog/">Blog</a> | <a href="https://www.chess.com/member/lkslokesh">Chess</a></p>
+<p><strong>Other places:</strong>  <a href="blog/">Blog</a> | <a href="https://www.chess.com/member/lkslokesh">Chess</a></p>
 <p>---</p>
 <p><em>"We used to look up at the sky and wonder at our place in the stars. Now we just look down, and worry about our place in the dirt."</em></p>
 <p><em>I'm still looking up.</em></p>

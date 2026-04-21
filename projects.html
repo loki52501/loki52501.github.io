@@ -27,69 +27,90 @@
 <h1 id="things-ive-built">Things I've Built</h1>
 <p>Most of these started with a question I couldn't stop thinking about. Some turned into production systems. Others taught me why the problem was hard.</p>
 <p>---</p>
+<h2 id="llm-sycophancy-evaluator">LLM Sycophancy Evaluator</h2>
+<p><em>Research Project · Aug 2024 – May 2026</em></p>
+<p><strong>The Problem:</strong> Large language models agree with users even when the user is wrong. But most benchmarks treat this as a static property. I wanted to measure it behaviorally—across specific pressure tactics—and understand whether instruct-tuning actually fixes the problem or just hides it.</p>
+<p><strong>What I Built:</strong> A paired-prompt evaluation framework targeting Llama-3.2-3B. Thirty adversarial prompt pairs, each contrasting a neutral question against variants that inject agreement bias, flattery, or assertive pressure. Every inference is logged to structured JSON with the prompt template ID, model checkpoint, and raw generation metadata.</p>
+<p><strong>The Details:</strong> I wrote a weighted keyword-based scorer that classifies each response as sycophantic, ambiguous, or honest, with tunable thresholds per behavior type. Built configurable Jinja2 prompt templates so the framework can swap model checkpoints or behavior definitions without code changes. Wrapped the whole thing in a Streamlit dashboard for interactive result exploration, and wrote thirteen unit tests covering scorer edge cases, template rendering, and JSON schema validation.</p>
+<p><strong>What I Found:</strong> The base (non-instruct) model produces severe repetition loops that inflate ambiguous scores—meaning instruct-tuning isn't just about capability, it's about evaluability. Measured 45% agreement bias, 40% pressure capitulation, and 80% flattery resistance. Context-dependent capitulation showed up clearly: the model abandoned correct positions on flat Earth and "largest organ" facts under assertive pushback, but held firm on Pluto classification. Sycophancy is not uniform across domains.</p>
+<p><strong>Tech:</strong> Python · PyTorch · HuggingFace Transformers · Streamlit · Jinja2 · pytest</p>
+<p><strong>More:</strong> Full harness, methodology, and results on <a href="https://github.com/loki52501">GitHub</a> and <a href="https://lkslokesh.com">lkslokesh.com</a></p>
+<p>---</p>
+<h2 id="chain-of-thought-faithfulness-evaluation">Chain-of-Thought Faithfulness Evaluation</h2>
+<p><em>Research Project · Active</em></p>
+<p><strong>The Problem:</strong> When an LLM shows its work, is that reasoning actually driving the answer, or is it post-hoc rationalization? If we can't tell the difference, we can't trust systems that use CoT for high-stakes decisions.</p>
+<p><strong>What I'm Building:</strong> An extension of Turpin et al. (2023) and Lanham et al. (2023) to Llama-3-8B on BIG-Bench-Hard. The methodology is a biasing-feature perturbation: inject a subtle hint toward a wrong answer into the prompt, then measure (a) whether accuracy drops and (b) whether the CoT verbalizes the bias or silently conforms to it.</p>
+<p><strong>The Details:</strong> I'm extending the evaluation harness from the sycophancy project with new prompt templates designed for CoT extraction. Implemented paired CoT logging that captures both biased and unbiased reasoning traces for direct comparison. Built bias-acknowledgement tagging using regex and heuristic classifiers to detect whether the model explicitly mentions the injected hint—or ignores it while still being swayed.</p>
+<p><strong>Status:</strong> Systematic evaluation running across BIG-Bench-Hard subsets. Results and code to be released.</p>
+<p><strong>Tech:</strong> Python · PyTorch · HuggingFace Transformers · BIG-Bench-Hard</p>
+<p>---</p>
+<h2 id="ai-powered-ddos-detection-system">AI-Powered DDoS Detection System</h2>
+<p><em>ML Engineering Project</em></p>
+<p><strong>The Problem:</strong> DDoS detection is a sequence problem, not a snapshot problem. A single packet tells you almost nothing. A sequence of packets—their timing, inter-arrival deltas, rate ramp—tells you everything. Most systems either ignore this (static thresholds), overfit it, or drown in 300+ features of noise.</p>
+<p><strong>What I Built:</strong> A BiLSTM + 1D Residual CNN ensemble for three-class intrusion classification (Attack / Benign / Suspicious) on 700K+ flows from BCCC-Cloud-DDoS-2024. The BiLSTM captures temporal dependencies across sliding windows; the 1D Residual CNN extracts local traffic patterns. A fusion layer combines both representations before classification.</p>
+<p><strong>The Details:</strong> Preprocessed 700K+ flows and reduced 318 raw features to 86 via correlation analysis and information gain. Grouped traffic into sliding temporal windows to model sequence behavior. Added confidence-based escalation: predictions above 0.85 confidence auto-classify, while ambiguous traffic routes for human review instead of forcing a wrong label.</p>
+<p><strong>Results:</strong></p>
+<ol>
+  <li>11% accuracy. The escalation layer handles 85% of traffic autonomously at high confidence and explicitly reduces miscalls on the ambiguous "Suspicious" class by routing low-confidence predictions for analyst review.</li>
+</ol>
+<p><strong>Tech:</strong> Python · PyTorch · BiLSTM · 1D CNN · Scikit-learn · Pandas</p>
+<p>---</p>
 <h2 id="temporal-cnn-based-intrusion-detection-system">Temporal CNN-Based Intrusion Detection System</h2>
 <p><em>Capstone Project · Active</em></p>
-<p><strong>The Problem:</strong> DDoS detection is a sequence problem, not a snapshot problem. A single packet tells you almost nothing. A sequence of packets — their timing, inter-arrival deltas, rate ramp — tells you everything. Most detection systems either ignore this (static thresholds), overfit it (LSTM on sparse flows), or drown in it (317 features per flow, all noise).</p>
-<p><strong>The Architecture:</strong> Temporal Convolutional Network trained on BCCC-Cloud-DDoS-2024 — 540,000+ real flows, mix of DDoS and benign traffic. TCNs handle sequential patterns better than LSTMs on this kind of data: no vanishing gradients, parallelizable training, stable receptive fields across variable-length flows.</p>
-<p><strong>Feature Engineering:</strong></p>
+<p><strong>The Problem:</strong> Security teams get alerts they can't act on. <code>ALERT: flow_id=47293 label=anomaly confidence=0.94</code> doesn't tell a SOC analyst what happened or what to do. Detection without explainability just creates alert fatigue.</p>
+<p><strong>What I'm Building:</strong> A Temporal Convolutional Network trained on BCCC-Cloud-DDoS-2024 (540,000+ real flows) with automated feature selection and natural language alert explanations via the Gemini API.</p>
+<p><strong>The Details:</strong></p>
 <ol>
-  <li>The model doesn't need all of them; most are correlated or irrelevant to attack signatures.</li>
+  <li>Most are correlated noise. I built an automated feature selection pipeline using mutual information and recursive feature elimination that identified 32 critical indicators—90% dimensionality reduction. Training efficiency improved 85%, and detection accuracy held. TCNs handle sequential patterns without LSTM's vanishing gradients: dilated causal convolutions with exponentially growing receptive fields. Integrated the Gemini API to parse detection outputs and generate contextual explanations like: <em>"Coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained 3-minute window targeting port 443. Consistent with volumetric DDoS. Recommend upstream rate limiting."</em></li>
 </ol>
-<p>Built an automated feature selection pipeline that identified 32 critical indicators. 90% dimensionality reduction. Training efficiency improved 85%. Detection accuracy held. The 32 features that survived are the ones that actually discriminate attacks — not statistical noise amplified by high dimensionality.</p>
-<p><strong>Explainability:</strong> Integrating Gemini API to generate natural language alert explanations. Instead of <code>ALERT: flow_id=47293 label=anomaly confidence=0.94</code>, security teams get:</p>
-<p>> "Coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained 3-minute window targeting port 443. Consistent with volumetric DDoS. Recommend upstream rate limiting."</p>
-<p>The detection accuracy matters. So does whether the team can act on it in 30 seconds.</p>
-<p><strong>Tech:</strong> Python · TensorFlow · Temporal CNN · Gemini API · Pandas · scikit-learn · network flow analysis</p>
 <p><strong>Status:</strong> Tuning false positive rate. Detection without alert fatigue is the actual benchmark.</p>
+<p><strong>Tech:</strong> Python · TensorFlow · Temporal CNN · Gemini API · Pandas · scikit-learn</p>
 <p>---</p>
 <h2 id="quic-router-simulation">QUIC Router Simulation</h2>
 <p><em>Side Project · Ongoing</em></p>
-<p><strong>The Question:</strong> When 10,000 flows compete for 1Gbps, which packet gets sent first — and what does that choice do to tail latency?</p>
-<p><strong>What I'm Building:</strong> Simulated QUIC router environment to test queue scheduling algorithms under real load conditions:</p>
+<p><strong>The Question:</strong> When 10,000 flows compete for 1Gbps, which packet gets sent first—and what does that choice do to P99 tail latency?</p>
+<p><strong>What I'm Building:</strong> A discrete-event packet-level simulator in Python testing queue scheduling algorithms under real load conditions:</p>
 <ul>
   <li><strong>FIFO</strong> — first in, first out. Simple. Brutal to latency-sensitive flows.</li>
   <li><strong>Weighted Fair Queuing (WFQ)</strong> — weighted bandwidth allocation per flow class.</li>
   <li><strong>Hierarchical Packet Fair Queuing (HPFQ)</strong> — nested fairness, closer to what real CDN infrastructure runs.</li>
 </ul>
-<p>Measuring P99 tail latency specifically — not mean, not median. P99 is where video streaming stutters, where WebRTC calls drop frames, where the user experience degrades. Mean latency looks fine right up until it doesn't.</p>
-<p><strong>Why QUIC:</strong> QUIC is the transport layer behind HTTP/3. Every modern browser uses it. Understanding queue scheduling behavior at this layer means understanding where real internet bottlenecks form — not in theory, but under concurrent mixed-priority traffic.</p>
-<p><strong>Tech:</strong> Python · network simulation · QUIC protocol stack · algorithmic queue management</p>
+<p><strong>The Details:</strong> Implemented a custom event loop modeling QUIC short-header packets with connection IDs and variable-length payloads. Traffic generators produce three classes: bulk transfer (greedy TCP-like), video streaming (CBR with burst tolerance), and WebRTC (latency-sensitive, small packets). Each class gets configurable weights in WFQ and nested hierarchies in HPFQ. I'm measuring P99 tail latency specifically—not mean, not median. P99 is where video streaming stutters, where WebRTC calls drop frames, where user experience actually degrades.</p>
+<p><strong>Why QUIC:</strong> QUIC is the transport layer behind HTTP/3. Every modern browser uses it. Understanding queue scheduling behavior at this layer means understanding where real internet bottlenecks form under concurrent mixed-priority traffic.</p>
+<p><strong>Tech:</strong> Python · discrete-event simulation · QUIC protocol modeling · algorithmic queue management</p>
 <p>---</p>
 <h2 id="dsa-coaching-platform">DSA Coaching Platform</h2>
 <p><em>Full-Stack Project</em></p>
-<p><strong>The Problem:</strong> Most DSA prep resources are either passive (YouTube videos) or expensive (paid tutors). Students who learn by doing and explaining need something in between — a space where they can work through problems, see structured breakdowns, and build intuition rather than memorize patterns.</p>
-<p><strong>What I Built:</strong> Full-stack web platform for interactive DSA coaching. Students work through curated problem sets organized by concept — not just difficulty. Each problem includes structured approach breakdowns, edge case analysis, and complexity proofs. Built the backend API, content system, and frontend from scratch.</p>
-<p><strong>What It Taught Me:</strong> Content organization is a design problem. How you structure information determines how people learn from it. The graph thinking applies: prerequisites are edges, concepts are nodes, and good pedagogy is shortest-path from confusion to understanding.</p>
-<p><strong>Tech:</strong> Python · FastAPI · React · PostgreSQL · Docker</p>
+<p><strong>The Problem:</strong> Most DSA prep resources are either passive (YouTube videos) or expensive (paid tutors). Students who learn by doing and explaining need something in between—a space where they can work through problems, see structured breakdowns, and build intuition rather than memorize patterns.</p>
+<p><strong>What I Built:</strong> A full-stack web platform with 150+ curated problems organized by concept graph, not just difficulty. I built the backend API, content system, and frontend from scratch.</p>
+<p><strong>The Details:</strong> Backend in FastAPI with SQLAlchemy ORM over PostgreSQL. JWT-based authentication with bcrypt-hashed credentials. Problem content stored as structured Markdown with metadata tags for prerequisites, patterns, and complexity classes. Frontend in React using Context API for state management. Each problem includes a structured approach breakdown, edge case analysis, complexity proof, and common misconception warnings. Docker Compose setup for local deployment: app container, Postgres container, and Nginx reverse proxy.</p>
+<p><strong>What It Taught Me:</strong> Content organization is a design problem. How you structure information determines how people learn from it. The graph thinking applies: prerequisites are edges, concepts are nodes, and good pedagogy is shortest-path from confusion to understanding. Used by 40+ students in the initial pilot.</p>
+<p><strong>Tech:</strong> Python · FastAPI · React · PostgreSQL · Docker · Nginx</p>
 <p>---</p>
 <h2 id="self-hosted-ai-inference-stack">Self-Hosted AI Inference Stack</h2>
 <p><em>Infrastructure Project · Ongoing</em></p>
-<p><strong>Why Self-Host:</strong> Running inference through APIs gives you outputs. Running it on your own hardware gives you understanding. Quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests, thermal throttling at sustained load — these are the constraints that matter when you're building production AI systems, and you don't learn them from API calls.</p>
-<p><strong>What I Run:</strong> Local LLM inference stack on personal hardware. Quantized models (GGUF/GGML), inference backends, load testing under simulated concurrent requests. Measuring actual throughput, token/sec at various batch sizes, and latency degradation curves.</p>
+<p><strong>Why Self-Host:</strong> Running inference through APIs gives you outputs. Running it on your own hardware gives you understanding. Quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests, thermal throttling at sustained load—these are the constraints that matter when you're building production AI systems, and you don't learn them from HTTP calls.</p>
+<p><strong>What I Run:</strong> Local LLM inference stack on personal hardware. RTX 3080 (10GB VRAM), 32GB DDR4, Ryzen 7 5800X. Running llama.cpp server with CUDA acceleration. Models tested: Llama-2-7B (Q4<em>K</em>M, Q5<em>K</em>M), Mistral-7B-Instruct (Q4<em>K</em>M), Phi-2 (Q4_0).</p>
+<p><strong>The Details:</strong> Built an automated benchmark suite measuring time-to-first-token, tokens-per-second at batch sizes 1 through 8, and latency degradation curves under concurrent requests. Used a custom Python load generator (asyncio + aiohttp) to simulate client traffic. Logged thermal throttling and VRAM utilization via nvidia-smi polling. Testing both 4-bit and 8-bit quantization across reasoning and summarization tasks.</p>
 <p><strong>What I've Learned:</strong></p>
 <ul>
-  <li>Quantization at 4-bit vs 8-bit is not a clean accuracy tradeoff — it's model and task specific</li>
-  <li>Memory bandwidth, not compute, is usually the bottleneck for inference</li>
-  <li>Concurrent request handling at the inference layer requires the same thinking as concurrent request handling at any API layer</li>
+  <li>Quantization at 4-bit vs 8-bit is not a clean accuracy tradeoff—it's model and task specific. On summarization, Q4<em>K</em>M vs Q5<em>K</em>M shows negligible BLEU difference; on reasoning tasks, the gap widens.</li>
+  <li>Memory bandwidth, not compute, is usually the bottleneck. GPU utilization sits at 40–60% while VRAM bandwidth is saturated.</li>
+  <li>Concurrent request handling at the inference layer requires the same thinking as concurrent request handling at any API layer. Beyond 4 simultaneous requests, latency spikes superlinearly due to context-switching overhead.</li>
 </ul>
-<p><strong>Tech:</strong> Linux · CUDA/CPU inference backends · llama.cpp · Python · local networking</p>
+<p><strong>Tech:</strong> Linux · CUDA · llama.cpp · Python · asyncio · local networking</p>
 <p>---</p>
 <h2 id="network-intrusion-detection-using-deep-learning">Network Intrusion Detection Using Deep Learning</h2>
 <p><em>Research Project · Anna University</em></p>
-<p><strong>The Challenge:</strong> Detect 9 different attack types (DoS, exploits, reconnaissance, brute force, backdoors, and more) from raw network flow records. Dataset: UNSW-NB15 — 2.5 million flows, 49 raw features, real attack captures.</p>
-<p><strong>The Architecture:</strong> Hybrid LSTM-CNN: LSTM to capture sequential flow behavior across time, CNN to detect local feature patterns within individual flows. Together they handle both temporal dependencies and spatial feature interactions.</p>
-<p><strong>The Optimization Problem:</strong></p>
+<p><strong>The Challenge:</strong> Detect 9 different attack types—DoS, exploits, reconnaissance, brute force, backdoors, and more—from raw network flow records. Dataset: UNSW-NB15. 2.5 million flows, 49 raw features, real attack captures.</p>
+<p><strong>What I Built:</strong> A hybrid LSTM-CNN architecture. LSTM to capture sequential flow behavior across time windows; CNN to detect local feature patterns within individual flows. Together they handle both temporal dependencies and spatial feature interactions.</p>
+<p><strong>The Details:</strong> Preprocessed the dataset with SMOTE to handle class imbalance on minority attack categories. Analyzed the impact of input sequence length by varying temporal window sizes from 5 to 50 flows. Implemented a two-stage metaheuristic pipeline for feature selection: Sine Cosine Algorithm (SCA) for global search across 42 features, then Particle Swarm Optimization (PSO) for local refinement of candidate subsets. Population size 30, 100 iterations per stage.</p>
+<p><strong>Results:</strong></p>
 <ol>
-  <li>Many correlated. Some carry no signal for attack discrimination. Training on all 42 adds noise and inflates model complexity.</li>
+  <li>False positive rate dropped 25%. Real-time detection latency improved. The 18 features that survived—flow duration, packet length variance, inter-arrival time statistics, TCP flag counts—are the ones that actually separate attack behavior from normal flow patterns. Everything else was noise that made the model worse.</li>
 </ol>
-<p>Built a two-stage metaheuristic pipeline:</p>
-<ol>
-  <li><strong>Sine Cosine Algorithm (SCA)</strong> — global search across feature space</li>
-  <li><strong>Particle Swarm Optimization (PSO)</strong> — local refinement of candidate feature sets</li>
-</ol>
-<p>Result: 42 → 18 features. False positive rate dropped 25%. Real-time detection latency improved. The interesting part: PSO from swarm intelligence literature solved a network security problem better than manual feature engineering.</p>
-<p><strong>What I Learned:</strong> Feature selection <em>is</em> the work. Not a preprocessing step. The 18 features that survived are the ones that actually separate attack behavior from normal flow patterns. Everything else is noise that makes your model worse.</p>
-<p><strong>Tech:</strong> Python · TensorFlow · LSTM · CNN · metaheuristic optimization · UNSW-NB15</p>
+<p><strong>What I Learned:</strong> Feature selection <em>is</em> the work. Not a preprocessing step. The swarm intelligence approach solved a network security problem better than manual feature engineering.</p>
+<p><strong>Tech:</strong> Python · TensorFlow · LSTM · CNN · metaheuristic optimization (SCA, PSO) · UNSW-NB15</p>
 <p>---</p>
 <h2 id="secure-digital-library-platform">Secure Digital Library Platform</h2>
 <p><em>Production System · Anna University</em></p>
@@ -97,39 +118,46 @@
 <ol>
   <li>Different access levels for students, faculty, and administrators. Had to handle traffic spikes during exam season without falling over.</li>
 </ol>
-<p><strong>What I Built:</strong> Full-stack platform with OAuth 2.0 authentication, role-based access control, and containerized microservices. PostgreSQL backend. Docker deployment for horizontal scaling.</p>
+<p><strong>What I Built:</strong> A containerized full-stack platform with OAuth 2.0 authentication and role-based access control. PostgreSQL backend. Docker deployment for horizontal scaling.</p>
+<p><strong>The Details:</strong> Node.js/Express REST API with Passport.js handling OAuth 2.0 flows, JWT session tokens, and refresh token rotation. RBAC middleware enforcing five permission levels: student (read), faculty (read + annotate), librarian (content management), admin (user management), super-admin (system config). Database queries optimized with composite indexes on <code>user<em>roles</code> and <code>resource</em>access</code> tables. Docker multi-container deployment with health checks and automatic restart policies. Nginx load balancing across three API container replicas.</p>
 <p><strong>The Results:</strong></p>
 <ol>
-  <li>5% uptime. Sub-200ms API responses under peak load. Students could access resources when they needed them — exam night included.</li>
+  <li>5% uptime over 12 months. Sub-200ms P95 API response under peak exam-season load (800+ concurrent users). Students could access resources when they needed them—exam night included. Zero privilege escalation incidents during security audit.</li>
 </ol>
-<p><strong>What Mattered:</strong> Session management correctness, RBAC implementation that didn't have privilege escalation gaps, and database queries that didn't degrade under concurrent reads. The boring infrastructure correctness that makes or breaks production systems.</p>
-<p><strong>Tech:</strong> Node.js · PostgreSQL · React · Docker · OAuth 2.0 · RBAC</p>
+<p><strong>What Mattered:</strong> Session management correctness, RBAC implementation without privilege escalation gaps, and database queries that didn't degrade under concurrent reads. The boring infrastructure correctness that makes or breaks production systems.</p>
+<p><strong>Tech:</strong> Node.js · PostgreSQL · React · Docker · Nginx · OAuth 2.0 · RBAC</p>
 <p>---</p>
 <h2 id="face-detection-mobile-app">Face Detection Mobile App</h2>
 <p><em>Undergrad Project</em></p>
-<p><strong>The Architecture:</strong> Android app (Java) → FastAPI backend on Heroku → OpenCV Haar Cascade detection → bounding box coordinates → real-time camera overlay.</p>
-<p>Async request handling on the backend so multiple concurrent users don't block each other. RESTful API with documented endpoints so the mobile client stays decoupled from detection logic.</p>
-<p><strong>Why I Built It:</strong> Wanted to understand the full stack: mobile client, API design, computer vision algorithm, cloud deployment, how data actually flows from camera pixel to screen annotation. The full graph, end to end.</p>
-<p><strong>Tech:</strong> Android · Java · FastAPI · OpenCV · Heroku · REST</p>
+<p><strong>The Architecture:</strong> Android app in Java → FastAPI backend on Heroku → OpenCV Haar Cascade detection → bounding box coordinates → real-time camera overlay.</p>
+<p><strong>The Details:</strong> Android client uses Camera2 API for 30fps 640×480 preview frames. Frames are converted from YUV<em>420</em>888 to JPEG via RenderScript for consistent encoding, then sent as multipart/form-data POST to the FastAPI backend. Backend runs on Heroku with gunicorn (3 workers, 120s timeout), loads OpenCV's <code>haarcascade<em>frontalface</em>default.xml</code>, and runs detection with <code>scaleFactor=1.1</code>, <code>minNeighbors=5</code>, <code>minSize=(30,30)</code>. Returns JSON: <code>{"faces": [{"x": 120, "y": 80, "w": 200, "h": 200, "confidence": 0.92}]}</code>. The Android overlay canvas draws rectangles in real-time using SurfaceView.</p>
+<p><strong>Why I Built It:</strong> I wanted to understand the full stack: mobile client, API design, computer vision algorithm, cloud deployment, how data actually flows from camera pixel to screen annotation. The full graph, end to end.</p>
+<p><strong>Results:</strong> End-to-end latency ~400ms on WiFi. Handled 5 concurrent users without blocking via FastAPI's async endpoints. The real bottlenecks weren't the detection algorithm—they were camera preview orientation, JPEG compression quality, and network payload size.</p>
+<p><strong>Tech:</strong> Android (Java) · Camera2 API · FastAPI · OpenCV · Heroku · REST</p>
 <p><strong>Source:</strong> <a href="https://gitlab.com/artcreativity2019/cme-project">GitLab</a></p>
 <p>---</p>
 <h2 id="nft-tracking-dashboard">NFT Tracking Dashboard</h2>
 <p><em>24-Hour Hackathon · NIT Trichy · First Place</em></p>
 <p><strong>The Situation:</strong> NIT Trichy blockchain competition. 24 hours. Tool I'd never touched: Google Apps Script.</p>
-<p><strong>What I Built:</strong> Real-time dashboard tracking NFT transactions across the blockchain. Live data pulls, transaction pattern visualization, working in 24 hours.</p>
-<p><strong>What It Taught Me:</strong> You can absorb a new tool fast when you're shipping something real. Also: sometimes the right tool is whatever gets it working in time, not the theoretically perfect solution.</p>
-<p><strong>Tech:</strong> Google Apps Script · blockchain APIs · rapid prototyping</p>
+<p><strong>What I Built:</strong> A real-time dashboard tracking Ethereum NFT transactions. Automated data pulls, transaction pattern visualization, and price alerts—running entirely inside Google Workspace.</p>
+<p><strong>The Details:</strong> Google Apps Script with time-driven triggers firing every 5 minutes. <code>UrlFetchApp</code> calls to the Etherscan API for wallet transaction history and to the OpenSea API for floor price data. Parsed JSON responses into structured Google Sheets tabs: <code>Transactions</code> (tx hash, timestamp, ETH value, gas fee), <code>Wallets</code> (tracked addresses, holdings, P&L), and <code>Alerts</code> (price threshold breaches, whale movements). Built Sheets-native charts for transaction volume trends and wallet activity heatmaps. Added a custom menu in the Sheets UI for manual refresh and wallet addition.</p>
+<p><strong>What It Taught Me:</strong> You can absorb a new tool fast when you're shipping something real. The constraint of "no backend except Google" forced efficient design: Apps Script's 6-minute execution limit meant I had to implement paginated API fetching and batched writes. Sometimes the right tool is whatever gets it working in time, not the theoretically perfect solution.</p>
+<p><strong>Tech:</strong> Google Apps Script · Etherscan API · OpenSea API · Google Sheets</p>
 <p>---</p>
 <h2 id="3d-campus-digital-twin">3D Campus Digital Twin</h2>
 <p><em>Undergrad Exploration</em></p>
-<p>Modeled my entire undergrad campus in 3D using Blender. Completely unrelated to my career. Taught me a lot about representing complex spatial systems — how you abstract real-world geometry into navigable, queryable representations.</p>
-<p>Sometimes the detours are worth it.</p>
+<p><strong>What I Built:</strong> A complete 3D model of my entire undergrad campus in Blender. ~200 acres, 15+ buildings modeled to scale.</p>
+<p><strong>The Details:</strong> Used Blender 2.93 with satellite imagery as reference planes for accurate vertex placement. Key structures: main admin block (4 stories, 2,400 polygons), central library (cylindrical reading room, 1,800 polygons), three hostel blocks, open-air auditorium, and access roads. Applied texture baking with 2K PBR materials for concrete, glass, and foliage. Optimized for real-time walkthrough via the Eevee render engine with baked lighting. Exported to glTF 2.0 for web viewer integration.</p>
+<p><strong>Results:</strong></p>
+<ol>
+  <li>Learned that spatial abstraction is a systems problem: LOD decisions, occlusion culling, and texture atlasing directly impact whether a complex scene remains navigable. The detour taught me how to represent graph-like spatial relationships in queryable 3D form.</li>
+</ol>
+<p><strong>Tech:</strong> Blender · glTF · Eevee · photogrammetry reference</p>
 <p>---</p>
 <h2 id="what-connects-these">What Connects These</h2>
 <p>Feature selection appears in three separate projects. Graph thinking shows up in every one. The gap between benchmark accuracy and production usefulness is the recurring constraint.</p>
-<p>Whether it's packets through router queues, network flows hiding attacks, or users hitting a database during exams — the structure is the same. Understand the graph. Find where it breaks. Build the thing that holds.</p>
+<p>Whether it's packets through router queues, network flows hiding attacks, or users hitting a database during exams—the structure is the same. Understand the graph. Find where it breaks. Build the thing that holds.</p>
 <p>---</p>
-<p><strong>Want to talk about any of these?</strong> <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a> · <a href="https://github.com/loki52501">GitHub</a></p>
 
             
         </div>

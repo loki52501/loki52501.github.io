@@ -23,7 +23,7 @@
         
         <div class="content-wrapper">
             <h1 id="skills">Skills</h1>
-<p>Not a list of things I've heard of. A list of things I've used to build something real.</p>
+<p>Not a list of things I've heard of. A list of things I've used to build something real—and the initiative it took to get there.</p>
 <p>---</p>
 <h2 id="languages">Languages</h2>
 <p><strong>Python</strong> — Primary language. Production IAM pipelines, ML model training and evaluation, REST APIs with FastAPI, detection pipelines, data processing at scale (2.5M+ records), scripting cloud automation. This is where I do most of my serious work.</p>
@@ -37,7 +37,7 @@
 <p><strong>Architectures I've trained:</strong></p>
 <ul>
   <li>Temporal Convolutional Networks (TCN) — sequential flow analysis for DDoS detection</li>
-  <li>LSTM Autoencoders — anomaly detection on network traffic (UNSW-NB15)</li>
+  <li>BiLSTM + 1D Residual CNN — three-class intrusion classification with confidence-based escalation</li>
   <li>Hybrid LSTM-CNN — multi-class attack classification across 9 attack categories</li>
   <li>Haar Cascade CNNs — real-time face detection via OpenCV</li>
 </ul>
@@ -48,8 +48,8 @@
   <li>Dimensionality reduction under accuracy constraints (317 → 32 features, 90% reduction, minimal accuracy loss)</li>
   <li>False positive rate as the production metric that matters in security contexts — not just accuracy or F1</li>
 </ul>
-<p><strong>Frameworks:</strong> TensorFlow · Keras · scikit-learn · Pandas · NumPy</p>
-<p><strong>LLM Integration:</strong> Gemini API — building natural language alert explanation pipelines for IDS output. Prompt engineering for structured security event summarization.</p>
+<p><strong>Frameworks:</strong> PyTorch · TensorFlow · Keras · scikit-learn · Pandas · NumPy · HuggingFace Transformers</p>
+<p><strong>LLM Integration:</strong> Gemini API — building natural language alert explanation pipelines for IDS output. Prompt engineering for structured security event summarization. Built an LLM Sycophancy Evaluator and Chain-of-Thought Faithfulness framework on Llama-3.2-3B and Llama-3-8B.</p>
 <p><strong>Local Inference:</strong> llama.cpp · quantized model deployment (GGUF/GGML) · throughput and latency benchmarking under concurrent load</p>
 <p>---</p>
 <h2 id="security-engineering">Security Engineering</h2>
@@ -85,12 +85,18 @@
 </ul>
 <p>---</p>
 <h2 id="cloud--infrastructure">Cloud & Infrastructure</h2>
-<p><strong>AWS:</strong> IAM · Lambda · CloudWatch · S3 · foundational compute and networking</p>
-<p><strong>Docker:</strong> Containerized microservices for the digital library platform. Container-based deployment for reproducibility and horizontal scaling.</p>
-<p><strong>GitHub Actions:</strong> CI/CD pipeline for automated site generation and deployment to GitHub Pages.</p>
+<p><strong>AWS:</strong> IAM · Lambda · SQS · DynamoDB · CloudWatch · S3 · foundational compute and networking</p>
+<p><strong>Docker & Kubernetes:</strong> Containerized microservices for the digital library platform. Container-based deployment for reproducibility and horizontal scaling.</p>
+<p><strong>CI/CD:</strong> GitHub Actions pipelines for automated testing, site generation, and deployment.</p>
 <p><strong>Linux:</strong> Primary development environment. System administration, process management, network configuration, inference stack setup on local hardware.</p>
-<p><strong>FastAPI:</strong> REST API backends — face detection service, DSA coaching platform backend. Async request handling, endpoint documentation, dependency injection.</p>
-<p><strong>Elasticsearch:</strong> Log aggregation and search for cloud security detection pipelines at Invisbl.</p>
+<p><strong>FastAPI:</strong> REST API backends — face detection service, DSA coaching platform backend, LLM evaluation harness APIs. Async request handling, endpoint documentation, dependency injection.</p>
+<p><strong>Elasticsearch:</strong> Log aggregation and search for cloud security detection pipelines.</p>
+<p>---</p>
+<h2 id="leadership--initiative">Leadership & Initiative</h2>
+<p><strong>Digital Twin of My University — Project Lead</strong> Spearheaded a complete 3D modeling initiative of my 200-acre undergrad campus in Blender. Coordinated a solo effort across 4 months and ~300 hours, producing 15+ buildings to scale with baked PBR textures and real-time Eevee walkthroughs. No one asked me to do this—I saw a gap in how we represented spatial systems and built it. That same instinct drives how I approach system design today.</p>
+<p><strong>Digital Library E-Resources Platform — Technical Lead</strong> Led the end-to-end development and deployment of a production digital library serving 5,000+ students. Made the architectural calls on OAuth 2.0 integration, RBAC design, PostgreSQL schema optimization, and Docker-based horizontal scaling. Owned the infrastructure decisions that kept us at 99.5% uptime through exam-season traffic spikes. When the system had to work or students couldn't study, I was the one making sure it held.</p>
+<p><strong>Continuous Learning by Showing Up</strong> I don't wait for knowledge to come to me. I actively seek out conferences, workshops, and research communities to stay current with where the industry is actually heading. Security and AI move fast—what worked last year might be obsolete now. I keep myself updated because the systems I build have to survive the future, not just pass today's tests.</p>
+<p><strong>Quick to Adapt</strong> New tool, new protocol, new framework—I've learned to get productive fast. At a 24-hour NIT Trichy hackathon, I shipped a working NFT tracking dashboard using Google Apps Script, a tool I'd never touched before. When my research demanded HuggingFace Transformers and quantized inference, I didn't take a course—I built with it. When my parents' organic business needed AI, I became the person who could bridge procurement automation and wellness recommendation systems. I adapt because problems don't wait for you to feel ready.</p>
 <p>---</p>
 <h2 id="tools--platforms">Tools & Platforms</h2>
 <table>
@@ -103,7 +109,7 @@
   <tbody>
     <tr>
       <td>ML/Data</td>
-      <td>TensorFlow, scikit-learn, Pandas, NumPy, Jupyter</td>
+      <td>PyTorch, TensorFlow, scikit-learn, Pandas, NumPy, Jupyter, HuggingFace Transformers, ChromaDB</td>
     </tr>
     <tr>
       <td>Monitoring</td>
@@ -115,7 +121,7 @@
     </tr>
     <tr>
       <td>Databases</td>
-      <td>PostgreSQL, SQLite, MySQL</td>
+      <td>PostgreSQL, SQLite, DynamoDB, MySQL</td>
     </tr>
     <tr>
       <td>Version Control</td>
@@ -123,7 +129,7 @@
     </tr>
     <tr>
       <td>Containers</td>
-      <td>Docker</td>
+      <td>Docker, Kubernetes</td>
     </tr>
     <tr>
       <td>API</td>
@@ -145,18 +151,18 @@
 </table>
 <p>---</p>
 <h2 id="certifications">Certifications</h2>
-<p><strong><a href="images/CompTIA%20Security+%20ce%20certificate.pdf">CompTIA Security+</a></strong> Cryptography, PKI, network security protocols, threat management, vulnerability assessment, identity and access management, risk management. Got this to formalize the fundamentals I'd been applying in security engineering roles.</p>
-<p><strong><a href="images/Cisco%20Certified%20Network%20Associate%20certificate.pdf">Cisco CCNA</a></strong> Routing protocols (OSPF, BGP behavior, EIGRP), switching, VLANs, subnetting, network access control, WAN technologies. The CCNA forced me to understand what actually happens on the wire — not just the abstractions.</p>
+<p><strong>CompTIA Security+</strong> Cryptography, PKI, network security protocols, threat management, vulnerability assessment, identity and access management, risk management. Got this to formalize the fundamentals I'd been applying in security engineering roles.</p>
+<p><strong>Cisco CCNA</strong> Routing protocols (OSPF, BGP behavior, EIGRP), switching, VLANs, subnetting, network access control, WAN technologies. The CCNA forced me to understand what actually happens on the wire — not just the abstractions. I want to understand the internet's backbone and I did, now I'm interested in building on top of it. </p>
 <p>---</p>
 <h2 id="education">Education</h2>
-<p><strong>MS in Cybersecurity — Penn State University</strong> GPA: 3.8 · Graduating May 2026 Coursework: Network security, secure network architecture, binary analysis and reverse engineering, applied cryptography, risk management, cloud security</p>
-<p><strong>Integrated MSc in Information Technology (5-year program)</strong> Coursework: Machine learning, data structures and algorithms, database systems, computer networks, operating systems, distributed systems</p>
+<p><strong>M.S. in Cybersecurity Operations and Technology — Pennsylvania State University</strong> GPA: 3.8 · Aug 2024 – May 2026 Coursework: Network security, secure network architecture, binary analysis and reverse engineering, applied cryptography, risk management, cloud security</p>
+<p><strong>Integrated M.S. in Information Technology — Anna University, College of Engineering Guindy</strong> Aug 2019 – May 2024 Coursework: Machine learning, data structures and algorithms, database systems, computer networks, operating systems, distributed systems</p>
 <p>---</p>
 <h2 id="what-im-learning-right-now">What I'm Learning Right Now</h2>
 <ul>
-  <li>P99 tail latency behavior in QUIC queue scheduling (ongoing simulation work)</li>
   <li>Local LLM inference optimization — quantization tradeoffs, memory bandwidth limits, concurrent request handling</li>
   <li><em>Designing Data-Intensive Applications</em> — reliability, consensus, and replication chapters map directly onto security architecture thinking</li>
+  <li>OpenClaw and automated WhatsApp messaging workflows for real-world business automation</li>
 </ul>
 <p>---</p>
 <p><em>If something here overlaps with what you're building, <a href="mailto:lokeshlks01@gmail.com">let's talk</a>.</em></p>
