@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanistic Interpretability - Day 1 - My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../style.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../../../../index.html">Home</a><a href="../../../../about.html">About</a><a href="../../../../projects.html">Projects</a><a href="../../../../blogs.html">Blog</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="toc">
+    <nav>
+        <h3>Table of Contents</h3>
+        <ul>
+            <li class="toc-level-2"><a href="#prerequisite-course---day-1">Prerequisite course - Day 1</a></li>
+            <li class="toc-level-2"><a href="#einops">Einops</a></li>
+            <li class="toc-level-2"><a href="#broadcasting">Broadcasting</a></li>
+            <li class="toc-level-2"><a href="#sample-distribution">Sample distribution</a></li>
+            <li class="toc-level-2"><a href="#einsum">einsum</a></li>
+        </ul>
+    </nav>
+</div>
+
+        <div class="content-wrapper">
+            <h1 id="mechanistic-interpretability---day-1">Mechanistic Interpretability - Day 1</h1>
+<p>Hey, I started with Neel Nanda's exercise problems on mechanistic interpretability, a pathway to get yourself well versed with a close topic in AI Safety.</p>
+<h2 id="prerequisite-course---day-1">Prerequisite course - Day 1</h2>
+<p>I did complete the prerequisite course for my day 1, I'm fully commited to it.  So I'm just putting my learner's log here. </p>
+<h2 id="einops">Einops</h2>
+<p>I learnt a lot of einops, and really liked playing around with, It was so intuitive and is really a better alternative to actually be useful unlike using indexes like normal, and figuring out what magic numbers should i put in there. </p>
+<p>to use it, all you have to do is einops.rearrange(tensor, "a b -> b a"), a b are dimensions. same thing could be used with, repeat, reduce and others(idok there are other bunch of stuffs, but most commenly anyone will use the 3Rs) Useful for: </p>
+<ul>
+  <li>to repeat certain rows or columns or to reduce a column by it's min value, or max value, or mean, or prod, or you can use any other functions too.</li>
+  <li>to merge columns</li>
+  <li>to merge rows</li>
+  <li>flatten image</li>
+  <li>transpose</li>
+  <li>adding dimensional, to make broadcasting easier.</li>
+  <li>to slice Sometimes</li>
+  <li>you can rearrange any dimension to another place,</li>
+  <li>compose or merge two dimensions into one product</li>
+  <li>there is also a cool thing called Ellipsis, represented as <code>...</code> which is used for batch dimensions, like dimensions that we don't need, we just represent using Ellipsis, sometimes you've got loads of dimensions like 6 or 10 , it's really helpful then.</li>
+  <li>parentheses () are so powerful, don't miss it.</li>
+</ul>
+<h2 id="broadcasting">Broadcasting</h2>
+<ul>
+  <li>I'm not sure why they invented it, it's confusing but useful as they say.</li>
+</ul>
+<ul>
+  <li>what it does is when you add, multiply or subtract or divide, if the tensors shape don't match it will give you error,</li>
+</ul>
+<p>broadcasting is tensor ability to transform if the size of the dimension of the tensor is 1 in the front or anywhere else, it will expand this to match with other tensor if it has some other sized dimensions. it will only work if the size of the dimension is 1 and it should be at the same dimension position that other tensor needs.</p>
+<p>for eg: let's say there is a tensor1 with shape of(1,2,4) , another tensor t2 with shape of(3,2,4), the tensor automatically expands  tensor1 to 3,2,4 when adding tensor1 to t2. </p>
+<p>but if tensor1 shape (1,3,4) and t2(3,2,4) , this won't work, as the second dimension has differnt size. so these would mismatch.</p>
+<ul>
+  <li>it's useful because</li>
+  <li>Memory efficient, there are no temporary copies of expanded arrays that is created</li>
+  <li>Vectorization , meaning it operates on entire arrays at once instead of python loops</li>
+  <li>flexibility, it can mix scalars, vectors,matrices and higher rank tensor naturally.</li>
+</ul>
+<h2 id="sample-distribution">Sample distribution</h2>
+<p>There were lots of exercises but I really liked this one, because it made me think differently about cumulative probability.</p>
+<p>the work i have to do is derive samples of indices using probability distrubtion . These probability distribution is what tells the probability of a indice occuring in the real dataset. I'm using these probabilities to determine the no of times a indice may appear in my sample. </p>
+<p>So to take samples, I generated random number of n sample, and did a comparision operation, where for each random number x, if x> (cumulative probability of index i) , then the no of times x is true in the list of cumulative probability distrubution determines the value of x such, like a reinterpreation from the original value x, which will be in between (0, 1) to a index value.</p>
+<p>if you do this by hand, it will make sense. </p>
+<h2 id="einsum">einsum</h2>
+<p>it's creative.</p>
+<p>it can matrix multiply, it can calculate diagonal sum, it can multiply a matrix with vector and lot of cool mathy stuff.</p>
+<p>go explore the exercise, and ping me if you have any doubt :).</p>
+
+            
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="loki52501/loki52501.github.io"
+                        issue-term="pathname"
+                        theme="preferred-color-scheme"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+            </div>
+        
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="mailto:lokeshlks01@gmail.com">Email</a>
+            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
+        </div>
+        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
+    </footer>
+
+    <!-- Prism.js scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <!-- TOC Scroll-Spy -->
+    <script src="../../../../toc-scrollspy.js"></script>
+    <!-- GitHub Repos Preview -->
+    <script src="../../../../github-repos.js"></script>
+</body>
+</html>
