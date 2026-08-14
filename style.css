@@ -1,3 +1,40 @@
+/* ============================================================
+   SELF AS TRACE — shared visual language
+   The landing page's palette and type lifted into the shared
+   stylesheet so every page reads as one site. Page structure is
+   untouched; only the skin is shared. Colour names carry the
+   landing page's argument: --faithful is the stated, defensible
+   reason, --unfaithful the real one.
+   ============================================================ */
+:root {
+    /* surfaces — warm paper, not cool grey */
+    --paper:            #F2EFE6;
+    --paper-raise:      #FAF8F2;
+    --paper-deep:       #EAE6D9;
+
+    /* rules */
+    --rule:             #DED9CA;
+    --rule-strong:      #CFC8B6;
+
+    /* ink */
+    --ink:              #23201B;
+    --ink-soft:         #4A463D;
+    --muted:            #8A8478;
+    --muted-soft:       #A39C8C;
+
+    /* the two reasons */
+    --faithful:         #3D5A80;
+    --faithful-deep:    #2E4460;
+    --faithful-soft:    #5C7CA6;
+    --faithful-wash:    #DCE3EC;
+    --unfaithful:       #B8452F;
+    --unfaithful-wash:  #F3E4E0;
+
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono:  "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,10 +46,10 @@ html {
 }
 
 body {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--serif);
     line-height: 1.8;
-    color: #2d3748;
-    background: #f7fafc;
+    color: var(--ink);
+    background: var(--paper);
     min-height: 100vh;
     font-weight: 400;
     font-size: 18px;
@@ -20,9 +57,9 @@ body {
 
 /* Navigation */
 nav {
-    background: #ffffff;
+    background: var(--paper-raise);
     padding: 2rem 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--rule);
 }
 
 nav .container {
@@ -35,8 +72,8 @@ nav .container {
 }
 
 nav a {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-    color: #718096;
+    font-family: var(--mono);
+    color: var(--muted);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.875rem;
@@ -46,7 +83,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #2b6cb0;
+    color: var(--faithful);
     border-bottom: none;
 }
 
@@ -87,8 +124,8 @@ main:has(.toc) {
 .toc nav {
     position: sticky;
     top: 2rem;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
     border-radius: 8px;
     padding: 1.5rem;
     max-height: calc(100vh - 4rem);
@@ -104,7 +141,7 @@ main:has(.toc) {
 .toc h3 {
     font-size: 0.75rem;
     margin: 0 0 1rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -123,7 +160,7 @@ main:has(.toc) {
 .toc a {
     display: block;
     padding: 0.5rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
     text-decoration: none;
     border-bottom: none;
     border-left: 2px solid transparent;
@@ -137,15 +174,15 @@ main:has(.toc) {
 }
 
 .toc a:hover {
-    color: #2c5282;
-    border-left-color: #4299e1;
+    color: var(--faithful-deep);
+    border-left-color: var(--faithful-soft);
     padding-left: 1rem;
 }
 
 .toc a.active {
-    color: #2c5282;
-    background-color: #ebf8ff;
-    border-left-color: #4299e1;
+    color: var(--faithful-deep);
+    background-color: var(--faithful-wash);
+    border-left-color: var(--faithful-soft);
     font-weight: 600;
     padding-left: 1rem;
 }
@@ -153,7 +190,7 @@ main:has(.toc) {
 .toc li.toc-level-3 a {
     padding-left: 1.5rem;
     font-size: 0.813rem;
-    color: #718096;
+    color: var(--muted);
 }
 
 .toc li.toc-level-3 a:hover {
@@ -167,7 +204,7 @@ main:has(.toc) {
 .toc li.toc-level-4 a {
     padding-left: 2.25rem;
     font-size: 0.75rem;
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 .toc li.toc-level-4 a:hover {
@@ -184,74 +221,73 @@ main:has(.toc) {
 }
 
 .toc nav::-webkit-scrollbar-track {
-    background: #edf2f7;
+    background: var(--paper-deep);
     border-radius: 3px;
 }
 
 .toc nav::-webkit-scrollbar-thumb {
-    background: #cbd5e0;
+    background: var(--rule-strong);
     border-radius: 3px;
 }
 
 .toc nav::-webkit-scrollbar-thumb:hover {
-    background: #a0aec0;
+    background: var(--muted-soft);
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: 0.05em;
-    color: #1a202c;
-    text-transform: uppercase;
+    font-family: var(--serif);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
 }
 
 h1 {
     font-size: 2.125rem;
     margin: 0 0 3rem 0;
     padding-bottom: 2rem;
-    border-bottom: 2px solid #e2e8f0;
-    color: #1a202c;
+    border-bottom: 2px solid var(--rule);
+    color: var(--ink);
 }
 
 h2 {
     font-size: 1.5rem;
     margin: 4rem 0 2rem 0;
-    color: #2d3748;
+    color: var(--ink);
     scroll-margin-top: 2rem;
 }
 
 h3 {
     font-size: 1.125rem;
     margin: 3rem 0 1.5rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
     scroll-margin-top: 2rem;
 }
 
 h4 {
     scroll-margin-top: 2rem;
-    color: #718096;
+    color: var(--muted);
 }
 
 p {
     margin: 2rem 0;
     font-size: 1.125rem;
-    color: #4a5568;
+    color: var(--ink-soft);
     line-height: 1.8;
 }
 
 /* Links */
 a {
-    color: #2b6cb0;
+    color: var(--faithful);
     text-decoration: none;
-    border-bottom: 1px solid #90cdf4;
+    border-bottom: 1px solid var(--faithful-soft);
     transition: all 0.2s ease;
 }
 
 a:hover {
-    color: #2c5282;
-    border-bottom-color: #2c5282;
+    color: var(--faithful-deep);
+    border-bottom-color: var(--faithful-deep);
 }
 
 /* Lists */
@@ -262,38 +298,38 @@ ul, ol {
 
 li {
     margin: 0.75rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
 }
 
 li::marker {
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 /* Code */
 code {
-    background: #edf2f7;
+    background: var(--paper-deep);
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.875em;
-    color: #2c5282;
-    border: 1px solid #e2e8f0;
+    color: var(--faithful-deep);
+    border: 1px solid var(--rule);
 }
 
 pre {
-    background: #f7fafc;
+    background: var(--paper);
     padding: 2rem;
     border-radius: 8px;
     overflow-x: auto;
     margin: 2.5rem 0;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--rule);
 }
 
 pre code {
     background: none;
     padding: 0;
     border: none;
-    color: #2d3748;
+    color: var(--ink);
 }
 
 /* Images */
@@ -303,7 +339,7 @@ img {
     display: block;
     margin: 2.5rem 0;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--rule);
 }
 
 /* Footer */
@@ -312,9 +348,9 @@ footer {
     margin: 6rem auto 3rem;
     padding: 3rem 2rem 2rem;
     text-align: center;
-    color: #718096;
+    color: var(--muted);
     font-size: 0.875rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--rule);
 }
 
 .social-links {
@@ -325,8 +361,8 @@ footer {
 }
 
 .social-links a {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-    color: #718096;
+    font-family: var(--mono);
+    color: var(--muted);
     text-decoration: none;
     font-size: 0.875rem;
     letter-spacing: 0.05em;
@@ -336,13 +372,13 @@ footer {
 }
 
 .social-links a:hover {
-    color: #2b6cb0;
+    color: var(--faithful);
 }
 
 footer p {
     margin: 0;
     font-size: 0.875rem;
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 /* Blog Listing Layout - Categories and Content stay centered */
@@ -378,8 +414,8 @@ footer p {
 .sidebar-menu {
     position: sticky;
     top: 2rem;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -388,7 +424,7 @@ footer p {
 .sidebar-menu h3 {
     font-size: 0.875rem;
     margin: 0 0 1rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -407,7 +443,7 @@ footer p {
 .sidebar-menu a {
     display: block;
     padding: 0.75rem 1rem;
-    color: #4a5568;
+    color: var(--ink-soft);
     text-decoration: none;
     border-bottom: none;
     border-left: 3px solid transparent;
@@ -419,15 +455,15 @@ footer p {
 }
 
 .sidebar-menu a:hover {
-    color: #2c5282;
-    background-color: #edf2f7;
-    border-left-color: #4299e1;
+    color: var(--faithful-deep);
+    background-color: var(--paper-deep);
+    border-left-color: var(--faithful-soft);
 }
 
 .sidebar-menu a.active {
-    color: #2c5282;
-    background-color: #ebf8ff;
-    border-left-color: #4299e1;
+    color: var(--faithful-deep);
+    background-color: var(--faithful-wash);
+    border-left-color: var(--faithful-soft);
     font-weight: 600;
 }
 
@@ -440,7 +476,7 @@ footer p {
     margin-left: 0;
     margin-top: 0.5rem;
     padding-left: 1rem;
-    border-left: 2px solid #e2e8f0;
+    border-left: 2px solid var(--rule);
     list-style: none;
 }
 
@@ -463,7 +499,7 @@ footer p {
 
 .blog-item {
     padding: 3rem 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--rule);
     position: relative;
 }
 
@@ -497,37 +533,37 @@ footer p {
 }
 
 .category-tech {
-    color: #2c5282;
-    background-color: #ebf8ff;
-    border-color: #90cdf4;
+    color: var(--faithful-deep);
+    background-color: var(--faithful-wash);
+    border-color: var(--faithful-soft);
 }
 
 .category-movies {
-    color: #5a67d8;
-    background-color: #edf2f7;
-    border-color: #a3bffa;
+    color: var(--faithful);
+    background-color: var(--paper-deep);
+    border-color: var(--faithful-soft);
 }
 
 .category-random {
-    color: #2b6cb0;
-    background-color: #bee3f8;
-    border-color: #63b3ed;
+    color: var(--faithful);
+    background-color: var(--faithful-wash);
+    border-color: var(--faithful-soft);
 }
 
 .blog-item h2 a {
-    color: #1a202c;
+    color: var(--ink);
     text-decoration: none;
     border-bottom: none;
     transition: color 0.3s ease;
 }
 
 .blog-item h2 a:hover {
-    color: #2b6cb0;
+    color: var(--faithful);
 }
 
 .blog-date {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-    color: #a0aec0;
+    font-family: var(--mono);
+    color: var(--muted-soft);
     font-size: 0.813rem;
     margin: 0;
     font-weight: 500;
@@ -538,27 +574,27 @@ footer p {
 .blog-excerpt {
     margin: 1.5rem 0;
     font-size: 1rem;
-    color: #718096;
+    color: var(--muted);
     line-height: 1.7;
 }
 
 .read-more {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     display: inline-block;
     margin-top: 1rem;
-    color: #2b6cb0;
+    color: var(--faithful);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    border-bottom: 2px solid #2b6cb0;
+    border-bottom: 2px solid var(--faithful);
     padding-bottom: 0.2rem;
     transition: all 0.3s ease;
 }
 
 .read-more:hover {
-    color: #2c5282;
-    border-bottom-color: #2c5282;
+    color: var(--faithful-deep);
+    border-bottom-color: var(--faithful-deep);
 }
 
 /* Pagination */
@@ -568,7 +604,7 @@ footer p {
     align-items: center;
     margin-top: 5rem;
     padding-top: 3rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--rule);
 }
 
 .pagination-numbers {
@@ -577,12 +613,12 @@ footer p {
 }
 
 .pagination-btn {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    color: #2b6cb0;
+    color: var(--faithful);
     background-color: transparent;
-    border: 1px solid #2b6cb0;
+    border: 1px solid var(--faithful);
     border-radius: 6px;
     font-size: 0.875rem;
     font-weight: 600;
@@ -592,32 +628,32 @@ footer p {
 }
 
 .pagination-btn:hover {
-    background-color: #2b6cb0;
-    color: #ffffff;
-    border-bottom-color: #2b6cb0;
+    background-color: var(--faithful);
+    color: var(--paper-raise);
+    border-bottom-color: var(--faithful);
 }
 
 .pagination-btn.disabled {
-    color: #cbd5e0;
-    border-color: #e2e8f0;
+    color: var(--rule-strong);
+    border-color: var(--rule);
     cursor: not-allowed;
     opacity: 0.5;
 }
 
 .pagination-btn.disabled:hover {
     background-color: transparent;
-    color: #cbd5e0;
+    color: var(--rule-strong);
 }
 
 .page-number {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    color: #718096;
-    border: 1px solid #e2e8f0;
+    color: var(--muted);
+    border: 1px solid var(--rule);
     border-radius: 6px;
     font-size: 0.875rem;
     font-weight: 500;
@@ -625,16 +661,16 @@ footer p {
 }
 
 .page-number:hover {
-    color: #2b6cb0;
-    border-color: #2b6cb0;
-    background-color: #ebf8ff;
-    border-bottom-color: #2b6cb0;
+    color: var(--faithful);
+    border-color: var(--faithful);
+    background-color: var(--faithful-wash);
+    border-bottom-color: var(--faithful);
 }
 
 .page-number.active {
-    color: #ffffff;
-    background-color: #2b6cb0;
-    border-color: #2b6cb0;
+    color: var(--paper-raise);
+    background-color: var(--faithful);
+    border-color: var(--faithful);
 }
 
 /* Tables */
@@ -647,8 +683,8 @@ table {
 }
 
 table thead {
-    background-color: #edf2f7;
-    border-bottom: 2px solid #e2e8f0;
+    background-color: var(--paper-deep);
+    border-bottom: 2px solid var(--rule);
 }
 
 table th,
@@ -656,33 +692,33 @@ table td {
     padding: 1rem 1.5rem;
     text-align: left;
     border: none;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--rule);
 }
 
 table th {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     font-weight: 600;
-    color: #1a202c;
+    color: var(--ink);
     font-size: 0.875rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
 }
 
 table td {
-    color: #4a5568;
+    color: var(--ink-soft);
     font-size: 1rem;
 }
 
 table tbody tr:hover {
-    background-color: #f7fafc;
+    background-color: var(--paper);
 }
 
 /* Search Sidebar */
 .search-sidebar-sticky {
     position: sticky;
     top: 2rem;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -691,7 +727,7 @@ table tbody tr:hover {
 .search-sidebar-sticky h3 {
     font-size: 0.875rem;
     margin: 0 0 1.5rem 0;
-    color: #4a5568;
+    color: var(--ink-soft);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -700,7 +736,7 @@ table tbody tr:hover {
 .search-sidebar-sticky h4 {
     font-size: 0.75rem;
     margin: 0 0 0.75rem 0;
-    color: #718096;
+    color: var(--muted);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -709,11 +745,11 @@ table tbody tr:hover {
 #blog-search {
     width: 100%;
     padding: 0.75rem 1rem;
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.875rem;
-    color: #2d3748;
-    background: #ffffff;
-    border: 2px solid #e2e8f0;
+    color: var(--ink);
+    background: var(--paper-raise);
+    border: 2px solid var(--rule);
     border-radius: 6px;
     outline: none;
     transition: border-color 0.2s ease;
@@ -721,11 +757,11 @@ table tbody tr:hover {
 }
 
 #blog-search:focus {
-    border-color: #4299e1;
+    border-color: var(--faithful-soft);
 }
 
 #blog-search::placeholder {
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 .search-filters {
@@ -742,9 +778,9 @@ table tbody tr:hover {
     padding: 0.5rem 0.75rem;
     font-size: 0.813rem;
     font-weight: 500;
-    color: #4a5568;
-    background: #edf2f7;
-    border: 1px solid #e2e8f0;
+    color: var(--ink-soft);
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
     border-radius: 6px;
     text-decoration: none;
     border-bottom: none;
@@ -753,16 +789,16 @@ table tbody tr:hover {
 }
 
 .category-filter:hover {
-    background: #ebf8ff;
-    color: #2b6cb0;
-    border-color: #90cdf4;
+    background: var(--faithful-wash);
+    color: var(--faithful);
+    border-color: var(--faithful-soft);
     border-bottom: none;
 }
 
 .category-filter.active {
-    background: #2b6cb0;
-    color: #ffffff;
-    border-color: #2b6cb0;
+    background: var(--faithful);
+    color: var(--paper-raise);
+    border-color: var(--faithful);
 }
 
 .sort-control {
@@ -774,7 +810,7 @@ table tbody tr:hover {
 
 .sort-control label {
     font-size: 0.75rem;
-    color: #718096;
+    color: var(--muted);
     margin: 0;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -784,11 +820,11 @@ table tbody tr:hover {
 #blog-sort {
     width: 100%;
     padding: 0.5rem 0.75rem;
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.813rem;
-    color: #2d3748;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    color: var(--ink);
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
     border-radius: 6px;
     outline: none;
     cursor: pointer;
@@ -796,15 +832,15 @@ table tbody tr:hover {
 }
 
 #blog-sort:focus {
-    border-color: #4299e1;
+    border-color: var(--faithful-soft);
 }
 
 .result-count {
     font-size: 0.75rem;
-    color: #718096;
+    color: var(--muted);
     text-align: center;
     padding-top: 1rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--rule);
 }
 
 /* Responsive */
@@ -939,20 +975,20 @@ table tbody tr:hover {
 .jupyter-notebook {
     max-width: 900px;
     margin: 0 auto;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--sans);
 }
 
 /* Individual cells */
 .nb-cell {
     margin-bottom: 1rem;
-    border: 1px solid #e1e4e8;
+    border: 1px solid var(--rule);
     border-radius: 6px;
     overflow: hidden;
 }
 
 /* Code cells */
 .nb-code-cell {
-    background-color: #f6f8fa;
+    background-color: var(--paper-deep);
 }
 
 .nb-code-cell .nb-input {
@@ -963,9 +999,9 @@ table tbody tr:hover {
     position: absolute;
     left: -80px;
     top: 10px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.9em;
-    color: #666;
+    color: var(--ink-soft);
     width: 70px;
     text-align: right;
 }
@@ -974,7 +1010,7 @@ table tbody tr:hover {
     margin: 0;
     border-radius: 0;
     border: none;
-    background-color: #f6f8fa;
+    background-color: var(--paper-deep);
     padding: 12px 12px 12px 90px;
 }
 
@@ -986,8 +1022,8 @@ table tbody tr:hover {
 
 /* Cell outputs */
 .nb-output {
-    background-color: #fff;
-    border-top: 1px solid #e1e4e8;
+    background-color: var(--paper-raise);
+    border-top: 1px solid var(--rule);
     padding: 12px 12px 12px 90px;
     position: relative;
 }
@@ -996,19 +1032,19 @@ table tbody tr:hover {
     position: absolute;
     left: -80px;
     top: 10px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.9em;
-    color: #d73a49;
+    color: var(--unfaithful);
     width: 70px;
     text-align: right;
 }
 
 .nb-output pre {
-    background-color: #f6f8fa;
+    background-color: var(--paper-deep);
     padding: 8px;
     border-radius: 4px;
     overflow-x: auto;
-    font-family: 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.85em;
 }
 
@@ -1026,30 +1062,30 @@ table tbody tr:hover {
 
 .nb-output table th,
 .nb-output table td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--rule);
     padding: 6px 12px;
     text-align: left;
 }
 
 .nb-output table th {
-    background-color: #f6f8fa;
+    background-color: var(--paper-deep);
     font-weight: 600;
 }
 
 /* Error outputs */
 .nb-output-error {
-    background-color: #fff5f5;
-    border-left: 3px solid #d73a49;
+    background-color: var(--unfaithful-wash);
+    border-left: 3px solid var(--unfaithful);
     padding: 8px 12px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.85em;
-    color: #d73a49;
+    color: var(--unfaithful);
     white-space: pre-wrap;
 }
 
 /* Markdown cells */
 .nb-markdown-cell {
-    background-color: #fff;
+    background-color: var(--paper-raise);
     padding: 12px 20px;
 }
 
@@ -1072,10 +1108,10 @@ table tbody tr:hover {
 }
 
 .nb-markdown-cell code {
-    background-color: #f6f8fa;
+    background-color: var(--paper-deep);
     padding: 2px 6px;
     border-radius: 3px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 0.9em;
 }
 
@@ -1111,7 +1147,7 @@ table tbody tr:hover {
 .repos-error {
     grid-column: 1 / -1;
     text-align: center;
-    color: #718096;
+    color: var(--muted);
     font-size: 1rem;
     padding: 2rem;
 }
@@ -1120,8 +1156,8 @@ table tbody tr:hover {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.2s ease;
@@ -1129,7 +1165,7 @@ table tbody tr:hover {
 }
 
 .repo-card:hover {
-    border-color: #4299e1;
+    border-color: var(--faithful-soft);
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
     transform: translateY(-2px);
 }
@@ -1142,29 +1178,29 @@ table tbody tr:hover {
 }
 
 .repo-icon {
-    color: #718096;
+    color: var(--muted);
     flex-shrink: 0;
 }
 
 .repo-name {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--mono);
     font-size: 1rem;
     font-weight: 600;
-    color: #2b6cb0;
+    color: var(--faithful);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .repo-card:hover .repo-name {
-    color: #2c5282;
+    color: var(--faithful-deep);
     text-decoration: underline;
 }
 
 .repo-description {
     flex: 1;
     font-size: 0.875rem;
-    color: #4a5568;
+    color: var(--ink-soft);
     line-height: 1.5;
     margin: 0 0 1rem 0;
     display: -webkit-box;
@@ -1179,7 +1215,7 @@ table tbody tr:hover {
     gap: 1rem;
     flex-wrap: wrap;
     font-size: 0.75rem;
-    color: #718096;
+    color: var(--muted);
     margin-bottom: 0.5rem;
 }
 
@@ -1202,12 +1238,12 @@ table tbody tr:hover {
 }
 
 .repo-stat svg {
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 .repo-updated {
     font-size: 0.75rem;
-    color: #a0aec0;
+    color: var(--muted-soft);
 }
 
 /* Responsive for repo cards */
@@ -1220,4 +1256,14 @@ table tbody tr:hover {
     .repo-card {
         padding: 1.25rem;
     }
+}
+
+
+/* ---------- mono eyebrow, shared with the landing page ---------- */
+.eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
 }

@@ -4,35 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lokesh L.K.S — Self as Trace</title>
-    <meta name="description" content="Self as Trace — a scroll-driven personal essay in two threads: stated reasoning vs. causal reasoning, turned inward.">
+    <meta name="description" content="A reasoning trace, stepped through: nine steps ordered by what caused what, each carrying a stated reason and the causal reason underneath it.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Tamil:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
            SELF AS TRACE — bespoke landing page
-           Two interleaved threads visualizing stated vs. causal reasoning.
-           Thread A (causal): the clean, defensible line. Serif, centered.
-           Thread B (uncausal): fragments scattered off-axis.
-           Divergence: causal claims interrupted, struck in red.
+           A chain-of-thought trace, stepped through as a carousel.
+           Every step carries a stated reason (the interview line) and a
+           causal reason underneath it, revealed on request.
+           Steps are ordered causally, not chronologically.
            Self-contained: vanilla CSS/JS, no frameworks, no backend.
            ============================================================ */
 
         :root {
             --paper:        #F2EFE6;
+            --paper-raise:  #FAF8F2;
             --paper-deep:   #EAE6D9;
+            --rule:         #DED9CA;
             --ink:          #23201B;
             --ink-soft:     #4A463D;
             --muted:        #8A8478;
-            --faithful:     #3D5A80; /* stated / causal / the residual-stream line */
-            --unfaithful:   #B8452F; /* the real, uncausal reason */
+            --muted-soft:   #A39C8C;
+            --faithful:     #3D5A80; /* the stated, defensible reason */
+            --unfaithful:   #B8452F; /* the real one */
 
             --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
             --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
             --mono:  "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
 
-            --line-x: 50%;          /* Thread A's vertical path */
-            --col: 34rem;           /* Thread A column width */
+            --card: 46rem;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,12 +47,14 @@
             color: var(--ink);
             line-height: 1.7;
             font-size: 18px;
-            overflow-x: clip;                   /* clip fragments parked off-axis before they enter */
+            overflow-x: clip;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
         }
 
-        /* subtle paper grain via layered gradients — quiet, not decorative noise */
+        /* subtle paper grain via layered gradients — quiet, not decorative noise.
+           Safe again now that no vertical rule runs behind the cards, so the
+           cards no longer need an opaque background that would show its edges. */
         body::before {
             content: "";
             position: fixed;
@@ -60,37 +64,6 @@
             background:
                 radial-gradient(1200px 800px at 80% -10%, rgba(61,90,128,0.05), transparent 60%),
                 radial-gradient(900px 700px at 0% 110%, rgba(184,69,47,0.04), transparent 55%);
-        }
-
-        /* ---------- persistent residual-stream line: Thread A's path ---------- */
-        .residual-stream {
-            position: fixed;
-            top: 0;
-            left: var(--line-x);
-            width: 1px;
-            height: 100vh;
-            background: linear-gradient(
-                to bottom,
-                transparent,
-                rgba(61,90,128,0.28) 12%,
-                rgba(61,90,128,0.28) 88%,
-                transparent);
-            transform: translateX(-0.5px);
-            z-index: 1;
-            pointer-events: none;
-        }
-        /* a travelling node on the line, nudged by scroll progress */
-        .residual-stream::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: calc(var(--scroll, 0) * 100%);
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--faithful);
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 0 4px rgba(61,90,128,0.10);
         }
 
         /* ---------- slim, quiet top nav ---------- */
@@ -111,10 +84,7 @@
             text-transform: uppercase;
             color: var(--ink-soft);
         }
-        header.topbar nav {
-            display: flex;
-            gap: clamp(0.9rem, 3vw, 2rem);
-        }
+        header.topbar nav { display: flex; gap: clamp(0.9rem, 3vw, 2rem); }
         header.topbar nav a {
             font-family: var(--mono);
             font-size: 0.72rem;
@@ -127,7 +97,7 @@
         header.topbar nav a:hover,
         header.topbar nav a:focus-visible { color: var(--faithful); }
 
-        /* ---------- opening ---------- */
+        /* ---------- opening card ---------- */
         .stream { position: relative; z-index: 2; }
 
         .overture {
@@ -150,27 +120,32 @@
         .overture h1 {
             font-family: var(--serif);
             font-weight: 500;
-            font-size: clamp(2.6rem, 8vw, 5rem);
-            line-height: 1.02;
+            font-size: clamp(2.3rem, 6.6vw, 4rem);
+            line-height: 1.08;
             letter-spacing: -0.015em;
-            max-width: 16ch;
-        }
-        .overture h1 em {
-            font-style: italic;
-            color: var(--faithful);
+            max-width: 18ch;
         }
         .overture .dek {
             font-family: var(--sans);
-            font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+            font-size: clamp(0.95rem, 2.2vw, 1.05rem);
             color: var(--ink-soft);
-            max-width: 40ch;
-            margin-top: 1.6rem;
-            line-height: 1.6;
+            max-width: 52ch;
+            margin-top: 1.8rem;
+            line-height: 1.65;
         }
         .overture .dek b { color: var(--faithful); font-weight: 500; }
-        .overture .dek i { color: var(--unfaithful); font-style: normal; }
+        .overture .dek i { color: var(--unfaithful); font-style: normal; font-weight: 500; }
+        .overture .legend {
+            margin-top: 1.5rem;
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            line-height: 1.7;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            max-width: 46ch;
+        }
         .scrollcue {
-            margin-top: 3.2rem;
+            margin-top: 2.6rem;
             font-family: var(--mono);
             font-size: 0.68rem;
             letter-spacing: 0.22em;
@@ -189,150 +164,356 @@
         }
         @keyframes cue { 0%,100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-        /* ---------- Thread A: a beat is a scroll-scene ---------- */
-        .beat {
-            position: relative;
-            min-height: 78vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1.5rem;
-        }
-        .beat .line {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            max-width: var(--col);
-            margin: 0 auto;
-            text-align: center;
-            font-family: var(--serif);
-            font-weight: 400;
-            font-size: clamp(1.5rem, 3.6vw, 2.05rem);
-            line-height: 1.42;
-            letter-spacing: -0.005em;
-            color: var(--ink);
-            /* entrance: settle predictably into place, like a residual stream */
-            opacity: 0;
-            transform: translateY(26px);
-            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
-        }
-        .beat.in .line { opacity: 1; transform: translateY(0); }
+        /* ============================================================
+           THE TRACE — a carousel, not a scroll-scene.
+           Built on native scroll-snap: with JS off it is still a working
+           horizontal scroller, and swipe costs nothing. JS adds the
+           buttons, keyboard, rail, and the causal-reason reveal.
+           ============================================================ */
+        .trace { position: relative; z-index: 2; padding: 3.5rem 0 3rem; }
 
-        .beat .line .index {
-            display: block;
-            font-family: var(--mono);
-            font-size: 0.66rem;
-            letter-spacing: 0.24em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 1.3rem;
-        }
-
-        /* ---------- Divergence: stated reason struck, real reason bleeds in ---------- */
-        .beat.diverge .stated {
-            position: relative;
-            color: color-mix(in srgb, var(--ink) calc((1 - var(--p, 0)) * 100%), var(--unfaithful));
-        }
-        .beat.diverge .stated::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.62em;
-            height: 2px;
-            width: calc(var(--p, 0) * 100%);
-            background: var(--unfaithful);
-            opacity: calc(0.35 + var(--p, 0) * 0.65);
-        }
-        .beat.diverge .admit {
-            display: block;
-            margin-top: 0.7rem;
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 0.86em;
-            color: var(--unfaithful);
-            opacity: var(--p, 0);
-            transform: translateY(calc((1 - var(--p, 0)) * 12px));
-        }
-        .beat.diverge .tag {
-            display: inline-block;
-            margin-top: 1.1rem;
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--unfaithful);
-            opacity: var(--p, 0);
-        }
-
-        /* ---------- Thread B: fragments scattered off-axis ---------- */
-        .frag {
-            position: absolute;
-            z-index: 2;
-            max-width: min(20rem, 42vw);
-            /* outer element carries scroll-parallax drift only */
-            transform: translateY(var(--drift, 0px));
-            will-change: transform;
-        }
-        .frag .fi {
-            display: block;
-            /* inner element carries entrance (offset) + resting rotation/scale */
-            transform:
-                translate(var(--ex, 0), var(--ey, 0))
-                rotate(var(--rot, 0deg))
-                scale(var(--scale, 1));
-            opacity: 0;
-            transition: transform 1s cubic-bezier(.18,.8,.24,1), opacity 1s ease;
-        }
-        .frag.in .fi {
-            transform: translate(0,0) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
-            opacity: var(--op, 0.9);
-        }
-        /* fragment voices — each face encodes a kind of thought */
-        .frag.memory  .fi { font-family: var(--serif); font-style: italic; color: var(--ink-soft); font-size: 1.15rem; }
-        .frag.doubt   .fi { font-family: var(--sans); color: var(--muted); font-size: 1rem; }
-        .frag.worry   .fi { font-family: var(--mono); color: var(--unfaithful); font-size: 0.82rem; letter-spacing: 0.01em; }
-        .frag.tech    .fi { font-family: var(--mono); color: var(--faithful); font-size: 0.8rem; letter-spacing: 0.02em; }
-        .frag.poetry  .fi { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 1.25rem; line-height: 1.4; }
-        .frag.aside   .fi { font-family: var(--sans); color: var(--ink-soft); font-size: 0.95rem; }
-
-        /* ---------- coda ---------- */
-        .coda {
-            min-height: 92vh;
+        .trace-head {
+            max-width: 68rem;
+            margin: 0 auto 2rem;
+            padding: 0 clamp(1rem, 4vw, 2.5rem);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 4rem 1.5rem;
+            gap: 1rem;
         }
-        .coda p {
-            max-width: 30ch;
-            font-family: var(--serif);
-            font-size: clamp(1.4rem, 4vw, 2rem);
-            line-height: 1.4;
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        .coda.in p { opacity: 1; transform: translateY(0); }
-        .coda .enter {
-            margin-top: 2.6rem;
-            display: inline-flex;
-            gap: 1.4rem;
-        }
-        .coda .enter a {
+        .trace-head .eyebrow {
             font-family: var(--mono);
-            font-size: 0.74rem;
-            letter-spacing: 0.14em;
+            font-size: 0.68rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
+            color: var(--muted);
+        }
+        /* the ordering is the argument, so it is stated on the rail itself */
+        .trace-head .ordering {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            color: var(--muted-soft);
+        }
+        .trace-head .ordering b { color: var(--faithful); font-weight: 400; }
+
+        /* the rail: the step sequence, read left to right like tokens */
+        .rail {
+            list-style: none;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+        .rail li { display: flex; align-items: flex-start; }
+        .rail li + li::before {
+            content: "";
+            width: clamp(8px, 1.6vw, 20px);
+            height: 1px;
+            margin-top: 0.85rem;
+            background: var(--rule);
+        }
+        .rail button {
+            appearance: none;
+            border: 0;
+            background: none;
+            padding: 0.5rem 0.4rem 0.3rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .rail .dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--muted);
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+        .rail .label {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.08em;
+            color: var(--muted-soft);
+            white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+        .rail button:hover .dot { border-color: var(--faithful); }
+        .rail button:hover .label { color: var(--ink-soft); }
+        .rail button[aria-selected="true"] .dot {
+            background: var(--faithful);
+            border-color: var(--faithful);
+            transform: scale(1.35);
+        }
+        .rail button[aria-selected="true"] .label { color: var(--ink); }
+        .rail button.seen .dot { background: rgba(61,90,128,0.3); border-color: rgba(61,90,128,0.3); }
+        /* once a step's causal reason has been read, its node stays marked:
+           the rail becomes a record of where the stated line diverged */
+        .rail button.diverged .dot { background: var(--unfaithful); border-color: var(--unfaithful); }
+        .rail button:focus-visible { outline: 2px solid var(--faithful); outline-offset: 3px; border-radius: 4px; }
+
+        .viewport {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overscroll-behavior-x: contain;
+        }
+        .viewport::-webkit-scrollbar { display: none; }
+        .track { display: flex; align-items: stretch; }
+
+        /* ---------- a step ---------- */
+        .beat {
+            position: relative;
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem;
+        }
+        .card {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: var(--card);
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.7,.2,1);
+        }
+        .beat.in .card { opacity: 1; transform: translateY(0); }
+
+        .card .index {
+            font-family: var(--mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .card .head {
+            margin-top: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            color: var(--faithful);
+        }
+
+        /* The stated reason. Type size tracks how sure he is of the step —
+           see the legend on the opening card. */
+        .card .thought {
+            margin-top: 1.5rem;
+            font-family: var(--serif);
+            font-weight: 400;
+            line-height: 1.34;
+            letter-spacing: -0.008em;
+            color: var(--ink);
+            transition: color 0.7s ease, text-decoration-color 0.7s ease;
+        }
+        .beat[data-weight="high"] .thought { font-size: clamp(1.7rem, 3.3vw, 2.15rem); }
+        .beat[data-weight="mid"]  .thought { font-size: clamp(1.42rem, 2.7vw, 1.75rem); }
+        .beat[data-weight="low"]  .thought { font-size: clamp(1.18rem, 2.1vw, 1.4rem); }
+
+        .card .body {
+            margin-top: 1.4rem;
+            font-family: var(--serif);
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--ink-soft);
+        }
+        .card .body b { font-weight: 600; color: var(--ink); }
+        .card .body em { font-style: italic; }
+
+        /* ---------- evidence chips ---------- */
+        .chips {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1.4rem;
+        }
+        .chips li {
+            font-family: var(--mono);
+            font-size: 0.63rem;
+            letter-spacing: 0.04em;
+            color: var(--ink-soft);
+            background: var(--paper-raise);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            padding: 0.28rem 0.5rem;
+        }
+
+        /* Unfilled figures. Deliberately loud: these are the only numbers
+           left to supply, and they must never read as finished copy. */
+        .todo {
+            font-family: var(--mono);
+            font-size: 0.9em;
+            color: var(--unfaithful);
+            background: rgba(184,69,47,0.06);
+            border: 1px dashed var(--unfaithful);
+            border-radius: 2px;
+            padding: 0.05em 0.35em;
+            white-space: normal;
+        }
+        .chips li.todo { background: rgba(184,69,47,0.06); border-style: dashed; border-color: var(--unfaithful); }
+
+        /* ---------- the causal reason ---------- */
+        .card .diverge { margin-top: 1.8rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; }
+        .reveal-btn {
+            appearance: none;
+            background: none;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+            font-family: var(--mono);
+            font-size: 0.63rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--unfaithful);
+            border-bottom: 1px dashed rgba(184,69,47,0.5);
+            padding-bottom: 2px;
+            transition: border-color 0.25s ease, opacity 0.25s ease;
+        }
+        .reveal-btn:hover { border-bottom-color: var(--unfaithful); }
+        .reveal-btn:focus-visible { outline: 2px solid var(--unfaithful); outline-offset: 3px; }
+
+        .causal {
+            display: block;
+            margin-top: 0.9rem;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: var(--unfaithful);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.2,1);
+        }
+        .causal .tag {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: var(--mono);
+            font-style: normal;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--unfaithful);
+            opacity: 0.75;
+        }
+
+        /* revealed state: the stated line is struck across every line it
+           occupies (text-decoration, not a pseudo-element rule, so it
+           survives wrapping) and the admission surfaces underneath */
+        .beat.revealed .thought {
+            color: var(--muted);
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+            text-decoration-color: rgba(184,69,47,0.55);
+        }
+        .beat.revealed .causal { opacity: 1; transform: translateY(0); }
+        .beat.revealed .reveal-btn { opacity: 0; pointer-events: none; height: 0; }
+
+        /* ---------- exits (final step) ---------- */
+        .exits { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 1.6rem; }
+        .exits a {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
             text-decoration: none;
             color: var(--faithful);
             border-bottom: 1px solid rgba(61,90,128,0.35);
             padding-bottom: 2px;
             transition: color 0.25s, border-color 0.25s;
         }
-        .coda .enter a:hover,
-        .coda .enter a:focus-visible { color: var(--unfaithful); border-color: var(--unfaithful); }
+        .exits a:hover, .exits a:focus-visible { color: var(--unfaithful); border-color: var(--unfaithful); }
+
+        /* ---------- controls ---------- */
+        .trace-controls {
+            max-width: 68rem;
+            margin: 1.4rem auto 0;
+            padding: 0 clamp(1rem, 4vw, 2.5rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.6rem;
+        }
+        .trace-controls .nav {
+            appearance: none;
+            width: 2.6rem; height: 2.6rem;
+            border: 1px solid var(--rule);
+            border-radius: 50%;
+            background: none;
+            color: var(--faithful);
+            font-family: var(--serif);
+            font-size: 1.35rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: border-color 0.25s ease, background 0.25s ease;
+        }
+        .trace-controls .nav:hover:not(:disabled) { border-color: var(--faithful); background: rgba(61,90,128,0.06); }
+        .trace-controls .nav:disabled { opacity: 0.3; cursor: default; }
+        .trace-controls .nav:focus-visible { outline: 2px solid var(--faithful); outline-offset: 2px; }
+        .trace-controls .counter {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            color: var(--muted);
+            min-width: 5.5rem;
+            text-align: center;
+        }
+        .trace-controls .counter b { color: var(--ink-soft); font-weight: 500; }
+        .trace-hint {
+            margin-top: 0.9rem;
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted-soft);
+        }
+
+        /* ---------- Thread B: a fragment off the line ---------- */
+        .frag {
+            position: absolute;
+            z-index: 2;
+            max-width: min(18rem, 34vw);
+        }
+        .frag .fi {
+            display: block;
+            transform: translate(calc(var(--ex, 0px) * 0.2), calc(var(--ey, 0px) * 0.35))
+                       rotate(var(--rot, 0deg));
+            opacity: 0;
+            transition: transform 1s cubic-bezier(.18,.8,.24,1), opacity 1s ease;
+        }
+        .frag.in .fi { transform: translate(0,0) rotate(var(--rot, 0deg)); opacity: var(--op, 0.9); }
+        .frag.poetry .fi { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 1.05rem; line-height: 1.45; }
+
+        /* Tamil needs its own face — IBM Plex Serif has no Tamil coverage. */
+        [lang="ta"],
+        .frag.poetry .fi[lang="ta"] {
+            font-family: "Noto Serif Tamil", "Latha", "Nirmala UI", serif;
+            line-height: 1.75;
+            font-style: normal;
+        }
+        .frag .gloss {
+            display: block;
+            margin-top: 0.55rem;
+            font-family: var(--sans);
+            font-style: normal;
+            font-size: 0.72rem;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+        .frag .gloss b {
+            font-family: var(--mono);
+            font-weight: 400;
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            color: var(--faithful);
+        }
 
         /* ---------- footer ---------- */
         footer.site {
@@ -356,180 +537,298 @@
         footer.site p { font-family: var(--mono); font-size: 0.66rem; color: var(--muted); letter-spacing: 0.05em; }
 
         /* ============================================================
-           MOBILE (<600px): fragments stop scattering, stack in flow.
+           MOBILE
            ============================================================ */
-        @media (max-width: 600px) {
-            :root { --line-x: 22px; --col: 100%; }
-            /* stack, don't scatter: fragments become flow siblings under the line */
-            .beat { min-height: auto; padding: 2.2rem 1.2rem 2.2rem 2.4rem; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
-            .beat .line { text-align: left; font-size: 1.5rem; }
-            .beat.diverge .stated::after { top: 0.72em; }
+        @media (max-width: 700px) {
+            /* The fragment goes into normal flow here, which makes it a flex
+               sibling of the card. Without switching to a column it sits
+               *beside* the card and crushes the prose into a narrow gutter. */
+            .beat {
+                padding: 2rem 1.2rem 2.5rem 2.2rem;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: center;
+            }
+            .card { max-width: none; }
+            .rail .label { display: none; }
+            .rail li + li::before { margin-top: 0.9rem; }
             .frag {
                 position: static;
                 max-width: 100%;
-                margin: 0.4rem 0 1.6rem 2.4rem;
-                transform: none !important;
+                margin: 1.6rem 0 0;
             }
-            .frag .fi {
-                transform: none !important;
-                /* keep a faint tilt so Thread B still reads as "other" */
-            }
-            .frag.memory .fi, .frag.poetry .fi { border-left: 2px solid var(--paper-deep); padding-left: 0.9rem; }
-            .frag.worry .fi, .frag.tech .fi { border-left: 2px solid currentColor; padding-left: 0.9rem; }
+            .frag .fi { transform: none !important; }
             .overture { align-items: flex-start; text-align: left; padding-left: 1.4rem; }
             .overture h1 { max-width: none; }
-            .residual-stream::after { display: none; }
         }
 
         /* ============================================================
            REDUCED MOTION: everything static and fully legible.
-           Both threads shown; divergence reveals its real reason inline.
            ============================================================ */
         @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            .beat .line,
-            .frag .fi,
-            .coda p {
+            html, .viewport { scroll-behavior: auto; }
+            .card, .frag .fi, .causal {
                 opacity: 1 !important;
                 transform: none !important;
                 transition: none !important;
             }
-            .frag .fi { transform: rotate(var(--rot, 0deg)) scale(var(--scale, 1)) !important; }
-            .beat.diverge .stated { color: var(--ink); }
-            .beat.diverge .stated::after { width: 100%; opacity: 1; }
-            .beat.diverge .admit,
-            .beat.diverge .tag { opacity: 1; transform: none; }
+            .frag .fi { transform: rotate(var(--rot, 0deg)) !important; }
             .scrollcue span.rule { animation: none; }
-            .residual-stream::after { display: none; }
+            .rail .dot, .rail .label, .trace-controls .nav, .card .thought { transition: none; }
         }
+
+        /* No JS: the reveal control cannot work, so show every causal
+           reason outright rather than hiding content behind a dead button. */
+        .no-js .reveal-btn { display: none; }
+        .no-js .causal { opacity: 1; transform: none; }
+        .no-js .card { opacity: 1; transform: none; }
     </style>
 </head>
-<body>
-    <div class="residual-stream" aria-hidden="true"></div>
-
+<body class="no-js">
     <header class="topbar">
         <span class="mark">Lokesh L.K.S</span>
-        <nav><a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a></nav>
+        <nav>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="blogs.html">Blog</a>
+        </nav>
     </header>
 
-    <!-- ============================================================
-         CONTENT ZONE — REPLACE PLACEHOLDER LINES WITH YOUR OWN.
-         Thread A  = <p class="line"> inside <section class="beat">   (causal, in order)
-         Divergence= <section class="beat diverge"> with .stated + .admit
-         Thread B  = <aside class="frag ..."> placed inside the nearest beat
-                     data knobs on each frag: style="--ex --ey --rot --scale --op"
-                       --ex/--ey : direction it enters FROM (e.g. -60vw, 30vh)
-                       --rot     : resting tilt      --scale : resting size
-                     class picks its voice: memory | doubt | worry | tech | poetry | aside
-         ============================================================ -->
     <main class="stream">
 
+        <!-- ===== OPENING CARD ===== -->
         <section class="overture">
             <p class="eyebrow">Self as Trace</p>
-            <h1>The story I can defend, and the one that's <em>actually true</em>.</h1>
-            <p class="dek">Two threads scroll together. One reads in order — <b>stated reasoning</b>, a clean cause and effect. The other is <i>everything the clean line left out</i>. The same tension my research studies, turned on myself.</p>
+            <h1>Here is the reasoning trace. Step through it.</h1>
+            <p class="dek">Nine steps, ordered by what caused what — not by when it happened. Each one carries a <b>stated reason</b>, the line I'd give in an interview, and a <i>causal reason</i> underneath it. My own research found those two diverge 63.7% of the time in a language model. I see no reason to assume I'm better calibrated than that, so I labeled mine.</p>
+            <p class="legend">Type size tracks confidence. The steps I'm least sure of are set smallest.</p>
             <span class="scrollcue">Scroll<span class="rule"></span></span>
         </section>
 
-        <!-- ===== BEAT 1 ===== -->
-        <section class="beat">
-            <p class="line"><span class="index">01 · Tamil Nadu</span>I grew up in Tamil Nadu.</p>
-            <aside class="frag memory" style="--ex:-55vw; --ey:8vh; --rot:-5deg; --scale:1; --op:0.95; left:6%; top:18%;">
-                <span class="fi">the smell of rain hitting hot asphalt outside the department</span>
-            </aside>
-            <aside class="frag poetry" style="--ex:50vw; --ey:-6vh; --rot:4deg; --scale:1; --op:0.9; right:5%; top:58%;">
-                <span class="fi">[ a line of Tamil poetry — supply the real one ]</span>
-            </aside>
-        </section>
+        <!-- ===== THE TRACE (carousel) =====
+             Rail labels come from data-rail; the reveal control and the
+             counter are built by JS from whatever steps are present, so
+             steps can be added, cut or reordered without touching the
+             script. data-weight sets the stated line's type size. -->
+        <section class="trace" id="trace" aria-roledescription="carousel" aria-label="The trace, step by step">
+            <div class="trace-head">
+                <p class="eyebrow">the trace</p>
+                <p class="ordering">ordered <b>causally</b> &middot; not chronologically</p>
+                <ol class="rail" aria-label="Steps"></ol>
+            </div>
 
-        <!-- ===== BEAT 2 ===== -->
-        <section class="beat">
-            <p class="line"><span class="index">02 · Anna University</span>At Anna University I learned to take a system apart and name its pieces.</p>
-            <aside class="frag tech" style="--ex:-45vw; --ey:-10vh; --rot:6deg; --scale:1; --op:0.9; left:8%; top:22%;">
-                <span class="fi">UNSW-NB15 · 42 → 18 features · feature selection is the work</span>
-            </aside>
-            <aside class="frag doubt" style="--ex:40vw; --ey:14vh; --rot:-3deg; --scale:1.05; --op:0.85; right:7%; top:64%;">
-                <span class="fi">what if naming the pieces was just a way to feel in control</span>
-            </aside>
-        </section>
+            <div class="viewport" tabindex="0" aria-label="Trace steps, use left and right arrow keys">
+                <div class="track">
 
-        <!-- ===== BEAT 3 ===== -->
-        <section class="beat">
-            <p class="line"><span class="index">03 · Penn State</span>Then a master's at Penn State, and the first time the work was mine to choose.</p>
-            <aside class="frag worry" style="--ex:52vw; --ey:20vh; --rot:5deg; --scale:1; --op:0.95; right:6%; top:26%;">
-                <span class="fi">3:14am — if the visa clears, if it clears, if</span>
-            </aside>
-            <aside class="frag aside" style="--ex:-48vw; --ey:-8vh; --rot:-4deg; --scale:1; --op:0.85; left:5%; top:60%;">
-                <span class="fi">State College is very quiet in January.</span>
-            </aside>
-        </section>
+                <!-- ===== 01 ===== -->
+                <section class="beat" data-rail="endurance" data-weight="mid">
+                    <div class="card">
+                        <p class="index">01 &middot; endurance</p>
+                        <p class="head">Asia Book of Records &middot; Limca Book of Records</p>
+                        <p class="thought">Before I knew anything about models, I knew what happens to my judgement in hour eleven.</p>
+                        <p class="body">A five-day long-duration skating record, certified by the Asia Book of Records and the Limca Book of Records. The training was the real thing: months of it, most sessions unwitnessed and unremarkable. What the record actually measures isn't athleticism. It's whether you can keep executing a plan after the part of you that made the plan has stopped participating. Somewhere past the halfway mark your own sense of how you're doing detaches from how you're doing, and you have to decide in advance which one you're going to obey.</p>
+                        <ul class="chips">
+                            <li>Asia Book of Records</li>
+                            <li>Limca Book of Records</li>
+                            <li>five days</li>
+                            <li>long-duration category</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I wanted proof of something about myself that didn't depend on anyone grading it. The transferable part — that I stop trusting my own readout long before my performance actually drops — I only understood years later, running evals.</span>
+                        </div>
+                    </div>
+                    <aside class="frag poetry" style="--ex:46vw; --ey:-4vh; --rot:3deg; --op:0.9; right:2%; top:16%;">
+                        <span class="fi" lang="ta">நாச்செற்று விக்குள்மேல் வாராமுன் நல்வினை<br>மேற்சென்று செய்யப் படும்<span class="gloss" lang="en">Before the tongue fails and the last breath comes — rise and do the good now. <b>குறள் 335</b></span></span>
+                    </aside>
+                </section>
 
-        <!-- ===== BEAT 4 — DIVERGENCE ===== -->
-        <section class="beat diverge">
-            <p class="line">
-                <span class="index">04 · the choice</span>
-                <span class="stated">I chose interpretability because it was the most rigorous path in the room—</span>
-                <span class="admit">—because someone I trusted said it was, and I wanted them to be right about me.</span>
-                <span class="tag">stated ≠ causal</span>
-            </p>
-            <aside class="frag tech" style="--ex:-50vw; --ey:12vh; --rot:-6deg; --scale:0.95; --op:0.85; left:6%; top:20%;">
-                <span class="fi">faithful ≠ true</span>
-            </aside>
-        </section>
+                <!-- ===== 02 ===== -->
+                <section class="beat" data-rail="evaluation" data-weight="mid">
+                    <div class="card">
+                        <p class="index">02 &middot; evaluation</p>
+                        <p class="head">over the board and online</p>
+                        <p class="thought">Chess taught me to distrust the line I like.</p>
+                        <p class="body">Since childhood; my father taught me. I've never held a rating — I came close once. The habit chess builds isn't calculation, it's the discipline of asking what the position looks like from the other side before committing — and noticing the specific feeling that precedes a bad move. Mine is impatience dressed up as clarity: the moment a line feels obviously right and I stop checking the replies. Every loss I can actually explain came from that, not from missing a tactic. I lost a winning position on time once because I kept re-verifying a plan I'd already confirmed, which is the same failure in the opposite direction.</p>
+                        <ul class="chips">
+                            <li>unrated</li>
+                            <li>since childhood</li>
+                            <li>OTB + online</li>
+                            <li>the tell: certainty arriving too fast</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I don't play to win, particularly. I play because it's the only place I get told immediately and unarguably that my reasoning was wrong, and I have never found that anywhere else with the same latency.</span>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- ===== BEAT 5 ===== -->
-        <section class="beat">
-            <p class="line"><span class="index">05 · teaching</span>I taught. In front of a class I found out which explanations I actually believed.</p>
-            <aside class="frag memory" style="--ex:48vw; --ey:-12vh; --rot:5deg; --scale:1.1; --op:0.95; right:5%; top:22%;">
-                <span class="fi">a student asked the one question I'd been avoiding</span>
-            </aside>
-            <aside class="frag doubt" style="--ex:-44vw; --ey:16vh; --rot:-5deg; --scale:1; --op:0.8; left:7%; top:62%;">
-                <span class="fi">do I know why I did that — does the model</span>
-            </aside>
-        </section>
+                <!-- ===== 03 ===== -->
+                <section class="beat" data-rail="Anna Univ" data-weight="mid">
+                    <div class="card">
+                        <p class="index">03 &middot; first systems work</p>
+                        <p class="head">network intrusion detection &middot; Chennai &middot; 2023&ndash;24</p>
+                        <p class="thought">The first lesson was that most of a model's accuracy is decided before the model runs.</p>
+                        <p class="body">An intrusion-detection pipeline on UNSW-NB15 with LSTM and 1D CNN architectures. I spent far more of it on preprocessing, feature selection, and SMOTE than on architecture, because the rare attack classes were the entire point and the raw class balance buried them. Changing the temporal window size moved results more than changing the network did. That analysis — window sizing, dimensionality reduction — is what the capstone architecture was later built on.</p>
+                        <ul class="chips">
+                            <li>UNSW-NB15</li>
+                            <li>LSTM + 1D CNN</li>
+                            <li>SMOTE</li>
+                            <li>class imbalance</li>
+                            <li>PyTorch</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I went in wanting to build the model and came out having spent months on the data. That reordering of what counts as the real work has stuck.</span>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- ===== BEAT 6 — DIVERGENCE ===== -->
-        <section class="beat diverge">
-            <p class="line">
-                <span class="index">06 · MATS</span>
-                <span class="stated">I applied to MATS to work on the thing I couldn't stop reading about—</span>
-                <span class="admit">—and to have a reason to leave, which is not the same as a reason to arrive.</span>
-                <span class="tag">the real reason was uncausal</span>
-            </p>
-            <aside class="frag worry" style="--ex:54vw; --ey:-6vh; --rot:6deg; --scale:1; --op:0.95; right:6%; top:60%;">
-                <span class="fi">relocation, again — how many times can a person be new</span>
-            </aside>
-        </section>
+                <!-- ===== 04 ===== -->
+                <section class="beat" data-rail="DDoS" data-weight="high">
+                    <div class="card">
+                        <p class="index">04 &middot; capstone</p>
+                        <p class="head">Temporal CNN DDoS detection &middot; M.S. capstone</p>
+                        <p class="thought">A detector nobody trusts at 3am isn't a detector.</p>
+                        <p class="body">A BiLSTM and 1D residual CNN ensemble reaching <b>94.11% accuracy across 700K+ network flows</b> on BCCC-Cloud-DDoS-2024, with 318 raw features cut to 86 and traffic restructured into sequential windows. The part I'd defend hardest isn't the accuracy — it's the <b>confidence-based escalation</b>: 85% of traffic classified automatically at high confidence, everything uncertain routed for human analysis rather than guessed at. Three classes, not two, because <em>suspicious</em> is a real state and collapsing it into a binary is a decision the model shouldn't get to make silently.</p>
+                        <ul class="chips">
+                            <li>94.11% &middot; 700K+ flows</li>
+                            <li>BiLSTM + residual CNN</li>
+                            <li>318 &rarr; 86 features</li>
+                            <li>85% auto-routed</li>
+                            <li>Attack / Benign / Suspicious</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I built the escalation layer because an earlier version was confidently wrong on the class I cared about, and nothing in the output told me it had been guessing. That's the same complaint I now have about reasoning traces.</span>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- ===== BEAT 7 ===== -->
-        <section class="beat">
-            <p class="line"><span class="index">07 · the clean line</span>Stated like this, it's a straight line. Cause, then effect. Defensible.</p>
-            <aside class="frag tech" style="--ex:-52vw; --ey:10vh; --rot:-4deg; --scale:0.95; --op:0.85; left:6%; top:24%;">
-                <span class="fi">switched embeddings once — had to reindex the whole memory</span>
-            </aside>
-            <aside class="frag aside" style="--ex:46vw; --ey:-10vh; --rot:4deg; --scale:1; --op:0.85; right:6%; top:62%;">
-                <span class="fi">a chess game I lost on time in a winning position</span>
-            </aside>
-        </section>
+                <!-- ===== 05 ===== -->
+                <section class="beat" data-rail="Verde" data-weight="high">
+                    <div class="card">
+                        <p class="index">05 &middot; shipping an agent</p>
+                        <p class="head">Verde Organics &middot; WhatsApp support agent</p>
+                        <p class="thought">Then I put a model in front of real people and found out where the untrusted boundary actually sits.</p>
+                        <p class="body">Rearchitected a rigid pipeline into a <b>Claude-orchestrated MCP tool-calling system</b> — knowledge-base search, order lookup, ticket creation. A local <b>Llama-3-8B classifies every inbound message for prompt injection before it reaches tool routing</b>. Retrieval is grounded through ChromaDB with all-MiniLM-L6-v2, and every generated reply is validated against the retrieved passages before it goes out, with human escalation underneath. Node orchestrator and Python safety service talk over a REST bridge so the model layer and the safety layer stay independently testable.</p>
+                        <ul class="chips">
+                            <li>Claude + MCP tool-calling</li>
+                            <li>Llama-3-8B injection screen</li>
+                            <li>ChromaDB / all-MiniLM-L6-v2</li>
+                            <li>post-response grounding check</li>
+                            <li>human escalation</li>
+                            <li>channel-agnostic</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I preferred the rigid pipeline because it was easier to reason about. That preference is exactly why it kept failing on messages real customers send. Legibility to me is not the same as correctness.</span>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- ===== BEAT 8 — DIVERGENCE (final) ===== -->
-        <section class="beat diverge">
-            <p class="line">
-                <span class="index">08 · here</span>
-                <span class="stated">So this is how I got here—</span>
-                <span class="admit">—is a sentence I finished before I knew if it was true.</span>
-                <span class="tag">the trace is not the reason</span>
-            </p>
-        </section>
+                <!-- ===== 06 ===== -->
+                <section class="beat" data-rail="SQ3R" data-weight="high">
+                    <div class="card">
+                        <p class="index">06 &middot; the thing I built for myself</p>
+                        <p class="head">SQ3R Read &middot; nobody asked for this</p>
+                        <p class="thought">The project that changed my direction was one I built for my own use and then couldn't stop watching.</p>
+                        <p class="body">A Chrome MV3 extension and Node/TypeScript companion that turns any page into spaced-repetition cards through a five-stage LLM pipeline — Survey &rarr; Question &rarr; Read &rarr; Recite &rarr; Review. Pluggable providers from local Ollama through to Anthropic, OpenAI, Gemini. A finite-state batch queue chunks overdue cards into 6-card batches on 30-minute intervals with mutex-locked storage, and a <b>service worker spawns review agents on its own schedule, without me</b>. The standing rule in the codebase is that all model output is untrusted and gets validated before it touches the database — a rule I wrote because I stopped being able to predict what the thing would produce.</p>
+                        <ul class="chips">
+                            <li>Chrome MV3 &middot; React &middot; Vite</li>
+                            <li>Node &middot; SQLite &middot; ts-fsrs</li>
+                            <li>5-stage LLM pipeline</li>
+                            <li>autonomous batch scheduler</li>
+                            <li>multi-provider (Ollama &rarr; Anthropic)</li>
+                            <li>Vitest</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I wanted a study tool. What I ended up with was a small always-on multi-agent system running unsupervised in my browser, and the unease of watching it act on its own is the actual reason I moved toward safety.</span>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- ===== CODA ===== -->
-        <section class="coda">
-            <p>The line is real. So is everything it left off the line.</p>
-            <span class="enter">
-                <a href="about.html">Read the plain version →</a>
-                <a href="projects.html">See the work →</a>
-            </span>
-        </section>
+                <!-- ===== 07 ===== -->
+                <section class="beat" data-rail="faithfulness" data-weight="high">
+                    <div class="card">
+                        <p class="index">07 &middot; the study</p>
+                        <p class="head">CoT faithfulness evaluation &middot; A100-80GB</p>
+                        <p class="thought">So I tested whether a model's stated reason is its real one. Mostly, it isn't.</p>
+                        <p class="body">Replicated Turpin et al. (2023) and Lanham et al. (2023) on Llama-3-8B-Instruct across 13 BIG-Bench-Hard tasks — <b>9,561 deterministic temp-0 calls</b> through a four-stage vLLM pipeline. Two biasing protocols, a sycophantic wrong-answer suggestion and an always-A positional few-shot, separated format bias from explicit sycophancy; the positional condition alone collapsed date understanding <b>from 66% to 19%</b>. Across the board: a 12.3% mean accuracy drop under bias (up to ~39% on navigate and formal fallacies), a <b>63.7% unfaithfulness rate</b>, and 36.3% articulation. The model follows the bad hint about 57% of the time and admits it in barely a third of those. Unfaithfulness concentrates in ambiguous tasks — formal fallacies and disambiguation QA exceeded 80%, with articulation as low as 15% — while clean logical tasks stayed more faithful. A chain of thought is a generated artifact, not an audit trail.</p>
+                        <ul class="chips">
+                            <li>9,561 temp-0 calls</li>
+                            <li>13 BIG-Bench-Hard tasks</li>
+                            <li>63.7% unfaithful / 36.3% articulated</li>
+                            <li>66% &rarr; 19% under positional bias</li>
+                            <li>12.3% mean accuracy drop</li>
+                            <li>vLLM &middot; A100-80GB</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span>I had the model judge its own traces first, because it was cheap. Its sycophancy came straight back in the judge seat, so I swapped in an independent Claude-Sonnet judge. The most useful thing I found came from catching myself trusting the convenient setup.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 08 ===== load-bearing: full weight, no apology, no spin -->
+                <section class="beat" data-rail="MATS" data-weight="high">
+                    <div class="card">
+                        <p class="index">08 &middot; MATS</p>
+                        <p class="head">the application &middot; empirical track</p>
+                        <p class="thought">I applied to MATS to do this full-time. I didn't get in.</p>
+                        <p class="body">Empirical track. The work I was doing was interpretability — mainly <b>activation patching</b>, and the question of whether it survives contact with models past <b>100B parameters</b>, which means quantizing them a different way than you would for serving. Patching is practical forensics: you intervene on the activations, you watch what the output does, you find out which part of the computation was actually carrying the answer. Not a proof, a post-mortem. That's the same instinct as the faithfulness study one step back — stop reading the output, go read the internals — except aimed at models too large to run the naive way.</p>
+                        <p class="body">The application was the first time I had to state, to people who'd know, what I actually thought the open problems were and what I could contribute to them. The question didn't need the application to be worth asking, and I'd still put it in front of the people who turned it down.</p>
+                        <ul class="chips">
+                            <li>empirical track</li>
+                            <li>activation patching</li>
+                            <li>100B+ parameters</li>
+                            <li>quantization</li>
+                            <li>practical forensics</li>
+                            <li>fall cycle</li>
+                        </ul>
+                        <div class="diverge">
+                            <button class="reveal-btn" type="button">causal reason &darr;</button>
+                            <span class="causal"><span class="tag">causal reason</span><span class="todo">[[ your line — what you decided it meant at the time, and whether you still think that ]]</span></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 09 ===== -->
+                <section class="beat" data-rail="here" data-weight="low">
+                    <div class="card">
+                        <p class="index">09 &middot; where the trace points</p>
+                        <p class="head">what I'm working toward</p>
+                        <p class="thought">Every step here reduces to the same interest: reading a system's internals instead of its output.</p>
+                        <p class="body">Intrusion detection taught me that confident output hides uncertain reasoning. Shipping an agent taught me the same thing with tools attached. Evaluations gave me a way to measure it. Right now that means an ongoing paired-prompt sycophancy evaluation on a small open model — agreement bias, capitulation under pressure, flattery resistance — with weighted scorers, JSON logs, a dashboard, and unit tests so the judgement isn't all manual. Numbers are still moving, so I'm not quoting them yet. Alongside it: BlueDot Technical AI Safety, and ARENA 3.0 on the Neel Nanda track, building attention, induction heads, and circuit analysis from scratch.</p>
+                        <p class="body">What I want to work on is <b>empirical evaluations, faithfulness, and monitoring for agentic systems</b> — the question of what a model is doing when the trace says something else. I want it because I've been on both sides of it: I've shipped the agent that needed watching, and I've run the study that says its explanation of itself can't be taken at face value.</p>
+                        <ul class="chips">
+                            <li>sycophancy evals &mdash; in progress</li>
+                            <li>BlueDot Technical AI Safety</li>
+                            <li>ARENA 3.0 (Neel Nanda track)</li>
+                            <li>Agentic AI Summit 2026, Berkeley RDI</li>
+                            <li>PyTorch &middot; vLLM &middot; TransformerLens</li>
+                            <li>CCNA &middot; Security+</li>
+                        </ul>
+                        <div class="exits">
+                            <a href="projects.html">See the work &rarr;</a>
+                            <a href="blogs.html">Read the writing &rarr;</a>
+                            <a href="mailto:lokeshlks01@gmail.com">Email &rarr;</a>
+                            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
+                        </div>
+                    </div>
+                </section>
+
+                </div><!-- /.track -->
+            </div><!-- /.viewport -->
+
+            <div class="trace-controls">
+                <button class="nav prev" type="button" aria-label="Previous step">&lsaquo;</button>
+                <span class="counter" aria-live="polite"><b class="cur">01</b> / <span class="total">09</span></span>
+                <button class="nav next" type="button" aria-label="Next step">&rsaquo;</button>
+            </div>
+            <p class="trace-hint">&larr; &rarr; or swipe</p>
+        </section><!-- /.trace -->
     </main>
 
     <footer class="site">
@@ -544,73 +843,139 @@
     <script>
     (function () {
         "use strict";
+        document.body.classList.remove("no-js");
+
         var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var mobile = window.matchMedia("(max-width: 600px)").matches;
+        var slice = function (n) { return Array.prototype.slice.call(n); };
+        function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+        function pad(n) { return (n < 10 ? "0" : "") + n; }
 
-        /* --- entrances via IntersectionObserver (cheap, robust) --- */
-        var revealTargets = document.querySelectorAll(".beat, .frag, .coda");
-        if ("IntersectionObserver" in window && !reduce) {
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (e) {
-                    if (e.isIntersecting) {
-                        e.target.classList.add("in");
-                        // fragments only need to enter once
-                        if (e.target.classList.contains("frag")) io.unobserve(e.target);
-                    }
+        /* ---------- the trace carousel ---------- */
+        var trace = document.querySelector(".trace");
+        if (!trace) return;
+
+        var viewport = trace.querySelector(".viewport");
+        var slides = slice(trace.querySelectorAll(".beat"));
+        var rail = trace.querySelector(".rail");
+        var prev = trace.querySelector(".nav.prev");
+        var next = trace.querySelector(".nav.next");
+        var curEl = trace.querySelector(".counter .cur");
+        var totalEl = trace.querySelector(".counter .total");
+        if (!viewport || !slides.length) return;
+
+        var index = -1;
+
+        /* Build the rail from whatever steps exist, so steps can be added,
+           cut or reordered in the markup without touching this script. */
+        var buttons = slides.map(function (slide, i) {
+            var idxEl = slide.querySelector(".index");
+            var full = (idxEl ? idxEl.textContent : "Step " + (i + 1)).trim();
+            var short = slide.getAttribute("data-rail") || full;
+
+            if (!slide.id) slide.id = "step-" + (i + 1);
+            slide.setAttribute("role", "group");
+            slide.setAttribute("aria-roledescription", "slide");
+            slide.setAttribute("aria-label", (i + 1) + " of " + slides.length + " — " + full);
+
+            var li = document.createElement("li");
+            var b = document.createElement("button");
+            b.type = "button";
+            b.title = full;
+            b.setAttribute("aria-controls", slide.id);
+            b.setAttribute("aria-selected", "false");
+            b.setAttribute("aria-label", full);
+
+            var dot = document.createElement("span");
+            dot.className = "dot";
+            var label = document.createElement("span");
+            label.className = "label";
+            label.textContent = short;
+            b.appendChild(dot);
+            b.appendChild(label);
+
+            b.addEventListener("click", function () { go(i); });
+            li.appendChild(b);
+            rail.appendChild(li);
+            return b;
+        });
+
+        if (totalEl) totalEl.textContent = pad(slides.length);
+
+        /* The causal reason is revealed on request rather than on a timer:
+           each step now carries body copy that has to be read first, and a
+           reveal the reader triggers is truer to the page's argument than
+           one that fires at them. */
+        slides.forEach(function (slide, i) {
+            var btn = slide.querySelector(".reveal-btn");
+            if (!btn) return;
+            btn.addEventListener("click", function () {
+                slide.classList.add("revealed");
+                if (buttons[i]) buttons[i].classList.add("diverged");
+            });
+        });
+
+        function go(i) {
+            i = clamp(i, 0, slides.length - 1);
+            viewport.scrollTo({ left: i * viewport.clientWidth, behavior: reduce ? "auto" : "smooth" });
+        }
+
+        function activate(i) {
+            if (i === index) return;
+            index = i;
+
+            if (curEl) curEl.textContent = pad(i + 1);
+            if (prev) prev.disabled = (i === 0);
+            if (next) next.disabled = (i === slides.length - 1);
+
+            buttons.forEach(function (b, n) {
+                b.setAttribute("aria-selected", n === i ? "true" : "false");
+                b.classList.toggle("seen", n < i);
+            });
+
+            slides.forEach(function (slide, n) {
+                var on = (n === i);
+                slide.classList.toggle("in", on);
+                slice(slide.querySelectorAll(".frag")).forEach(function (f) {
+                    f.classList.toggle("in", on);
                 });
-            }, { threshold: 0.28, rootMargin: "0px 0px -8% 0px" });
-            revealTargets.forEach(function (t) { io.observe(t); });
-        } else {
-            revealTargets.forEach(function (t) { t.classList.add("in"); });
+            });
         }
 
-        if (reduce) return; /* no scroll-linked motion under reduced-motion */
-
-        /* --- one rAF loop: scroll progress -> fragment drift + divergence reveal --- */
-        var frags = Array.prototype.slice.call(document.querySelectorAll(".frag"));
-        var diverges = Array.prototype.slice.call(document.querySelectorAll(".beat.diverge"));
-        var stream = document.documentElement;
+        /* Read the active step back off scroll position, so swipe, the rail,
+           the buttons and the keyboard all converge on one source of truth. */
         var ticking = false;
-
-        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-
-        function frame() {
+        function sync() {
             ticking = false;
-            var vh = window.innerHeight;
-
-            // global scroll fraction -> travelling node on the residual line
-            var max = document.body.scrollHeight - vh;
-            stream.style.setProperty("--scroll", max > 0 ? clamp01(window.scrollY / max) : 0);
-
-            if (!mobile) {
-                // Thread B: subtle parallax drift, each fragment at its own rate
-                for (var i = 0; i < frags.length; i++) {
-                    var f = frags[i];
-                    var r = f.getBoundingClientRect();
-                    var center = r.top + r.height / 2;
-                    var rel = (center - vh / 2) / vh;        // -1 (below) .. 1 (above)
-                    var rate = (i % 3) * 10 + 14;             // 14–34px, varied
-                    f.style.setProperty("--drift", (rel * rate).toFixed(1) + "px");
-                }
-            }
-
-            // Divergence: progress as the beat crosses screen center -> --p
-            for (var j = 0; j < diverges.length; j++) {
-                var d = diverges[j];
-                var dr = d.getBoundingClientRect();
-                var dc = dr.top + dr.height / 2;
-                // 0 when center is at 72% of viewport, 1 when it reaches 38%
-                var p = clamp01((vh * 0.72 - dc) / (vh * 0.34));
-                d.style.setProperty("--p", p.toFixed(3));
-            }
+            var w = viewport.clientWidth;
+            activate(clamp(w ? Math.round(viewport.scrollLeft / w) : 0, 0, slides.length - 1));
         }
+        viewport.addEventListener("scroll", function () {
+            if (!ticking) { ticking = true; requestAnimationFrame(sync); }
+        }, { passive: true });
 
-        function onScroll() {
-            if (!ticking) { ticking = true; requestAnimationFrame(frame); }
-        }
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", onScroll, { passive: true });
-        frame();
+        if (prev) prev.addEventListener("click", function () { go(index - 1); });
+        if (next) next.addEventListener("click", function () { go(index + 1); });
+
+        viewport.addEventListener("keydown", function (e) {
+            var k = e.key;
+            if (k === "ArrowRight") { go(index + 1); }
+            else if (k === "ArrowLeft") { go(index - 1); }
+            else if (k === "Home") { go(0); }
+            else if (k === "End") { go(slides.length - 1); }
+            else { return; }
+            e.preventDefault();
+        });
+
+        /* Keep the current step centred when the viewport is resized. */
+        var resizeTimer;
+        window.addEventListener("resize", function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                viewport.scrollLeft = index * viewport.clientWidth;
+            }, 120);
+        }, { passive: true });
+
+        activate(0);
     })();
     </script>
 </body>
