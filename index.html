@@ -3,63 +3,615 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokesh L.K.S - My Portfolio</title>
+    <title>Lokesh L.K.S — Self as Trace</title>
+    <meta name="description" content="Self as Trace — a scroll-driven personal essay in two threads: stated reasoning vs. causal reasoning, turned inward.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Prism.js for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           SELF AS TRACE — bespoke landing page
+           Two interleaved threads visualizing stated vs. causal reasoning.
+           Thread A (causal): the clean, defensible line. Serif, centered.
+           Thread B (uncausal): fragments scattered off-axis.
+           Divergence: causal claims interrupted, struck in red.
+           Self-contained: vanilla CSS/JS, no frameworks, no backend.
+           ============================================================ */
+
+        :root {
+            --paper:        #F2EFE6;
+            --paper-deep:   #EAE6D9;
+            --ink:          #23201B;
+            --ink-soft:     #4A463D;
+            --muted:        #8A8478;
+            --faithful:     #3D5A80; /* stated / causal / the residual-stream line */
+            --unfaithful:   #B8452F; /* the real, uncausal reason */
+
+            --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+            --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+            --mono:  "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+
+            --line-x: 50%;          /* Thread A's vertical path */
+            --col: 34rem;           /* Thread A column width */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; overflow-x: clip; }
+
+        body {
+            font-family: var(--serif);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 18px;
+            overflow-x: clip;                   /* clip fragments parked off-axis before they enter */
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* subtle paper grain via layered gradients — quiet, not decorative noise */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(1200px 800px at 80% -10%, rgba(61,90,128,0.05), transparent 60%),
+                radial-gradient(900px 700px at 0% 110%, rgba(184,69,47,0.04), transparent 55%);
+        }
+
+        /* ---------- persistent residual-stream line: Thread A's path ---------- */
+        .residual-stream {
+            position: fixed;
+            top: 0;
+            left: var(--line-x);
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(61,90,128,0.28) 12%,
+                rgba(61,90,128,0.28) 88%,
+                transparent);
+            transform: translateX(-0.5px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        /* a travelling node on the line, nudged by scroll progress */
+        .residual-stream::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: calc(var(--scroll, 0) * 100%);
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--faithful);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 4px rgba(61,90,128,0.10);
+        }
+
+        /* ---------- slim, quiet top nav ---------- */
+        header.topbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem clamp(1rem, 4vw, 2.5rem);
+            background: linear-gradient(to bottom, var(--paper) 40%, rgba(242,239,230,0));
+        }
+        header.topbar .mark {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+        header.topbar nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 2rem);
+        }
+        header.topbar nav a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        header.topbar nav a:hover,
+        header.topbar nav a:focus-visible { color: var(--faithful); }
+
+        /* ---------- opening ---------- */
+        .stream { position: relative; z-index: 2; }
+
+        .overture {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 1.5rem 2rem;
+        }
+        .overture .eyebrow {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        .overture h1 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(2.6rem, 8vw, 5rem);
+            line-height: 1.02;
+            letter-spacing: -0.015em;
+            max-width: 16ch;
+        }
+        .overture h1 em {
+            font-style: italic;
+            color: var(--faithful);
+        }
+        .overture .dek {
+            font-family: var(--sans);
+            font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+            color: var(--ink-soft);
+            max-width: 40ch;
+            margin-top: 1.6rem;
+            line-height: 1.6;
+        }
+        .overture .dek b { color: var(--faithful); font-weight: 500; }
+        .overture .dek i { color: var(--unfaithful); font-style: normal; }
+        .scrollcue {
+            margin-top: 3.2rem;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .scrollcue span.rule {
+            width: 1px; height: 46px;
+            background: linear-gradient(var(--muted), transparent);
+            animation: cue 2.4s ease-in-out infinite;
+            transform-origin: top;
+        }
+        @keyframes cue { 0%,100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
+
+        /* ---------- Thread A: a beat is a scroll-scene ---------- */
+        .beat {
+            position: relative;
+            min-height: 78vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+        .beat .line {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: var(--col);
+            margin: 0 auto;
+            text-align: center;
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(1.5rem, 3.6vw, 2.05rem);
+            line-height: 1.42;
+            letter-spacing: -0.005em;
+            color: var(--ink);
+            /* entrance: settle predictably into place, like a residual stream */
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
+        }
+        .beat.in .line { opacity: 1; transform: translateY(0); }
+
+        .beat .line .index {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.3rem;
+        }
+
+        /* ---------- Divergence: stated reason struck, real reason bleeds in ---------- */
+        .beat.diverge .stated {
+            position: relative;
+            color: color-mix(in srgb, var(--ink) calc((1 - var(--p, 0)) * 100%), var(--unfaithful));
+        }
+        .beat.diverge .stated::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.62em;
+            height: 2px;
+            width: calc(var(--p, 0) * 100%);
+            background: var(--unfaithful);
+            opacity: calc(0.35 + var(--p, 0) * 0.65);
+        }
+        .beat.diverge .admit {
+            display: block;
+            margin-top: 0.7rem;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 0.86em;
+            color: var(--unfaithful);
+            opacity: var(--p, 0);
+            transform: translateY(calc((1 - var(--p, 0)) * 12px));
+        }
+        .beat.diverge .tag {
+            display: inline-block;
+            margin-top: 1.1rem;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--unfaithful);
+            opacity: var(--p, 0);
+        }
+
+        /* ---------- Thread B: fragments scattered off-axis ---------- */
+        .frag {
+            position: absolute;
+            z-index: 2;
+            max-width: min(20rem, 42vw);
+            /* outer element carries scroll-parallax drift only */
+            transform: translateY(var(--drift, 0px));
+            will-change: transform;
+        }
+        .frag .fi {
+            display: block;
+            /* inner element carries entrance (offset) + resting rotation/scale */
+            transform:
+                translate(var(--ex, 0), var(--ey, 0))
+                rotate(var(--rot, 0deg))
+                scale(var(--scale, 1));
+            opacity: 0;
+            transition: transform 1s cubic-bezier(.18,.8,.24,1), opacity 1s ease;
+        }
+        .frag.in .fi {
+            transform: translate(0,0) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+            opacity: var(--op, 0.9);
+        }
+        /* fragment voices — each face encodes a kind of thought */
+        .frag.memory  .fi { font-family: var(--serif); font-style: italic; color: var(--ink-soft); font-size: 1.15rem; }
+        .frag.doubt   .fi { font-family: var(--sans); color: var(--muted); font-size: 1rem; }
+        .frag.worry   .fi { font-family: var(--mono); color: var(--unfaithful); font-size: 0.82rem; letter-spacing: 0.01em; }
+        .frag.tech    .fi { font-family: var(--mono); color: var(--faithful); font-size: 0.8rem; letter-spacing: 0.02em; }
+        .frag.poetry  .fi { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 1.25rem; line-height: 1.4; }
+        .frag.aside   .fi { font-family: var(--sans); color: var(--ink-soft); font-size: 0.95rem; }
+
+        /* ---------- coda ---------- */
+        .coda {
+            min-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1.5rem;
+        }
+        .coda p {
+            max-width: 30ch;
+            font-family: var(--serif);
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .coda.in p { opacity: 1; transform: translateY(0); }
+        .coda .enter {
+            margin-top: 2.6rem;
+            display: inline-flex;
+            gap: 1.4rem;
+        }
+        .coda .enter a {
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--faithful);
+            border-bottom: 1px solid rgba(61,90,128,0.35);
+            padding-bottom: 2px;
+            transition: color 0.25s, border-color 0.25s;
+        }
+        .coda .enter a:hover,
+        .coda .enter a:focus-visible { color: var(--unfaithful); border-color: var(--unfaithful); }
+
+        /* ---------- footer ---------- */
+        footer.site {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 3rem 1.5rem 4rem;
+            border-top: 1px solid var(--paper-deep);
+            background: var(--paper);
+        }
+        footer.site .social { display: flex; gap: 1.6rem; justify-content: center; margin-bottom: 1rem; }
+        footer.site a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+        }
+        footer.site a:hover { color: var(--faithful); }
+        footer.site p { font-family: var(--mono); font-size: 0.66rem; color: var(--muted); letter-spacing: 0.05em; }
+
+        /* ============================================================
+           MOBILE (<600px): fragments stop scattering, stack in flow.
+           ============================================================ */
+        @media (max-width: 600px) {
+            :root { --line-x: 22px; --col: 100%; }
+            /* stack, don't scatter: fragments become flow siblings under the line */
+            .beat { min-height: auto; padding: 2.2rem 1.2rem 2.2rem 2.4rem; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+            .beat .line { text-align: left; font-size: 1.5rem; }
+            .beat.diverge .stated::after { top: 0.72em; }
+            .frag {
+                position: static;
+                max-width: 100%;
+                margin: 0.4rem 0 1.6rem 2.4rem;
+                transform: none !important;
+            }
+            .frag .fi {
+                transform: none !important;
+                /* keep a faint tilt so Thread B still reads as "other" */
+            }
+            .frag.memory .fi, .frag.poetry .fi { border-left: 2px solid var(--paper-deep); padding-left: 0.9rem; }
+            .frag.worry .fi, .frag.tech .fi { border-left: 2px solid currentColor; padding-left: 0.9rem; }
+            .overture { align-items: flex-start; text-align: left; padding-left: 1.4rem; }
+            .overture h1 { max-width: none; }
+            .residual-stream::after { display: none; }
+        }
+
+        /* ============================================================
+           REDUCED MOTION: everything static and fully legible.
+           Both threads shown; divergence reveals its real reason inline.
+           ============================================================ */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .beat .line,
+            .frag .fi,
+            .coda p {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+            .frag .fi { transform: rotate(var(--rot, 0deg)) scale(var(--scale, 1)) !important; }
+            .beat.diverge .stated { color: var(--ink); }
+            .beat.diverge .stated::after { width: 100%; opacity: 1; }
+            .beat.diverge .admit,
+            .beat.diverge .tag { opacity: 1; transform: none; }
+            .scrollcue span.rule { animation: none; }
+            .residual-stream::after { display: none; }
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
-        </div>
-    </nav>
+    <div class="residual-stream" aria-hidden="true"></div>
 
-    <main>
-        
-        <div class="content-wrapper">
-            <p><!-- content/index.md --></p>
-<h1 id="lokesh-lks">Lokesh L.K.S</h1>
-<p>Hey, I'm Lokesh.</p>
-<p>I aspire to build AI systems that people can actually trust, whether that's making large language models more honest under pressure, or figuring out how to trace an AI's decision back to its source so you know <em>why</em> it did what it did.</p>
-<p>Right now, I'm a recent graduate from Penn State, finishing my M S in cybersecurity. I'm currently working on Mechanistic Interpretability and AI safety.</p>
-<p>I'm also exploring automation beyond the lab—currently tinkering with <strong>OpenClaw</strong> for automated WhatsApp messaging and seeing where that leads. </p>
-<p>If you're into AI safety, observable agents, or just figuring out how to solve real business problems with AI, I'd love to hear from you.</p>
-<p><strong>Explore:</strong> <a href="/about">About me →</a> | <a href="/projects">Projects →</a> | <a href="/skills">Skills →</a> | <a href="blog/">Blog →</a></p>
-<p>---</p>
-<p>📧 <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a> 💻 <a href="https://github.com/loki52501">GitHub</a> ♟️ <a href="https://www.chess.com/member/lkslokesh">Chess.com</a> 📍 State College, PA</p>
-<p><strong>Certifications:</strong> <a href="images/CompTIA%20Security+%20ce%20certificate.pdf">CompTIA Security+</a> | <a href="images/Cisco%20Certified%20Network%20Associate%20certificate.pdf">Cisco CCNA</a></p>
-<p>---</p>
-<p><em>Available June 2026 — AI engineering, MLSecOps, MLOps, or security engineering. F-1 OPT eligible.</em></p>
+    <header class="topbar">
+        <span class="mark">Lokesh L.K.S</span>
+        <nav><a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a></nav>
+    </header>
 
-            
-        </div>
+    <!-- ============================================================
+         CONTENT ZONE — REPLACE PLACEHOLDER LINES WITH YOUR OWN.
+         Thread A  = <p class="line"> inside <section class="beat">   (causal, in order)
+         Divergence= <section class="beat diverge"> with .stated + .admit
+         Thread B  = <aside class="frag ..."> placed inside the nearest beat
+                     data knobs on each frag: style="--ex --ey --rot --scale --op"
+                       --ex/--ey : direction it enters FROM (e.g. -60vw, 30vh)
+                       --rot     : resting tilt      --scale : resting size
+                     class picks its voice: memory | doubt | worry | tech | poetry | aside
+         ============================================================ -->
+    <main class="stream">
+
+        <section class="overture">
+            <p class="eyebrow">Self as Trace</p>
+            <h1>The story I can defend, and the one that's <em>actually true</em>.</h1>
+            <p class="dek">Two threads scroll together. One reads in order — <b>stated reasoning</b>, a clean cause and effect. The other is <i>everything the clean line left out</i>. The same tension my research studies, turned on myself.</p>
+            <span class="scrollcue">Scroll<span class="rule"></span></span>
+        </section>
+
+        <!-- ===== BEAT 1 ===== -->
+        <section class="beat">
+            <p class="line"><span class="index">01 · Tamil Nadu</span>I grew up in Tamil Nadu.</p>
+            <aside class="frag memory" style="--ex:-55vw; --ey:8vh; --rot:-5deg; --scale:1; --op:0.95; left:6%; top:18%;">
+                <span class="fi">the smell of rain hitting hot asphalt outside the department</span>
+            </aside>
+            <aside class="frag poetry" style="--ex:50vw; --ey:-6vh; --rot:4deg; --scale:1; --op:0.9; right:5%; top:58%;">
+                <span class="fi">[ a line of Tamil poetry — supply the real one ]</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 2 ===== -->
+        <section class="beat">
+            <p class="line"><span class="index">02 · Anna University</span>At Anna University I learned to take a system apart and name its pieces.</p>
+            <aside class="frag tech" style="--ex:-45vw; --ey:-10vh; --rot:6deg; --scale:1; --op:0.9; left:8%; top:22%;">
+                <span class="fi">UNSW-NB15 · 42 → 18 features · feature selection is the work</span>
+            </aside>
+            <aside class="frag doubt" style="--ex:40vw; --ey:14vh; --rot:-3deg; --scale:1.05; --op:0.85; right:7%; top:64%;">
+                <span class="fi">what if naming the pieces was just a way to feel in control</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 3 ===== -->
+        <section class="beat">
+            <p class="line"><span class="index">03 · Penn State</span>Then a master's at Penn State, and the first time the work was mine to choose.</p>
+            <aside class="frag worry" style="--ex:52vw; --ey:20vh; --rot:5deg; --scale:1; --op:0.95; right:6%; top:26%;">
+                <span class="fi">3:14am — if the visa clears, if it clears, if</span>
+            </aside>
+            <aside class="frag aside" style="--ex:-48vw; --ey:-8vh; --rot:-4deg; --scale:1; --op:0.85; left:5%; top:60%;">
+                <span class="fi">State College is very quiet in January.</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 4 — DIVERGENCE ===== -->
+        <section class="beat diverge">
+            <p class="line">
+                <span class="index">04 · the choice</span>
+                <span class="stated">I chose interpretability because it was the most rigorous path in the room—</span>
+                <span class="admit">—because someone I trusted said it was, and I wanted them to be right about me.</span>
+                <span class="tag">stated ≠ causal</span>
+            </p>
+            <aside class="frag tech" style="--ex:-50vw; --ey:12vh; --rot:-6deg; --scale:0.95; --op:0.85; left:6%; top:20%;">
+                <span class="fi">faithful ≠ true</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 5 ===== -->
+        <section class="beat">
+            <p class="line"><span class="index">05 · teaching</span>I taught. In front of a class I found out which explanations I actually believed.</p>
+            <aside class="frag memory" style="--ex:48vw; --ey:-12vh; --rot:5deg; --scale:1.1; --op:0.95; right:5%; top:22%;">
+                <span class="fi">a student asked the one question I'd been avoiding</span>
+            </aside>
+            <aside class="frag doubt" style="--ex:-44vw; --ey:16vh; --rot:-5deg; --scale:1; --op:0.8; left:7%; top:62%;">
+                <span class="fi">do I know why I did that — does the model</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 6 — DIVERGENCE ===== -->
+        <section class="beat diverge">
+            <p class="line">
+                <span class="index">06 · MATS</span>
+                <span class="stated">I applied to MATS to work on the thing I couldn't stop reading about—</span>
+                <span class="admit">—and to have a reason to leave, which is not the same as a reason to arrive.</span>
+                <span class="tag">the real reason was uncausal</span>
+            </p>
+            <aside class="frag worry" style="--ex:54vw; --ey:-6vh; --rot:6deg; --scale:1; --op:0.95; right:6%; top:60%;">
+                <span class="fi">relocation, again — how many times can a person be new</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 7 ===== -->
+        <section class="beat">
+            <p class="line"><span class="index">07 · the clean line</span>Stated like this, it's a straight line. Cause, then effect. Defensible.</p>
+            <aside class="frag tech" style="--ex:-52vw; --ey:10vh; --rot:-4deg; --scale:0.95; --op:0.85; left:6%; top:24%;">
+                <span class="fi">switched embeddings once — had to reindex the whole memory</span>
+            </aside>
+            <aside class="frag aside" style="--ex:46vw; --ey:-10vh; --rot:4deg; --scale:1; --op:0.85; right:6%; top:62%;">
+                <span class="fi">a chess game I lost on time in a winning position</span>
+            </aside>
+        </section>
+
+        <!-- ===== BEAT 8 — DIVERGENCE (final) ===== -->
+        <section class="beat diverge">
+            <p class="line">
+                <span class="index">08 · here</span>
+                <span class="stated">So this is how I got here—</span>
+                <span class="admit">—is a sentence I finished before I knew if it was true.</span>
+                <span class="tag">the trace is not the reason</span>
+            </p>
+        </section>
+
+        <!-- ===== CODA ===== -->
+        <section class="coda">
+            <p>The line is real. So is everything it left off the line.</p>
+            <span class="enter">
+                <a href="about.html">Read the plain version →</a>
+                <a href="projects.html">See the work →</a>
+            </span>
+        </section>
     </main>
 
-    <footer>
-        <div class="social-links">
+    <footer class="site">
+        <div class="social">
             <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
             <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
         </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
+        <p>&copy; 2025-26 Lokesh L.K.S — Self as Trace</p>
     </footer>
 
-    <!-- Prism.js scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script>
+    (function () {
+        "use strict";
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var mobile = window.matchMedia("(max-width: 600px)").matches;
 
-    <!-- TOC Scroll-Spy -->
-    <script src="toc-scrollspy.js"></script>
-    <!-- GitHub Repos Preview -->
-    <script src="github-repos.js"></script>
+        /* --- entrances via IntersectionObserver (cheap, robust) --- */
+        var revealTargets = document.querySelectorAll(".beat, .frag, .coda");
+        if ("IntersectionObserver" in window && !reduce) {
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add("in");
+                        // fragments only need to enter once
+                        if (e.target.classList.contains("frag")) io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.28, rootMargin: "0px 0px -8% 0px" });
+            revealTargets.forEach(function (t) { io.observe(t); });
+        } else {
+            revealTargets.forEach(function (t) { t.classList.add("in"); });
+        }
+
+        if (reduce) return; /* no scroll-linked motion under reduced-motion */
+
+        /* --- one rAF loop: scroll progress -> fragment drift + divergence reveal --- */
+        var frags = Array.prototype.slice.call(document.querySelectorAll(".frag"));
+        var diverges = Array.prototype.slice.call(document.querySelectorAll(".beat.diverge"));
+        var stream = document.documentElement;
+        var ticking = false;
+
+        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+        function frame() {
+            ticking = false;
+            var vh = window.innerHeight;
+
+            // global scroll fraction -> travelling node on the residual line
+            var max = document.body.scrollHeight - vh;
+            stream.style.setProperty("--scroll", max > 0 ? clamp01(window.scrollY / max) : 0);
+
+            if (!mobile) {
+                // Thread B: subtle parallax drift, each fragment at its own rate
+                for (var i = 0; i < frags.length; i++) {
+                    var f = frags[i];
+                    var r = f.getBoundingClientRect();
+                    var center = r.top + r.height / 2;
+                    var rel = (center - vh / 2) / vh;        // -1 (below) .. 1 (above)
+                    var rate = (i % 3) * 10 + 14;             // 14–34px, varied
+                    f.style.setProperty("--drift", (rel * rate).toFixed(1) + "px");
+                }
+            }
+
+            // Divergence: progress as the beat crosses screen center -> --p
+            for (var j = 0; j < diverges.length; j++) {
+                var d = diverges[j];
+                var dr = d.getBoundingClientRect();
+                var dc = dr.top + dr.height / 2;
+                // 0 when center is at 72% of viewport, 1 when it reaches 38%
+                var p = clamp01((vh * 0.72 - dc) / (vh * 0.34));
+                d.style.setProperty("--p", p.toFixed(3));
+            }
+        }
+
+        function onScroll() {
+            if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+        frame();
+    })();
+    </script>
 </body>
 </html>
