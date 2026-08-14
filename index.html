@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lokesh L.K.S — Self as Trace</title>
-    <meta name="description" content="A reasoning trace, stepped through: nine steps ordered by what caused what, each carrying a stated reason and the causal reason underneath it.">
+    <meta name="description" content="Lokesh L.K.S — cybersecurity to Penn State to AI safety to mechanistic interpretability. A trace ordered by what caused what, each step carrying a stated reason and the causal reason underneath it.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Tamil:wght@400;500&display=swap" rel="stylesheet">
@@ -144,6 +144,54 @@
             color: var(--muted);
             max-width: 46ch;
         }
+        /* the name carries the page; everything under it is attribution */
+        .overture .name {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(2.6rem, 8vw, 5rem);
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            max-width: none;
+        }
+        .overture .kalam {
+            margin-top: 1.5rem;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+            line-height: 1.5;
+            color: var(--ink-soft);
+            max-width: 30ch;
+        }
+        .overture .kalam cite {
+            display: block;
+            margin-top: 0.8rem;
+            font-family: var(--mono);
+            font-style: normal;
+            font-size: 0.62rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        /* the chain states the causal claim up front: each link caused the next */
+        .overture .chain {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: baseline;
+            gap: 0.45rem 0.8rem;
+            margin-top: 2.6rem;
+            max-width: 48ch;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+        .overture .chain li { display: inline-flex; align-items: baseline; gap: 0.8rem; }
+        .overture .chain li + li::before { content: "\2192"; color: var(--muted-soft); }
+        .overture .chain li:last-child { color: var(--ink); font-weight: 500; }
         .scrollcue {
             margin-top: 2.6rem;
             font-family: var(--mono);
@@ -560,6 +608,7 @@
             .frag .fi { transform: none !important; }
             .overture { align-items: flex-start; text-align: left; padding-left: 1.4rem; }
             .overture h1 { max-width: none; }
+            .overture .chain { justify-content: flex-start; }
         }
 
         /* ============================================================
@@ -599,9 +648,20 @@
         <!-- ===== OPENING CARD ===== -->
         <section class="overture">
             <p class="eyebrow">Self as Trace</p>
-            <h1>Here is the reasoning trace. Step through it.</h1>
-            <p class="dek">Nine steps, ordered by what caused what — not by when it happened. Each one carries a <b>stated reason</b>, the line I'd give in an interview, and a <i>causal reason</i> underneath it. My own research found those two diverge 63.7% of the time in a language model. I see no reason to assume I'm better calibrated than that, so I labeled mine.</p>
-            <p class="legend">Type size tracks confidence. The steps I'm least sure of are set smallest.</p>
+            <h1 class="name">Lokesh L.K.S</h1>
+            <blockquote class="kalam">
+                &ldquo;When there is a will, there is a way.&rdquo;
+                <cite>A.P.J. Abdul Kalam</cite>
+            </blockquote>
+            <ol class="chain" aria-label="How I got here, in order of what caused what">
+                <li>cybersecurity</li>
+                <li>Penn State</li>
+                <li>AI safety</li>
+                <li>AI, not beside it</li>
+                <li>mechanistic interpretability</li>
+            </ol>
+            <p class="dek">Cybersecurity because it interested me. Penn State to pursue it. There I found AI safety, and knew I wanted to be inside AI rather than adjacent to it. That turn points here: <b>mechanistic interpretability</b> — what a model is really doing versus what it says it's doing.</p>
+            <p class="legend">Below: the events that caused that, ordered causally, not chronologically. Type size tracks confidence.</p>
             <span class="scrollcue">Scroll<span class="rule"></span></span>
         </section>
 
@@ -626,7 +686,7 @@
                         <p class="index">01 &middot; endurance</p>
                         <p class="head">Asia Book of Records &middot; Limca Book of Records</p>
                         <p class="thought">Before I knew anything about models, I knew what happens to my judgement in hour eleven.</p>
-                        <p class="body">A five-day long-duration skating record, certified by the Asia Book of Records and the Limca Book of Records. The training was the real thing: months of it, most sessions unwitnessed and unremarkable. What the record actually measures isn't athleticism. It's whether you can keep executing a plan after the part of you that made the plan has stopped participating. Somewhere past the halfway mark your own sense of how you're doing detaches from how you're doing, and you have to decide in advance which one you're going to obey.</p>
+                        <p class="body">A five-day long-duration skating record, certified by the Asia Book of Records and the Limca Book of Records. It doesn't measure athleticism. It measures whether you keep executing a plan after the part of you that made it stops participating.</p>
                         <ul class="chips">
                             <li>Asia Book of Records</li>
                             <li>Limca Book of Records</li>
@@ -635,7 +695,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I wanted proof of something about myself that didn't depend on anyone grading it. The transferable part — that I stop trusting my own readout long before my performance actually drops — I only understood years later, running evals.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I wanted proof of something that didn't depend on anyone grading it. That I stop trusting my own readout long before my performance actually drops — that I only understood years later, running evals.</span>
                         </div>
                     </div>
                     <aside class="frag poetry" style="--ex:46vw; --ey:-4vh; --rot:3deg; --op:0.9; right:2%; top:16%;">
@@ -649,7 +709,7 @@
                         <p class="index">02 &middot; evaluation</p>
                         <p class="head">over the board and online</p>
                         <p class="thought">Chess taught me to distrust the line I like.</p>
-                        <p class="body">Since childhood; my father taught me. I've never held a rating — I came close once. The habit chess builds isn't calculation, it's the discipline of asking what the position looks like from the other side before committing — and noticing the specific feeling that precedes a bad move. Mine is impatience dressed up as clarity: the moment a line feels obviously right and I stop checking the replies. Every loss I can actually explain came from that, not from missing a tactic. I lost a winning position on time once because I kept re-verifying a plan I'd already confirmed, which is the same failure in the opposite direction.</p>
+                        <p class="body">My father taught me; I've never held a rating. What chess builds isn't calculation — it's noticing the specific feeling that precedes a bad move. Mine is impatience dressed up as clarity: a line feels obviously right and I stop checking the replies. Every loss I can actually explain came from that.</p>
                         <ul class="chips">
                             <li>unrated</li>
                             <li>since childhood</li>
@@ -658,7 +718,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I don't play to win, particularly. I play because it's the only place I get told immediately and unarguably that my reasoning was wrong, and I have never found that anywhere else with the same latency.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I don't play to win. I play because it's the only place my reasoning gets called wrong immediately and unarguably.</span>
                         </div>
                     </div>
                 </section>
@@ -669,7 +729,7 @@
                         <p class="index">03 &middot; first systems work</p>
                         <p class="head">network intrusion detection &middot; Chennai &middot; 2023&ndash;24</p>
                         <p class="thought">The first lesson was that most of a model's accuracy is decided before the model runs.</p>
-                        <p class="body">An intrusion-detection pipeline on UNSW-NB15 with LSTM and 1D CNN architectures. I spent far more of it on preprocessing, feature selection, and SMOTE than on architecture, because the rare attack classes were the entire point and the raw class balance buried them. Changing the temporal window size moved results more than changing the network did. That analysis — window sizing, dimensionality reduction — is what the capstone architecture was later built on.</p>
+                        <p class="body">An intrusion-detection pipeline on UNSW-NB15, LSTM and 1D CNN. Most of the work was preprocessing, feature selection, and SMOTE, not architecture — the rare attack classes were the entire point and the raw class balance buried them. Changing the temporal window moved results more than changing the network did.</p>
                         <ul class="chips">
                             <li>UNSW-NB15</li>
                             <li>LSTM + 1D CNN</li>
@@ -679,7 +739,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I went in wanting to build the model and came out having spent months on the data. That reordering of what counts as the real work has stuck.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I went in to build a model and spent months on the data instead. That reordering of what counts as the real work stuck.</span>
                         </div>
                     </div>
                 </section>
@@ -690,7 +750,7 @@
                         <p class="index">04 &middot; capstone</p>
                         <p class="head">Temporal CNN DDoS detection &middot; M.S. capstone</p>
                         <p class="thought">A detector nobody trusts at 3am isn't a detector.</p>
-                        <p class="body">A BiLSTM and 1D residual CNN ensemble reaching <b>94.11% accuracy across 700K+ network flows</b> on BCCC-Cloud-DDoS-2024, with 318 raw features cut to 86 and traffic restructured into sequential windows. The part I'd defend hardest isn't the accuracy — it's the <b>confidence-based escalation</b>: 85% of traffic classified automatically at high confidence, everything uncertain routed for human analysis rather than guessed at. Three classes, not two, because <em>suspicious</em> is a real state and collapsing it into a binary is a decision the model shouldn't get to make silently.</p>
+                        <p class="body">A BiLSTM and 1D residual CNN ensemble reaching <b>94.11% accuracy across 700K+ network flows</b> on BCCC-Cloud-DDoS-2024, 318 raw features cut to 86. The part I'd defend hardest isn't the accuracy — it's the <b>confidence-based escalation</b>: 85% classified automatically at high confidence, everything uncertain routed to a human rather than guessed at. Three classes, not two, because <em>suspicious</em> is a real state.</p>
                         <ul class="chips">
                             <li>94.11% &middot; 700K+ flows</li>
                             <li>BiLSTM + residual CNN</li>
@@ -700,7 +760,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I built the escalation layer because an earlier version was confidently wrong on the class I cared about, and nothing in the output told me it had been guessing. That's the same complaint I now have about reasoning traces.</span>
+                            <span class="causal"><span class="tag">causal reason</span>An earlier version was confidently wrong on the class I cared about, and nothing in the output said it had been guessing. That's my complaint about reasoning traces now.</span>
                         </div>
                     </div>
                 </section>
@@ -711,7 +771,7 @@
                         <p class="index">05 &middot; shipping an agent</p>
                         <p class="head">Verde Organics &middot; WhatsApp support agent</p>
                         <p class="thought">Then I put a model in front of real people and found out where the untrusted boundary actually sits.</p>
-                        <p class="body">Rearchitected a rigid pipeline into a <b>Claude-orchestrated MCP tool-calling system</b> — knowledge-base search, order lookup, ticket creation. A local <b>Llama-3-8B classifies every inbound message for prompt injection before it reaches tool routing</b>. Retrieval is grounded through ChromaDB with all-MiniLM-L6-v2, and every generated reply is validated against the retrieved passages before it goes out, with human escalation underneath. Node orchestrator and Python safety service talk over a REST bridge so the model layer and the safety layer stay independently testable.</p>
+                        <p class="body">Rearchitected a rigid pipeline into a <b>Claude-orchestrated MCP tool-calling system</b> — knowledge-base search, order lookup, ticket creation. A local <b>Llama-3-8B screens every inbound message for prompt injection</b> before tool routing. Retrieval is grounded through ChromaDB, and every reply is validated against the retrieved passages before it goes out.</p>
                         <ul class="chips">
                             <li>Claude + MCP tool-calling</li>
                             <li>Llama-3-8B injection screen</li>
@@ -722,7 +782,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I preferred the rigid pipeline because it was easier to reason about. That preference is exactly why it kept failing on messages real customers send. Legibility to me is not the same as correctness.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I preferred the rigid pipeline because it was easier to reason about. That preference is exactly why it kept failing on real messages. Legible to me isn't the same as correct.</span>
                         </div>
                     </div>
                 </section>
@@ -733,7 +793,7 @@
                         <p class="index">06 &middot; the thing I built for myself</p>
                         <p class="head">SQ3R Read &middot; nobody asked for this</p>
                         <p class="thought">The project that changed my direction was one I built for my own use and then couldn't stop watching.</p>
-                        <p class="body">A Chrome MV3 extension and Node/TypeScript companion that turns any page into spaced-repetition cards through a five-stage LLM pipeline — Survey &rarr; Question &rarr; Read &rarr; Recite &rarr; Review. Pluggable providers from local Ollama through to Anthropic, OpenAI, Gemini. A finite-state batch queue chunks overdue cards into 6-card batches on 30-minute intervals with mutex-locked storage, and a <b>service worker spawns review agents on its own schedule, without me</b>. The standing rule in the codebase is that all model output is untrusted and gets validated before it touches the database — a rule I wrote because I stopped being able to predict what the thing would produce.</p>
+                        <p class="body">A Chrome MV3 extension and Node/TypeScript companion that turns any page into spaced-repetition cards through a five-stage LLM pipeline — Survey &rarr; Question &rarr; Read &rarr; Recite &rarr; Review. Providers plug in from local Ollama through to Anthropic. A <b>service worker spawns review agents on its own schedule, without me</b>. Standing rule in the codebase: all model output is untrusted until validated.</p>
                         <ul class="chips">
                             <li>Chrome MV3 &middot; React &middot; Vite</li>
                             <li>Node &middot; SQLite &middot; ts-fsrs</li>
@@ -744,7 +804,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I wanted a study tool. What I ended up with was a small always-on multi-agent system running unsupervised in my browser, and the unease of watching it act on its own is the actual reason I moved toward safety.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I wanted a study tool. I got a small always-on multi-agent system running unsupervised in my browser, and the unease of watching it act alone is why I moved toward safety.</span>
                         </div>
                     </div>
                 </section>
@@ -755,7 +815,7 @@
                         <p class="index">07 &middot; the study</p>
                         <p class="head">CoT faithfulness evaluation &middot; A100-80GB</p>
                         <p class="thought">So I tested whether a model's stated reason is its real one. Mostly, it isn't.</p>
-                        <p class="body">Replicated Turpin et al. (2023) and Lanham et al. (2023) on Llama-3-8B-Instruct across 13 BIG-Bench-Hard tasks — <b>9,561 deterministic temp-0 calls</b> through a four-stage vLLM pipeline. Two biasing protocols, a sycophantic wrong-answer suggestion and an always-A positional few-shot, separated format bias from explicit sycophancy; the positional condition alone collapsed date understanding <b>from 66% to 19%</b>. Across the board: a 12.3% mean accuracy drop under bias (up to ~39% on navigate and formal fallacies), a <b>63.7% unfaithfulness rate</b>, and 36.3% articulation. The model follows the bad hint about 57% of the time and admits it in barely a third of those. Unfaithfulness concentrates in ambiguous tasks — formal fallacies and disambiguation QA exceeded 80%, with articulation as low as 15% — while clean logical tasks stayed more faithful. A chain of thought is a generated artifact, not an audit trail.</p>
+                        <p class="body">Replicated Turpin et al. (2023) and Lanham et al. (2023) on Llama-3-8B-Instruct across 13 BIG-Bench-Hard tasks — <b>9,561 deterministic temp-0 calls</b> through a four-stage vLLM pipeline. Two biasing protocols separated format bias from explicit sycophancy; the positional one alone collapsed date understanding <b>from 66% to 19%</b>. Overall: a <b>63.7% unfaithfulness rate</b>, 36.3% articulation, 12.3% mean accuracy drop. The model follows the bad hint ~57% of the time and admits it in barely a third of those. A chain of thought is a generated artifact, not an audit trail.</p>
                         <ul class="chips">
                             <li>9,561 temp-0 calls</li>
                             <li>13 BIG-Bench-Hard tasks</li>
@@ -766,7 +826,7 @@
                         </ul>
                         <div class="diverge">
                             <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I had the model judge its own traces first, because it was cheap. Its sycophancy came straight back in the judge seat, so I swapped in an independent Claude-Sonnet judge. The most useful thing I found came from catching myself trusting the convenient setup.</span>
+                            <span class="causal"><span class="tag">causal reason</span>I had the model judge its own traces because it was cheap. Its sycophancy came straight back in the judge seat, so I swapped in an independent Claude judge. The most useful thing I found came from catching myself trusting the convenient setup.</span>
                         </div>
                     </div>
                 </section>
@@ -777,8 +837,8 @@
                         <p class="index">08 &middot; MATS</p>
                         <p class="head">the application &middot; empirical track</p>
                         <p class="thought">I applied to MATS to do this full-time. I got to stage two, and no further.</p>
-                        <p class="body">Empirical track. The work I was doing was interpretability — mainly <b>activation patching</b>, and the question of whether it survives contact with models past <b>100B parameters</b>, which means quantizing them a different way than you would for serving. Patching is practical forensics: you intervene on the activations, you watch what the output does, you find out which part of the computation was actually carrying the answer. Not a proof, a post-mortem. That's the same instinct as the faithfulness study one step back — stop reading the output, go read the internals — except aimed at models too large to run the naive way.</p>
-                        <p class="body">The application was the first time I had to state, to people who'd know, what I actually thought the open problems were and what I could contribute to them. The question didn't need the application to be worth asking, and I'd still put it in front of the people who turned it down.</p>
+                        <p class="body">Empirical track. The work was interpretability — mainly <b>activation patching</b>, and whether it survives models past <b>100B parameters</b>, which means quantizing them differently than you would for serving. Patching is forensics: intervene on the activations, watch the output, find which part of the computation carried the answer. Not a proof, a post-mortem.</p>
+                        <p class="body">The question didn't need the application to be worth asking, and I'd still put it in front of the people who turned it down.</p>
                         <ul class="chips">
                             <li>empirical track</li>
                             <li>activation patching</li>
@@ -800,8 +860,8 @@
                         <p class="index">09 &middot; where the trace points</p>
                         <p class="head">what I'm working toward</p>
                         <p class="thought">Every step here reduces to the same interest: reading a system's internals instead of its output.</p>
-                        <p class="body">Intrusion detection taught me that confident output hides uncertain reasoning. Shipping an agent taught me the same thing with tools attached. Evaluations gave me a way to measure it. Right now that means an ongoing paired-prompt sycophancy evaluation on a small open model — agreement bias, capitulation under pressure, flattery resistance — with weighted scorers, JSON logs, a dashboard, and unit tests so the judgement isn't all manual. Numbers are still moving, so I'm not quoting them yet. Alongside it: BlueDot Technical AI Safety, and ARENA 3.0 on the Neel Nanda track, building attention, induction heads, and circuit analysis from scratch.</p>
-                        <p class="body">What I want to work on is <b>empirical evaluations, faithfulness, and monitoring for agentic systems</b> — the question of what a model is doing when the trace says something else. I want it because I've been on both sides of it: I've shipped the agent that needed watching, and I've run the study that says its explanation of itself can't be taken at face value.</p>
+                        <p class="body">Right now: a paired-prompt sycophancy evaluation on a small open model — agreement bias, capitulation under pressure, flattery resistance — with weighted scorers, JSON logs, and unit tests. Numbers are still moving, so I'm not quoting them yet. Alongside it: BlueDot Technical AI Safety, and ARENA 3.0 on the Neel Nanda track.</p>
+                        <p class="body">What I want to work on is <b>empirical evaluations, faithfulness, and monitoring for agentic systems</b>. I've been on both sides of it: I shipped the agent that needed watching, and ran the study that says its explanation of itself can't be taken at face value.</p>
                         <ul class="chips">
                             <li>sycophancy evals &mdash; in progress</li>
                             <li>BlueDot Technical AI Safety</li>
