@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes from Security Internships - My Portfolio</title>
+    <title>Notes from Security Internships | Lokesh L.K.S</title>
+    <meta name="description" content="Three internships, three domains: identity and access management, cloud security, network intrusion detection. Each one taught me something about security that…">
+    <link rel="canonical" href="https://lkslokesh.com/blog/tech/security-internships-notes.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="Notes from Security Internships | Lokesh L.K.S">
+    <meta property="og:description" content="Three internships, three domains: identity and access management, cloud security, network intrusion detection. Each one taught me something about security that…">
+    <meta property="og:url" content="https://lkslokesh.com/blog/tech/security-internships-notes.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="../../index.html">Home</a><a href="../../about.html">About</a><a href="../../projects.html">Projects</a><a href="../../blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="../../index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="../../about.html">About</a><a href="../../blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         <div class="toc">
     <nav>
         <h3>Table of Contents</h3>
@@ -36,13 +49,13 @@
             <h1 id="notes-from-security-internships">Notes from Security Internships</h1>
 <p><em>Published on 2025-10-15</em></p>
 <p>Three internships, three domains: identity and access management, cloud security, network intrusion detection. Each one taught me something about security that I couldn't have learned from a textbook or a lab environment — because real systems are messier, more constrained, and more interesting than anything designed for learning.</p>
-<p>---</p>
+<hr>
 <h2 id="identity-automation--imerit">Identity Automation — iMerit</h2>
 <p>The problem wasn't technical at the start. It was organizational: Ivanti, Google Workspace, and Active Directory were all supposed to reflect the same state of who works at the company and what they have access to. They didn't. Employees who had left still had active accounts in one system. New hires were provisioned in two of three systems and waiting on the third. Access modifications happened manually, which meant they happened inconsistently.</p>
 <p>I built Python pipelines that automated the full identity lifecycle — provision on hire, modify on role change, deprovision on exit — across all three systems via REST APIs. The pipelines didn't just execute actions; they checked consistency first: if the state in one system diverged from the source of truth, the pipeline flagged it before making changes.</p>
 <p><strong>Result:</strong> Onboarding time cut ~60%. Access errors dropped significantly. More importantly, access state became auditable — you could query it and trust the answer.</p>
 <p><strong>What I learned:</strong> RBAC looks clean in theory. In practice, it has years of accumulated exceptions, role sprawl, and legacy permissions that nobody wants to touch in case something breaks. Automation forces you to confront the actual state of the system, not the intended state.</p>
-<p>---</p>
+<hr>
 <h2 id="cloud-security--invisbl">Cloud Security — Invisbl</h2>
 <p>The goal was to make AWS IAM align with NIST 800-53 AC controls and the CIS AWS Foundations Benchmark. That means: least privilege, separation of duties, no wildcard permissions in production, MFA everywhere, no root API keys in use.</p>
 <p>Mapping the current state to those controls required building detection first. I built pipelines using Python, Lambda, and Elasticsearch that continuously flagged:</p>
@@ -54,14 +67,14 @@
 <p>The detection pipeline didn't just log events — it enriched them with context: which IAM principal, what action, what resource, when, from where, and whether this behavior had precedent in the account's history.</p>
 <p><strong>What I learned:</strong> Cloud security is fundamentally a logging and detection problem. The attack surface — IAM policies, service roles, cross-account trust — is too large to manually audit. You need continuous visibility. And visibility requires that your logs are structured, centralized, and queryable. If you can't search your logs in under 30 seconds, you don't have visibility; you have a pile of data.</p>
 <p>Also: CIS benchmarks are a floor, not a ceiling. They tell you what not to do. They don't tell you what your threat model actually requires.</p>
-<p>---</p>
+<hr>
 <h2 id="network-intrusion-detection--anna-university">Network Intrusion Detection — Anna University</h2>
 <p>This was research, not a production system — but the constraints were real. The dataset was UNSW-NB15: 2.5 million network flow records, 9 attack categories (DoS, exploits, reconnaissance, brute force, backdoor, shellcode, worms, fuzzers, generic). The task was multi-class classification from flow-level features.</p>
 <p>I built a hybrid LSTM-CNN architecture. The LSTM captured sequential behavior across packets in a flow; the CNN extracted local feature patterns. Together they handled both the temporal dynamics and the feature interactions that matter for distinguishing, say, a reconnaissance scan from a brute force attempt.</p>
 <p>The interesting work was feature selection. 42 features after initial processing. Many were correlated — multiple byte count metrics measuring the same underlying signal. I used a two-stage metaheuristic pipeline: Sine Cosine Algorithm for global search across the feature space, then Particle Swarm Optimization for local refinement. Result: 42 → 18 features. False positive rate down 25%. Detection latency improved.</p>
 <p>The insight that stayed with me: SCA and PSO are from completely different domains — swarm intelligence, physics-inspired optimization — and they solved a network security feature selection problem better than manual domain-guided selection. The abstraction of "search over a feature subset space" doesn't care where the search algorithm came from.</p>
 <p><strong>What I learned:</strong> More features is not better signal. Most features in high-dimensional datasets are correlated noise. The model that trains on 18 carefully selected features generalizes better than the model that trains on all 42, because it's learning the signal instead of memorizing the noise distribution. Feature selection is the work, not a step before the work.</p>
-<p>---</p>
+<hr>
 <h2 id="the-thread-across-all-three">The Thread Across All Three</h2>
 <p>Every one of these problems was fundamentally about <strong>knowing the actual state of a system</strong> — not its intended state, its documented state, or its theoretical state. The IAM system that's supposed to be clean but has years of drift. The AWS account that's supposed to follow least privilege but has accumulated exceptions. The network that's supposed to be normal but has flows that don't match any known-good behavior.</p>
 <p>Security is what happens when the gap between intended state and actual state gets exploited. The job is to close that gap, and to detect when it opens again.</p>
@@ -81,14 +94,15 @@
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

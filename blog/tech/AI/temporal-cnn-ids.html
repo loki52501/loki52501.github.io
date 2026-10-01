@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building a Temporal CNN for DDoS Detection - My Portfolio</title>
+    <title>Building a Temporal CNN for DDoS Detection | Lokesh L.K.S</title>
+    <meta name="description" content="The capstone started as a straightforward ML project: train a model to detect DDoS attacks. It became something more interesting when I realized the real…">
+    <link rel="canonical" href="https://lkslokesh.com/blog/tech/AI/temporal-cnn-ids.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="Building a Temporal CNN for DDoS Detection | Lokesh L.K.S">
+    <meta property="og:description" content="The capstone started as a straightforward ML project: train a model to detect DDoS attacks. It became something more interesting when I realized the real…">
+    <meta property="og:url" content="https://lkslokesh.com/blog/tech/AI/temporal-cnn-ids.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+    <link rel="apple-touch-icon" href="../../../apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="../../../index.html">Home</a><a href="../../../about.html">About</a><a href="../../../projects.html">Projects</a><a href="../../../blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="../../../index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="../../../about.html">About</a><a href="../../../blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         <div class="toc">
     <nav>
         <h3>Table of Contents</h3>
@@ -38,19 +51,19 @@
             <h1 id="building-a-temporal-cnn-for-ddos-detection">Building a Temporal CNN for DDoS Detection</h1>
 <p><em>Published on 2026-02-18</em></p>
 <p>The capstone started as a straightforward ML project: train a model to detect DDoS attacks. It became something more interesting when I realized the real problem wasn't the model — it was everything that happens before and after the model.</p>
-<p>---</p>
+<hr>
 <h2 id="the-dataset">The Dataset</h2>
 <p>BCCC-Cloud-DDoS-2024. 540,000+ network flow records — real DDoS traffic and real benign traffic captured from cloud infrastructure. Not synthetic. Not replayed. Actual attack captures, which means actual noise, actual label ambiguity, actual edge cases.</p>
 <ol>
   <li>Packet sizes, inter-arrival times, TCP flag distributions, flow duration statistics, byte ratios, protocol breakdowns. That's the raw representation of a network flow if you extract everything you possibly can.</li>
 </ol>
-<p>---</p>
+<hr>
 <h2 id="why-temporal-cnn-over-lstm">Why Temporal CNN Over LSTM</h2>
 <p>The obvious choice for sequential network traffic data is LSTM. Most papers use it. Here's why I didn't:</p>
 <p>Network flows have <strong>variable-length sequences with non-uniform spacing</strong>. An LSTM processes these step by step, and on sparse data — flows with few packets but long durations — it either overfits the sparse signal or gets lost in the padding.</p>
 <p>A Temporal Convolutional Network uses dilated causal convolutions with fixed receptive fields. It sees the sequence in parallel, the dilation controls how far back it looks, and it's stable on variable-length inputs. For traffic classification where the pattern lives in how packet arrivals <em>cluster over time</em> rather than in long-range dependencies, TCN is the better architectural fit.</p>
 <p>Training is also faster. Parallelizable across the sequence dimension, unlike the sequential hidden state updates in LSTM.</p>
-<p>---</p>
+<hr>
 <h2 id="the-feature-selection-problem">The Feature Selection Problem</h2>
 <ol>
   <li>It's actually a liability.</li>
@@ -60,7 +73,7 @@
 <p>What survived: inter-arrival time statistics, SYN/ACK ratio, packets-per-second ramp rate, flow duration, bytes-per-packet distribution. The features that describe <em>how a flow behaves over time</em> — not just what it looks like at a snapshot.</p>
 <p>Training efficiency improved 85%. Detection accuracy held. The 32-feature model generalizes better than the 317-feature model because it's not memorizing noise.</p>
 <p>The lesson: feature selection is the work. Not a preprocessing checkbox before the "real" ML begins.</p>
-<p>---</p>
+<hr>
 <h2 id="making-alerts-actionable">Making Alerts Actionable</h2>
 <p>Detection accuracy at 95%+ sounds like success. It isn't, if a SOC analyst gets an alert that says:</p>
 <pre><code>ALERT | flow_id=47293 | label=DDoS | confidence=0.94
@@ -68,10 +81,10 @@
 <p>I integrated the Gemini API into the post-detection layer. The model produces a classification and confidence. A structured prompt feeds the flow's key feature values into Gemini, which outputs a natural-language explanation:</p>
 <p>> "Coordinated SYN flood — 47 source IPs, packet rate 400× baseline, sustained 3-minute window targeting port 443. Consistent with volumetric DDoS. Source IPs show no prior legitimate traffic in session history."</p>
 <p>The detection finds the attack. The explanation tells you what to do about it.</p>
-<p>---</p>
+<hr>
 <h2 id="whats-left">What's Left</h2>
 <p>Tuning the false positive rate on the 32-feature model. High detection with low false positives is the actual benchmark in a real SOC environment — not accuracy on a balanced test set. Currently profiling which benign traffic patterns the model misclassifies and whether those are fixable with better feature engineering or require a different classification threshold per traffic class.</p>
-<p>---</p>
+<hr>
 <h2 id="takeaways">Takeaways</h2>
 <ul>
   <li>TCN is a better fit than LSTM for variable-length, sparse network flow sequences</li>
@@ -95,14 +108,15 @@
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

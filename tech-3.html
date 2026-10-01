@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Blog - My Portfolio</title>
+    <title>Tech Blog | Lokesh L.K.S</title>
+    <meta name="description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <link rel="canonical" href="https://lkslokesh.com/tech-3.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="Tech Blog | Lokesh L.K.S">
+    <meta property="og:description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <meta property="og:url" content="https://lkslokesh.com/tech-3.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="about.html">About</a><a href="blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         
         <div class="content-wrapper">
             <div class="blog-container">
@@ -151,7 +164,7 @@ window.BLOG_DATA = {
       "category": "tech",
       "publishDate": "May 15, 2026 at 06:32 PM",
       "url": "blog/tech/AI/Mechanistic Interpretability/FewDays.html",
-      "timestamp": 1778895155
+      "timestamp": 1778895154
     },
     {
       "id": 3,
@@ -241,7 +254,7 @@ window.BLOG_DATA = {
       "category": "books",
       "publishDate": "December 23, 2025 at 09:49 PM",
       "url": "blog/books/Theory of Everything.html",
-      "timestamp": 1766555375
+      "timestamp": 1766555376
     },
     {
       "id": 13,
@@ -316,14 +329,15 @@ window.BLOG_DATA = {
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

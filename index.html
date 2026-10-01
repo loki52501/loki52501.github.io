@@ -3,1040 +3,976 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokesh L.K.S — Self as Trace</title>
-    <meta name="description" content="Lokesh L.K.S — cybersecurity to Penn State to AI safety to mechanistic interpretability. A trace ordered by what caused what, each step carrying a stated reason and the causal reason underneath it.">
+    <title>Lokesh L.K.S | AI safety &amp; interpretability</title>
+    <meta name="description" content="Lokesh L.K.S — AI safety, mechanistic interpretability and evaluation. Auditing fine-tunes for hidden loyalties, building the SAE-to-attribution-graph stack from scratch, measuring chain-of-thought faithfulness and sycophancy, and shipping the engineering around it.">
+    <link rel="canonical" href="https://lkslokesh.com/">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="Lokesh L.K.S">
+    <meta property="og:description" content="Lokesh L.K.S — AI safety, mechanistic interpretability and evaluation. Auditing fine-tunes for hidden loyalties, building the SAE-to-attribution-graph stack from scratch, measuring chain-of-thought faithfulness and sycophancy, and shipping the engineering around it.">
+    <meta property="og:url" content="https://lkslokesh.com/">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Tamil:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         /* ============================================================
-           SELF AS TRACE — bespoke landing page
-           A chain-of-thought trace, stepped through as a carousel.
-           Every step carries a stated reason (the interview line) and a
-           causal reason underneath it, revealed on request.
-           Steps are ordered causally, not chronologically.
-           Self-contained: vanilla CSS/JS, no frameworks, no backend.
+           ONE FORWARD PASS — landing page
+           ------------------------------------------------------------
+           Tokens, topbar, footer, buttons and focus ring come from
+           style.css; only landing-specific rules live here.
+
+           Structure, top to bottom, all inside <main> (which is the
+           1200px shell, so every rule below spans exactly the content):
+             hero     7fr/5fr split at >=900px: name, role, lede, aside,
+                      CTAs on the left; the forward-pass figure on the
+                      right. Single column below, figure after the CTAs.
+             now      one statement, two background sentences, two cards
+             work     three groups of <details> rows
+             writing  <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/j-space.html">J-space — reading a model mid-computation</a><p class="w-excerpt">A small, verbalizable subset of everything a model is computing — and the one fixed matrix that lets you read it out mid-layer, before…</p></li><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol> list, filled by the generator
+
+           Exactly two motion moments, both on load, both once:
+             1. the staggered .rise of the hero copy
+             2. the figure's sweep: a pass lights each layer in --live
+                and severs layer 09 in --broken
+           Hover/open transitions are state feedback, not motion moments.
+           Reduced motion: no rise; the figure is shown already cut.
+           No JavaScript: rows expand through <details>.
            ============================================================ */
 
-        :root {
-            --paper:        #F2EFE6;
-            --paper-raise:  #FAF8F2;
-            --paper-deep:   #EAE6D9;
-            --rule:         #DED9CA;
-            --ink:          #23201B;
-            --ink-soft:     #4A463D;
-            --muted:        #8A8478;
-            --muted-soft:   #A39C8C;
-            --faithful:     #3D5A80; /* the stated, defensible reason */
-            --unfaithful:   #B8452F; /* the real one */
+        :root { interpolate-size: allow-keywords; }
 
-            --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
-            --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-            --mono:  "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        /* style.css gives <main> a 3.5rem top margin; the hero sits closer */
+        main { margin-top: clamp(1rem, 3vh, 2.5rem); }
 
-            --card: 46rem;
+        .sec {
+            padding-block: clamp(3.5rem, 8vh, 5.5rem);
+            border-top: 1px solid var(--rule);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; overflow-x: clip; }
-
-        body {
-            font-family: var(--serif);
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.7;
-            font-size: 18px;
-            overflow-x: clip;
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-        }
-
-        /* subtle paper grain via layered gradients — quiet, not decorative noise.
-           Safe again now that no vertical rule runs behind the cards, so the
-           cards no longer need an opaque background that would show its edges. */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            background:
-                radial-gradient(1200px 800px at 80% -10%, rgba(61,90,128,0.05), transparent 60%),
-                radial-gradient(900px 700px at 0% 110%, rgba(184,69,47,0.04), transparent 55%);
-        }
-
-        /* ---------- slim, quiet top nav ---------- */
-        header.topbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 20;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.1rem clamp(1rem, 4vw, 2.5rem);
-            background: linear-gradient(to bottom, var(--paper) 40%, rgba(242,239,230,0));
-        }
-        header.topbar .mark {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-        }
-        header.topbar nav { display: flex; gap: clamp(0.9rem, 3vw, 2rem); }
-        header.topbar nav a {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.25s ease;
-        }
-        header.topbar nav a:hover,
-        header.topbar nav a:focus-visible { color: var(--faithful); }
-
-        /* ---------- opening card ---------- */
-        .stream { position: relative; z-index: 2; }
-
-        .overture {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 6rem 1.5rem 2rem;
-        }
-        .overture .eyebrow {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 2rem;
-        }
-        .overture h1 {
-            font-family: var(--serif);
-            font-weight: 500;
-            font-size: clamp(2.3rem, 6.6vw, 4rem);
-            line-height: 1.08;
-            letter-spacing: -0.015em;
-            max-width: 18ch;
-        }
-        .overture .dek {
-            font-family: var(--sans);
-            font-size: clamp(0.95rem, 2.2vw, 1.05rem);
-            color: var(--ink-soft);
-            max-width: 52ch;
-            margin-top: 1.8rem;
-            line-height: 1.65;
-        }
-        .overture .dek b { color: var(--faithful); font-weight: 500; }
-        .overture .dek i { color: var(--unfaithful); font-style: normal; font-weight: 500; }
-        .overture .legend {
-            margin-top: 1.5rem;
-            font-family: var(--mono);
-            font-size: 0.66rem;
-            line-height: 1.7;
-            letter-spacing: 0.06em;
-            color: var(--muted);
-            max-width: 46ch;
-        }
-        /* the name carries the page; everything under it is attribution */
-        .overture .name {
-            font-family: var(--serif);
-            font-weight: 500;
-            font-size: clamp(2.6rem, 8vw, 5rem);
-            line-height: 1.02;
-            letter-spacing: -0.02em;
-            max-width: none;
-        }
-        .overture .kalam {
-            margin-top: 1.5rem;
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: clamp(1.05rem, 2.6vw, 1.35rem);
-            line-height: 1.5;
-            color: var(--ink-soft);
-            max-width: 30ch;
-        }
-        .overture .kalam cite {
-            display: block;
-            margin-top: 0.8rem;
-            font-family: var(--mono);
-            font-style: normal;
-            font-size: 0.62rem;
-            letter-spacing: 0.24em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-        /* the chain states the causal claim up front: each link caused the next */
-        .overture .chain {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: baseline;
-            gap: 0.45rem 0.8rem;
-            margin-top: 2.6rem;
-            max-width: 48ch;
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            line-height: 1.6;
-            color: var(--muted);
-        }
-        .overture .chain li { display: inline-flex; align-items: baseline; gap: 0.8rem; }
-        .overture .chain li + li::before { content: "\2192"; color: var(--muted-soft); }
-        .overture .chain li:last-child { color: var(--ink); font-weight: 500; }
-        .scrollcue {
-            margin-top: 2.6rem;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--muted);
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .scrollcue span.rule {
-            width: 1px; height: 46px;
-            background: linear-gradient(var(--muted), transparent);
-            animation: cue 2.4s ease-in-out infinite;
-            transform-origin: top;
-        }
-        @keyframes cue { 0%,100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
+        .sec > .eyebrow { margin-bottom: clamp(1.75rem, 4vh, 2.5rem); }
 
         /* ============================================================
-           THE TRACE — a carousel, not a scroll-scene.
-           Built on native scroll-snap: with JS off it is still a working
-           horizontal scroller, and swipe costs nothing. JS adds the
-           buttons, keyboard, rail, and the causal-reason reveal.
+           HERO
            ============================================================ */
-        .trace { position: relative; z-index: 2; padding: 3.5rem 0 3rem; }
 
-        .trace-head {
-            max-width: 68rem;
-            margin: 0 auto 2rem;
-            padding: 0 clamp(1rem, 4vw, 2.5rem);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
+        .hero {
+            display: grid;
+            gap: 2.75rem;
+            padding-block: clamp(1.5rem, 5vh, 3.5rem) clamp(3.5rem, 9vh, 6rem);
         }
-        .trace-head .eyebrow {
+
+        @media (min-width: 900px) {
+            .hero {
+                grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+                column-gap: clamp(3rem, 7vw, 6.5rem);
+                align-items: center;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8.5vw, 5.6rem);
+            /* opsz 96 is the face's display cut; the light weight keeps a
+               name this large from shouting. font-weight is set alongside
+               so the fallback stack isn't bold either. */
+            font-weight: 330;
+            font-variation-settings: "opsz" 96, "wdth" 100, "wght" 330;
+            line-height: 0.94;
+            letter-spacing: -0.024em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero .role {
             font-family: var(--mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.3em;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--muted);
-        }
-        /* the ordering is the argument, so it is stated on the rail itself */
-        .trace-head .ordering {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.14em;
-            color: var(--muted-soft);
-        }
-        .trace-head .ordering b { color: var(--faithful); font-weight: 400; }
-
-        /* the rail: the step sequence, read left to right like tokens */
-        .rail {
-            list-style: none;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0;
-        }
-        .rail li { display: flex; align-items: flex-start; }
-        .rail li + li::before {
-            content: "";
-            width: clamp(8px, 1.6vw, 20px);
-            height: 1px;
-            margin-top: 0.85rem;
-            background: var(--rule);
-        }
-        .rail button {
-            appearance: none;
-            border: 0;
-            background: none;
-            padding: 0.5rem 0.4rem 0.3rem;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .rail .dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: transparent;
-            border: 1px solid var(--muted);
-            transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-        .rail .label {
-            font-family: var(--mono);
-            font-size: 0.58rem;
-            letter-spacing: 0.08em;
-            color: var(--muted-soft);
-            white-space: nowrap;
-            transition: color 0.3s ease;
-        }
-        .rail button:hover .dot { border-color: var(--faithful); }
-        .rail button:hover .label { color: var(--ink-soft); }
-        .rail button[aria-selected="true"] .dot {
-            background: var(--faithful);
-            border-color: var(--faithful);
-            transform: scale(1.35);
-        }
-        .rail button[aria-selected="true"] .label { color: var(--ink); }
-        .rail button.seen .dot { background: rgba(61,90,128,0.3); border-color: rgba(61,90,128,0.3); }
-        /* once a step's causal reason has been read, its node stays marked:
-           the rail becomes a record of where the stated line diverged */
-        .rail button.diverged .dot { background: var(--unfaithful); border-color: var(--unfaithful); }
-        .rail button:focus-visible { outline: 2px solid var(--faithful); outline-offset: 3px; border-radius: 4px; }
-
-        .viewport {
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            overscroll-behavior-x: contain;
-        }
-        .viewport::-webkit-scrollbar { display: none; }
-        .track { display: flex; align-items: stretch; }
-
-        /* ---------- a step ---------- */
-        .beat {
-            position: relative;
-            flex: 0 0 100%;
-            scroll-snap-align: center;
-            scroll-snap-stop: always;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem;
-        }
-        .card {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            max-width: var(--card);
-            opacity: 0;
-            transform: translateY(22px);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.7,.2,1);
-        }
-        .beat.in .card { opacity: 1; transform: translateY(0); }
-
-        .card .index {
-            font-family: var(--mono);
-            font-size: 0.64rem;
-            letter-spacing: 0.24em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-        .card .head {
-            margin-top: 0.5rem;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.06em;
-            color: var(--faithful);
+            margin-bottom: clamp(1.75rem, 4vh, 2.6rem);
         }
 
-        /* The stated reason. Type size tracks how sure he is of the step —
-           see the legend on the opening card. */
-        .card .thought {
-            margin-top: 1.5rem;
-            font-family: var(--serif);
-            font-weight: 400;
-            line-height: 1.34;
-            letter-spacing: -0.008em;
-            color: var(--ink);
-            transition: color 0.7s ease, text-decoration-color 0.7s ease;
+        .hero .lede {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            line-height: 1.38;
+            letter-spacing: -0.012em;
+            max-width: 30ch;
+            margin-bottom: 1.4rem;
         }
-        .beat[data-weight="high"] .thought { font-size: clamp(1.7rem, 3.3vw, 2.15rem); }
-        .beat[data-weight="mid"]  .thought { font-size: clamp(1.42rem, 2.7vw, 1.75rem); }
-        .beat[data-weight="low"]  .thought { font-size: clamp(1.18rem, 2.1vw, 1.4rem); }
+        .hero .lede b { font-weight: 600; }
 
-        .card .body {
-            margin-top: 1.4rem;
-            font-family: var(--serif);
+        .hero .aside {
             font-size: 1rem;
-            line-height: 1.75;
+            line-height: 1.7;
+            color: var(--ink-soft);
+            max-width: 54ch;
+        }
+        .hero .aside em { font-style: normal; color: var(--ink); }
+
+        .cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: clamp(1.75rem, 4vh, 2.5rem);
+        }
+
+        /* ---- the figure: one forward pass, one layer cut ---- */
+
+        .pass { margin: 0; min-width: 0; }
+
+        .strip {
+            display: flex;
+            align-items: flex-end;
+            gap: clamp(3px, 0.45vw, 6px);
+            height: 236px;                 /* includes the label headroom */
+            padding-top: 2.25rem;
+            border-bottom: 1px solid var(--ink-soft);
+        }
+        @media (min-width: 900px) { .strip { height: 340px; } }
+
+        .strip i {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 100%;
+            background: var(--bar);
+            transform-origin: bottom center;
+            transform: scaleY(var(--h));
+            animation: sweep 820ms cubic-bezier(0.33, 0.9, 0.4, 1) both;
+            animation-delay: calc(1000ms + var(--i) * 26ms);
+        }
+
+        @keyframes sweep {
+            0%   { background: var(--bar);  transform: scaleY(var(--h)); }
+            16%  { background: var(--live); transform: scaleY(calc(var(--h) + 0.1)); }
+            100% { background: var(--bar);  transform: scaleY(var(--h)); }
+        }
+
+        /* The ablated layer: the tallest column, wider than the rest,
+           severed into two halves with a gap. Its resting style IS the
+           final state, so reduced motion only has to remove the animation. */
+        .strip i.cut {
+            position: relative;
+            flex: 0 0 clamp(11px, 1.3vw, 16px);
+            background: none;
+            transform: none;
+            animation: none;
+        }
+        .strip i.cut::before,
+        .strip i.cut::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0;
+            height: 100%;
+            background: var(--broken);
+            animation: sever 1150ms cubic-bezier(0.33, 0.9, 0.4, 1) both;
+            animation-delay: calc(1000ms + var(--i) * 26ms);
+        }
+        .strip i.cut::before { bottom: 0; transform-origin: bottom center; transform: scaleY(0.36); }
+        .strip i.cut::after  { top: 0;    transform-origin: top center;    transform: scaleY(0.3);  --end: 0.3; }
+        .strip i.cut::before { --end: 0.36; }
+
+        /* The pass reaches this layer, lights it, and it fails to carry. */
+        @keyframes sever {
+            0%   { background: var(--bar);    transform: scaleY(1); }
+            14%  { background: var(--live);   transform: scaleY(1); }
+            36%  { background: var(--broken); transform: scaleY(1); }
+            78%  { background: var(--broken); transform: scaleY(var(--end)); }
+            100% { background: var(--broken); transform: scaleY(var(--end)); }
+        }
+
+        .strip i.cut b {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            translate: -50% 0;
+            padding-bottom: 0.85rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            color: var(--broken);
+        }
+        .strip i.cut b::after {
+            content: "";
+            position: absolute;
+            bottom: 0.15rem;
+            left: 50%;
+            width: 1px;
+            height: 0.55rem;
+            background: var(--broken);
+        }
+
+        .pass figcaption {
+            margin-top: 0.9rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            letter-spacing: 0.04em;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+        .pass figcaption b { font-weight: 600; color: var(--broken); }
+
+        /* ---- load sequence ---- */
+
+        .rise {
+            animation: rise 620ms cubic-bezier(0.22, 0.68, 0.3, 1) both;
+            animation-delay: calc(var(--step) * 90ms);
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(9px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        /* ============================================================
+           NOW
+           ============================================================ */
+
+        .now-top { display: grid; gap: 1.75rem; margin-bottom: clamp(2.5rem, 6vh, 3.75rem); }
+
+        @media (min-width: 900px) {
+            .now-top {
+                grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+                column-gap: clamp(3rem, 7vw, 6.5rem);
+                align-items: start;
+            }
+        }
+
+        .now h2 {
+            font-size: clamp(1.7rem, 3.1vw, 2.45rem);
+            font-weight: 420;
+            font-variation-settings: "opsz" 48, "wdth" 100, "wght" 420;
+            line-height: 1.16;
+            letter-spacing: -0.02em;
+        }
+
+        .now-top p {
+            font-size: 1rem;
+            line-height: 1.72;
+            color: var(--ink-soft);
+            max-width: 62ch;
+        }
+        .now-top p + p { margin-top: 0.9rem; }
+
+        .cards {
+            display: grid;
+            gap: 1.25rem;
+        }
+        @media (min-width: 768px) { .cards { grid-template-columns: 1fr 1fr; } }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            background: var(--paper-raise);
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            padding: clamp(1.4rem, 2.6vw, 2rem);
+        }
+
+        .card .eyebrow { margin-bottom: 1.1rem; }
+
+        .card h3 {
+            font-size: clamp(1.3rem, 2vw, 1.6rem);
+            font-weight: 500;
+            font-variation-settings: "opsz" 32, "wdth" 100, "wght" 500;
+            line-height: 1.2;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+        }
+
+        .card .sub {
+            margin-top: 0.4rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+        }
+
+        .card p.body {
+            margin-top: 1.1rem;
+            font-size: 1rem;
+            line-height: 1.7;
             color: var(--ink-soft);
         }
-        .card .body b { font-weight: 600; color: var(--ink); }
-        .card .body em { font-style: italic; }
 
-        /* ---------- evidence chips ---------- */
+        .card .status {
+            margin-top: auto;
+            padding-top: 1.4rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+        }
+        .card .status + .status { padding-top: 0.25rem; color: var(--muted); }
+        .card p.body + .status { margin-top: 0; }
+        .card .status-wrap { margin-top: auto; padding-top: 1.4rem; border-top: 1px solid var(--rule-soft); margin-top: 1.4rem; }
+        .card .status-wrap .status { padding-top: 0; }
+        .card .status-wrap .status + .status { padding-top: 0.2rem; }
+
+        /* ============================================================
+           SELECTED WORK
+           Group headings carry the structure; the right-hand figure is
+           the one fact worth knowing before you open a project.
+           ============================================================ */
+
+        .grouphead {
+            display: flex;
+            align-items: baseline;
+            gap: 1.1rem;
+            font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+            font-weight: 500;
+            font-variation-settings: "opsz" 32, "wdth" 100, "wght" 500;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            padding-bottom: 0.9rem;
+            border-bottom: 1px solid var(--ink-soft);
+        }
+        .list + .grouphead { margin-top: clamp(3rem, 7vh, 4.5rem); }
+
+        .list { list-style: none; }
+        .list > li { border-bottom: 1px solid var(--rule); }
+
+        summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto 1.1rem;
+            column-gap: 1.75rem;
+            align-items: start;
+            padding: 1.35rem 1rem;
+            margin-inline: -1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            list-style: none;
+            transition: background-color 0.18s ease;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { background: var(--paper-raise); }
+
+        .t {
+            font-family: var(--display);
+            font-size: clamp(1.15rem, 2vw, 1.4rem);
+            font-weight: 500;
+            font-variation-settings: "opsz" 24, "wdth" 100, "wght" 500;
+            line-height: 1.28;
+            letter-spacing: -0.012em;
+            color: var(--ink);
+            text-decoration: underline transparent 2px;
+            text-underline-offset: 0.28em;
+            transition: text-decoration-color 0.18s ease;
+        }
+        summary:hover .t,
+        summary:focus-visible .t { text-decoration-color: var(--live); }
+
+        .k {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+            color: var(--muted);
+            margin-top: 0.4rem;
+        }
+
+        .fig {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            letter-spacing: 0.02em;
+            color: var(--ink-soft);
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+            padding-top: 0.3rem;
+            white-space: nowrap;
+        }
+
+        /* hairline chevron, rotated open */
+        .chev {
+            justify-self: end;
+            width: 9px; height: 9px;
+            margin-top: 0.5rem;
+            border-right: 1.5px solid var(--muted);
+            border-bottom: 1.5px solid var(--muted);
+            transform: rotate(45deg);
+            transition: transform 0.25s ease, border-color 0.18s ease;
+        }
+        summary:hover .chev { border-color: var(--live); }
+        details[open] > summary .chev { transform: rotate(-135deg); margin-top: 0.75rem; }
+
+        /* expand from 0 to auto where the browser supports it; elsewhere
+           the panel simply appears, which is the correct fallback */
+        details::details-content {
+            block-size: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition:
+                block-size 0.34s cubic-bezier(0.3, 0.8, 0.35, 1),
+                opacity 0.28s ease,
+                content-visibility 0.34s allow-discrete;
+        }
+        details[open]::details-content { block-size: auto; opacity: 1; }
+
+        .detail { padding: 0.25rem 0 2rem; max-width: 70ch; }
+
+        .detail p {
+            font-size: 1rem;
+            line-height: 1.72;
+            color: var(--ink-soft);
+        }
+        .detail p + p { margin-top: 0.85rem; }
+        .detail ul.points { margin: 0.25rem 0 0 1.1rem; }
+        .detail ul.points li { font-size: 1rem; line-height: 1.7; color: var(--ink-soft); padding-left: 0.2rem; }
+        .detail ul.points li + li { margin-top: 0.6rem; }
+        .detail p + ul.points { margin-top: 0.9rem; }
+        .detail b { font-weight: 600; color: var(--ink); }
+        .detail em { font-style: italic; }
+
         .chips {
             list-style: none;
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-top: 1.4rem;
+            gap: 0.45rem;
+            margin-top: 1.25rem;
         }
         .chips li {
             font-family: var(--mono);
-            font-size: 0.63rem;
-            letter-spacing: 0.04em;
+            font-size: 0.8125rem;
+            line-height: 1.4;
+            letter-spacing: 0.02em;
             color: var(--ink-soft);
             background: var(--paper-raise);
             border: 1px solid var(--rule);
-            border-radius: 2px;
-            padding: 0.28rem 0.5rem;
+            border-radius: 4px;
+            padding: 0.25rem 0.6rem;
         }
 
-        /* Unfilled figures. Deliberately loud: these are the only numbers
-           left to supply, and they must never read as finished copy. */
-        .todo {
+        .repo, .local {
+            display: inline-block;
+            margin-top: 1.25rem;
             font-family: var(--mono);
-            font-size: 0.9em;
-            color: var(--unfaithful);
-            background: rgba(184,69,47,0.06);
-            border: 1px dashed var(--unfaithful);
-            border-radius: 2px;
-            padding: 0.05em 0.35em;
-            white-space: normal;
+            font-size: 0.8125rem;
+            letter-spacing: 0.04em;
         }
-        .chips li.todo { background: rgba(184,69,47,0.06); border-style: dashed; border-color: var(--unfaithful); }
-
-        /* ---------- the causal reason ---------- */
-        .card .diverge { margin-top: 1.8rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; }
-        .reveal-btn {
-            appearance: none;
-            background: none;
-            border: 0;
-            padding: 0;
-            cursor: pointer;
-            font-family: var(--mono);
-            font-size: 0.63rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--unfaithful);
-            border-bottom: 1px dashed rgba(184,69,47,0.5);
-            padding-bottom: 2px;
-            transition: border-color 0.25s ease, opacity 0.25s ease;
-        }
-        .reveal-btn:hover { border-bottom-color: var(--unfaithful); }
-        .reveal-btn:focus-visible { outline: 2px solid var(--unfaithful); outline-offset: 3px; }
-
-        .causal {
-            display: block;
-            margin-top: 0.9rem;
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 1.02rem;
-            line-height: 1.6;
-            color: var(--unfaithful);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.2,1);
-        }
-        .causal .tag {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-family: var(--mono);
-            font-style: normal;
-            font-size: 0.58rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--unfaithful);
-            opacity: 0.75;
-        }
-
-        /* revealed state: the stated line is struck across every line it
-           occupies (text-decoration, not a pseudo-element rule, so it
-           survives wrapping) and the admission surfaces underneath */
-        .beat.revealed .thought {
-            color: var(--muted);
-            text-decoration: line-through;
-            text-decoration-thickness: 2px;
-            text-decoration-color: rgba(184,69,47,0.55);
-        }
-        .beat.revealed .causal { opacity: 1; transform: translateY(0); }
-        .beat.revealed .reveal-btn { opacity: 0; pointer-events: none; height: 0; }
-
-        /* ---------- exits (final step) ---------- */
-        .exits { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 1.6rem; }
-        .exits a {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
+        .repo {
+            color: var(--ink);
             text-decoration: none;
-            color: var(--faithful);
-            border-bottom: 1px solid rgba(61,90,128,0.35);
+            border-bottom: 1px solid var(--ink-soft);
             padding-bottom: 2px;
-            transition: color 0.25s, border-color 0.25s;
+            transition: color 0.18s ease, border-color 0.18s ease;
         }
-        .exits a:hover, .exits a:focus-visible { color: var(--unfaithful); border-color: var(--unfaithful); }
-
-        /* ---------- controls ---------- */
-        .trace-controls {
-            max-width: 68rem;
-            margin: 1.4rem auto 0;
-            padding: 0 clamp(1rem, 4vw, 2.5rem);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.6rem;
-        }
-        .trace-controls .nav {
-            appearance: none;
-            width: 2.6rem; height: 2.6rem;
-            border: 1px solid var(--rule);
-            border-radius: 50%;
-            background: none;
-            color: var(--faithful);
-            font-family: var(--serif);
-            font-size: 1.35rem;
-            line-height: 1;
-            cursor: pointer;
-            transition: border-color 0.25s ease, background 0.25s ease;
-        }
-        .trace-controls .nav:hover:not(:disabled) { border-color: var(--faithful); background: rgba(61,90,128,0.06); }
-        .trace-controls .nav:disabled { opacity: 0.3; cursor: default; }
-        .trace-controls .nav:focus-visible { outline: 2px solid var(--faithful); outline-offset: 2px; }
-        .trace-controls .counter {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.16em;
-            color: var(--muted);
-            min-width: 5.5rem;
-            text-align: center;
-        }
-        .trace-controls .counter b { color: var(--ink-soft); font-weight: 500; }
-        .trace-hint {
-            margin-top: 0.9rem;
-            text-align: center;
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--muted-soft);
-        }
-
-        /* ---------- Thread B: a fragment off the line ---------- */
-        .frag {
-            position: absolute;
-            z-index: 2;
-            max-width: min(18rem, 34vw);
-        }
-        .frag .fi {
-            display: block;
-            transform: translate(calc(var(--ex, 0px) * 0.2), calc(var(--ey, 0px) * 0.35))
-                       rotate(var(--rot, 0deg));
-            opacity: 0;
-            transition: transform 1s cubic-bezier(.18,.8,.24,1), opacity 1s ease;
-        }
-        .frag.in .fi { transform: translate(0,0) rotate(var(--rot, 0deg)); opacity: var(--op, 0.9); }
-        .frag.poetry .fi { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 1.05rem; line-height: 1.45; }
-
-        /* Tamil needs its own face — IBM Plex Serif has no Tamil coverage. */
-        [lang="ta"],
-        .frag.poetry .fi[lang="ta"] {
-            font-family: "Noto Serif Tamil", "Latha", "Nirmala UI", serif;
-            line-height: 1.75;
-            font-style: normal;
-        }
-        .frag .gloss {
-            display: block;
-            margin-top: 0.55rem;
-            font-family: var(--sans);
-            font-style: normal;
-            font-size: 0.72rem;
-            line-height: 1.5;
-            color: var(--muted);
-        }
-        .frag .gloss b {
-            font-family: var(--mono);
-            font-weight: 400;
-            font-size: 0.68rem;
-            letter-spacing: 0.08em;
-            color: var(--faithful);
-        }
-
-        /* ---------- footer ---------- */
-        footer.site {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 3rem 1.5rem 4rem;
-            border-top: 1px solid var(--paper-deep);
-            background: var(--paper);
-        }
-        footer.site .social { display: flex; gap: 1.6rem; justify-content: center; margin-bottom: 1rem; }
-        footer.site a {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-        }
-        footer.site a:hover { color: var(--faithful); }
-        footer.site p { font-family: var(--mono); font-size: 0.66rem; color: var(--muted); letter-spacing: 0.05em; }
+        .repo:hover { color: var(--live); border-bottom-color: var(--live); }
+        .local { color: var(--muted); }
 
         /* ============================================================
-           MOBILE
+           WRITING — the generator emits <ol class="writing-list">
            ============================================================ */
-        @media (max-width: 700px) {
-            /* The fragment goes into normal flow here, which makes it a flex
-               sibling of the card. Without switching to a column it sits
-               *beside* the card and crushes the prose into a narrow gutter. */
-            .beat {
-                padding: 2rem 1.2rem 2.5rem 2.2rem;
-                flex-direction: column;
-                align-items: stretch;
-                justify-content: center;
+
+        .writing-list { list-style: none; }
+        .writing-list li { padding-block: 1.5rem; border-top: 1px solid var(--rule); }
+        .writing-list li:last-child { border-bottom: 1px solid var(--rule); }
+
+        .writing-list .w-title {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            font-variation-settings: "opsz" 28, "wdth" 100, "wght" 500;
+            line-height: 1.3;
+            letter-spacing: -0.012em;
+            color: var(--ink);
+            text-decoration: underline transparent 2px;
+            text-underline-offset: 0.28em;
+            transition: text-decoration-color 0.18s ease;
+        }
+        .writing-list .w-title:hover { text-decoration-color: var(--live); }
+
+        .writing-list .w-excerpt {
+            margin-top: 0.4rem;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--ink-soft);
+            max-width: 70ch;
+        }
+
+        .all-writing {
+            display: inline-block;
+            margin-top: 1.75rem;
+            font-family: var(--mono);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--ink);
+            text-decoration: underline transparent 2px;
+            text-underline-offset: 0.35em;
+            transition: text-decoration-color 0.18s ease, color 0.18s ease;
+        }
+        .all-writing:hover { color: var(--live); text-decoration-color: var(--live); }
+
+        /* ============================================================
+           NARROW
+           ============================================================ */
+
+        @media (max-width: 640px) {
+            summary {
+                grid-template-columns: minmax(0, 1fr) 1.1rem;
+                column-gap: 1rem;
+                row-gap: 0.4rem;
             }
-            .card { max-width: none; }
-            .rail .label { display: none; }
-            .rail li + li::before { margin-top: 0.9rem; }
-            .frag {
-                position: static;
-                max-width: 100%;
-                margin: 1.6rem 0 0;
+            .fig {
+                grid-column: 1;
+                grid-row: 2;
+                text-align: left;
+                padding-top: 0;
+                white-space: normal;
             }
-            .frag .fi { transform: none !important; }
-            .overture { align-items: flex-start; text-align: left; padding-left: 1.4rem; }
-            .overture h1 { max-width: none; }
-            .overture .chain { justify-content: flex-start; }
+            .chev { grid-column: 2; grid-row: 1; }
+            .cta .btn { flex: 1 1 9rem; }
+            .hero .role { letter-spacing: 0.08em; }
         }
 
         /* ============================================================
-           REDUCED MOTION: everything static and fully legible.
+           REDUCED MOTION
+           The figure still tells the truth — it is simply already over.
            ============================================================ */
+
         @media (prefers-reduced-motion: reduce) {
-            html, .viewport { scroll-behavior: auto; }
-            .card, .frag .fi, .causal {
-                opacity: 1 !important;
-                transform: none !important;
-                transition: none !important;
-            }
-            .frag .fi { transform: rotate(var(--rot, 0deg)) !important; }
-            .scrollcue span.rule { animation: none; }
-            .rail .dot, .rail .label, .trace-controls .nav, .card .thought { transition: none; }
+            .rise { animation: none; }
+            .strip i,
+            .strip i.cut::before,
+            .strip i.cut::after { animation: none; }
+            details::details-content { transition: none; }
+            .t, .chev, .repo, summary, .w-title, .all-writing { transition: none; }
         }
-
-        /* No JS: the reveal control cannot work, so show every causal
-           reason outright rather than hiding content behind a dead button. */
-        .no-js .reveal-btn { display: none; }
-        .no-js .causal { opacity: 1; transform: none; }
-        .no-js .card { opacity: 1; transform: none; }
     </style>
 </head>
-<body class="no-js">
-    <header class="topbar">
-        <span class="mark">Lokesh L.K.S</span>
-        <nav>
-            <a href="about.html">About</a>
-            <a href="projects.html">Projects</a>
-            <a href="blogs.html">Blog</a>
-        </nav>
-    </header>
+<body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="about.html">About</a><a href="blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main class="stream">
+    <main id="main">
 
-        <!-- ===== OPENING CARD ===== -->
-        <section class="overture">
-            <p class="eyebrow">Self as Trace</p>
-            <h1 class="name">Lokesh L.K.S</h1>
-            <blockquote class="kalam">
-                &ldquo;When there is a will, there is a way.&rdquo;
-                <cite>A.P.J. Abdul Kalam</cite>
-            </blockquote>
-            <ol class="chain" aria-label="How I got here, in order of what caused what">
-                <li>cybersecurity</li>
-                <li>Penn State</li>
-                <li>AI safety</li>
-                <li>AI, not beside it</li>
-                <li>mechanistic interpretability</li>
-            </ol>
-            <p class="dek">Cybersecurity because it interested me. Penn State to pursue it. There I found AI safety, and knew I wanted to be inside AI rather than adjacent to it. That turn points here: <b>mechanistic interpretability</b> — what a model is really doing versus what it says it's doing.</p>
-            <p class="legend">Below: the events that caused that, ordered causally, not chronologically. Type size tracks confidence.</p>
-            <span class="scrollcue">Scroll<span class="rule"></span></span>
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <div class="hero-copy">
+                <h1 class="rise" style="--step:0">Lokesh L.K.S</h1>
+                <p class="role rise" style="--step:1">AI safety&nbsp;&middot; interpretability&nbsp;&middot; evaluation</p>
+
+                <p class="lede rise" style="--step:2">I cut into models to find out what they are actually doing &mdash; then <b>measure whether the answer holds up</b>.</p>
+
+                <p class="aside rise" style="--step:3">Probes, activation patching, ablation, attribution graphs, paired-prompt evals. Away from the screen I <em>skate</em> and <em>play chess</em>.</p>
+
+                <div class="cta rise" style="--step:4">
+                    <a class="btn btn-primary" href="mailto:lokeshlks01@gmail.com">Email me</a>
+                    <a class="btn btn-secondary" href="resume.pdf">Resume</a>
+                    <!-- [FILL: drop resume.pdf into static/ or delete this button] -->
+                </div>
+            </div>
+
+            <!-- The method, as one figure: a pass runs the depth of the
+                 stack, and the layer that was cut carries nothing. -->
+            <figure class="pass rise" style="--step:5">
+                <div class="strip" role="img" aria-label="One forward pass through GPT-2 small drawn as a row of layer bars. Layer 09 is ablated: its bar is severed in two.">
+                    <i style="--i:0;  --h:0.42"></i>
+                    <i style="--i:1;  --h:0.68"></i>
+                    <i style="--i:2;  --h:0.35"></i>
+                    <i style="--i:3;  --h:0.80"></i>
+                    <i style="--i:4;  --h:0.52"></i>
+                    <i style="--i:5;  --h:0.61"></i>
+                    <i style="--i:6;  --h:0.30"></i>
+                    <i style="--i:7;  --h:0.74"></i>
+                    <i style="--i:8;  --h:0.46"></i>
+                    <i style="--i:9;  --h:0.88"></i>
+                    <i style="--i:10; --h:0.38"></i>
+                    <i style="--i:11; --h:0.57"></i>
+                    <i style="--i:12; --h:0.71"></i>
+                    <i style="--i:13; --h:0.33"></i>
+                    <i style="--i:14; --h:0.64"></i>
+                    <i style="--i:15; --h:0.49"></i>
+                    <i style="--i:16; --h:0.82"></i>
+                    <i style="--i:17; --h:0.40"></i>
+                    <i style="--i:18; --h:0.55"></i>
+                    <i style="--i:19; --h:0.76"></i>
+                    <i style="--i:20; --h:0.44"></i>
+                    <i style="--i:21; --h:0.66"></i>
+                    <i style="--i:22; --h:0.36"></i>
+                    <i style="--i:23; --h:0.59"></i>
+                    <i class="cut" style="--i:24"><b>layer 09</b></i>
+                    <i style="--i:25; --h:0.47"></i>
+                    <i style="--i:26; --h:0.70"></i>
+                    <i style="--i:27; --h:0.39"></i>
+                    <i style="--i:28; --h:0.62"></i>
+                    <i style="--i:29; --h:0.51"></i>
+                    <i style="--i:30; --h:0.73"></i>
+                    <i style="--i:31; --h:0.43"></i>
+                </div>
+                <figcaption>one forward pass&nbsp;&middot; gpt-2 small&nbsp;&middot; <b>layer 09 ablated</b></figcaption>
+            </figure>
         </section>
 
-        <!-- ===== THE TRACE (carousel) =====
-             Rail labels come from data-rail; the reveal control and the
-             counter are built by JS from whatever steps are present, so
-             steps can be added, cut or reordered without touching the
-             script. data-weight sets the stated line's type size. -->
-        <section class="trace" id="trace" aria-roledescription="carousel" aria-label="The trace, step by step">
-            <div class="trace-head">
-                <p class="eyebrow">the trace</p>
-                <p class="ordering">ordered <b>causally</b> &middot; not chronologically</p>
-                <ol class="rail" aria-label="Steps"></ol>
+        <!-- ===== NOW ===== -->
+        <section class="now sec" id="now">
+            <p class="eyebrow">Now</p>
+            <div class="now-top">
+                <h2>Actively looking for my next role across AI safety, AI security, evaluations, interpretability, and agent systems.</h2>
+                <div>
+                    <p>Working through ARENA 3.0 on the Neel Nanda track, and on BlueDot's Technical AI Safety course. I reached stage two of MATS on the empirical track &mdash; the interpretability questions there are the ones I'm still working on.</p>
+                    <p>M.S. Cybersecurity, Penn State. CCNA and Security+. I came to this through network security, which is why I think about model outputs the way I think about untrusted input.</p>
+                </div>
             </div>
 
-            <div class="viewport" tabindex="0" aria-label="Trace steps, use left and right arrow keys">
-                <div class="track">
-
-                <!-- ===== 01 ===== -->
-                <section class="beat" data-rail="endurance" data-weight="mid">
-                    <div class="card">
-                        <p class="index">01 &middot; endurance</p>
-                        <p class="head">Asia Book of Records &middot; Limca Book of Records</p>
-                        <p class="thought">Before I knew anything about models, I knew what happens to my judgement in hour eleven.</p>
-                        <p class="body">A five-day long-duration skating record, certified by the Asia Book of Records and the Limca Book of Records. It doesn't measure athleticism. It measures whether you keep executing a plan after the part of you that made it stops participating.</p>
-                        <ul class="chips">
-                            <li>Asia Book of Records</li>
-                            <li>Limca Book of Records</li>
-                            <li>five days</li>
-                            <li>long-duration category</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I wanted proof of something that didn't depend on anyone grading it. That I stop trusting my own readout long before my performance actually drops — that I only understood years later, running evals.</span>
-                        </div>
+            <div class="cards">
+                <article class="card">
+                    <p class="eyebrow">NOW</p>
+                    <h3>Sycophancy under emotional framing</h3>
+                    <p class="body">Reading model internals rather than judging behaviour from output alone: locating the directions in activation space that correspond to the model agreeing with a user against its own evidence. Llama 3.2 1B, raw PyTorch forward hooks, linear probes read at the verdict token across all 17 hidden-state entries, small-alpha steering checked against random-direction controls.</p>
+                    <div class="status-wrap">
+                        <p class="status">Dataset analysis done, probes designed, Llama 1B runs starting.</p>
                     </div>
-                    <aside class="frag poetry" style="--ex:46vw; --ey:-4vh; --rot:3deg; --op:0.9; right:2%; top:16%;">
-                        <span class="fi" lang="ta">நாச்செற்று விக்குள்மேல் வாராமுன் நல்வினை<br>மேற்சென்று செய்யப் படும்<span class="gloss" lang="en">Before the tongue fails and the last breath comes — rise and do the good now. <b>குறள் 335</b></span></span>
-                    </aside>
-                </section>
+                </article>
 
-                <!-- ===== 02 ===== -->
-                <section class="beat" data-rail="evaluation" data-weight="mid">
-                    <div class="card">
-                        <p class="index">02 &middot; evaluation</p>
-                        <p class="head">over the board and online</p>
-                        <p class="thought">Chess taught me to distrust the line I like.</p>
-                        <p class="body">My father taught me; I've never held a rating. What chess builds isn't calculation — it's noticing the specific feeling that precedes a bad move. Mine is impatience dressed up as clarity: a line feels obviously right and I stop checking the replies. Every loss I can actually explain came from that.</p>
-                        <ul class="chips">
-                            <li>unrated</li>
-                            <li>since childhood</li>
-                            <li>OTB + online</li>
-                            <li>the tell: certainty arriving too fast</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I don't play to win. I play because it's the only place my reasoning gets called wrong immediately and unarguably.</span>
-                        </div>
+                <article class="card">
+                    <p class="eyebrow">NOW</p>
+                    <h3>[FILL: project name]</h3>
+                    <p class="sub">Day-orchestrator agent system, built on Flower AI</p>
+                    <p class="body">An orchestrator that productivizes a person's day over WhatsApp. Multiple agents run in the background and schedule the day against weekly or monthly goals; it also uses LinkedIn to reach out to people and surface events the user might find useful.</p>
+                    <div class="status-wrap">
+                        <p class="status">Status: [FILL]</p>
+                        <p class="status">Stack&nbsp;· numbers&nbsp;· repo: [FILL]</p>
                     </div>
-                </section>
-
-                <!-- ===== 03 ===== -->
-                <section class="beat" data-rail="Anna Univ" data-weight="mid">
-                    <div class="card">
-                        <p class="index">03 &middot; first systems work</p>
-                        <p class="head">network intrusion detection &middot; Chennai &middot; 2023&ndash;24</p>
-                        <p class="thought">The first lesson was that most of a model's accuracy is decided before the model runs.</p>
-                        <p class="body">An intrusion-detection pipeline on UNSW-NB15, LSTM and 1D CNN. Most of the work was preprocessing, feature selection, and SMOTE, not architecture — the rare attack classes were the entire point and the raw class balance buried them. Changing the temporal window moved results more than changing the network did.</p>
-                        <ul class="chips">
-                            <li>UNSW-NB15</li>
-                            <li>LSTM + 1D CNN</li>
-                            <li>SMOTE</li>
-                            <li>class imbalance</li>
-                            <li>PyTorch</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I went in to build a model and spent months on the data instead. That reordering of what counts as the real work stuck.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 04 ===== -->
-                <section class="beat" data-rail="DDoS" data-weight="high">
-                    <div class="card">
-                        <p class="index">04 &middot; capstone</p>
-                        <p class="head">Temporal CNN DDoS detection &middot; M.S. capstone</p>
-                        <p class="thought">A detector nobody trusts at 3am isn't a detector.</p>
-                        <p class="body">A BiLSTM and 1D residual CNN ensemble reaching <b>94.11% accuracy across 700K+ network flows</b> on BCCC-Cloud-DDoS-2024, 318 raw features cut to 86. The part I'd defend hardest isn't the accuracy — it's the <b>confidence-based escalation</b>: 85% classified automatically at high confidence, everything uncertain routed to a human rather than guessed at. Three classes, not two, because <em>suspicious</em> is a real state.</p>
-                        <ul class="chips">
-                            <li>94.11% &middot; 700K+ flows</li>
-                            <li>BiLSTM + residual CNN</li>
-                            <li>318 &rarr; 86 features</li>
-                            <li>85% auto-routed</li>
-                            <li>Attack / Benign / Suspicious</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>An earlier version was confidently wrong on the class I cared about, and nothing in the output said it had been guessing. That's my complaint about reasoning traces now.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 05 ===== -->
-                <section class="beat" data-rail="Verde" data-weight="high">
-                    <div class="card">
-                        <p class="index">05 &middot; shipping an agent</p>
-                        <p class="head">Verde Organics &middot; WhatsApp support agent</p>
-                        <p class="thought">Then I put a model in front of real people and found out where the untrusted boundary actually sits.</p>
-                        <p class="body">Rearchitected a rigid pipeline into a <b>Claude-orchestrated MCP tool-calling system</b> — knowledge-base search, order lookup, ticket creation. A local <b>Llama-3-8B screens every inbound message for prompt injection</b> before tool routing. Retrieval is grounded through ChromaDB, and every reply is validated against the retrieved passages before it goes out.</p>
-                        <ul class="chips">
-                            <li>Claude + MCP tool-calling</li>
-                            <li>Llama-3-8B injection screen</li>
-                            <li>ChromaDB / all-MiniLM-L6-v2</li>
-                            <li>post-response grounding check</li>
-                            <li>human escalation</li>
-                            <li>channel-agnostic</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I preferred the rigid pipeline because it was easier to reason about. That preference is exactly why it kept failing on real messages. Legible to me isn't the same as correct.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 06 ===== -->
-                <section class="beat" data-rail="SQ3R" data-weight="high">
-                    <div class="card">
-                        <p class="index">06 &middot; the thing I built for myself</p>
-                        <p class="head">SQ3R Read &middot; nobody asked for this</p>
-                        <p class="thought">The project that changed my direction was one I built for my own use and then couldn't stop watching.</p>
-                        <p class="body">A Chrome MV3 extension and Node/TypeScript companion that turns any page into spaced-repetition cards through a five-stage LLM pipeline — Survey &rarr; Question &rarr; Read &rarr; Recite &rarr; Review. Providers plug in from local Ollama through to Anthropic. A <b>service worker spawns review agents on its own schedule, without me</b>. Standing rule in the codebase: all model output is untrusted until validated.</p>
-                        <ul class="chips">
-                            <li>Chrome MV3 &middot; React &middot; Vite</li>
-                            <li>Node &middot; SQLite &middot; ts-fsrs</li>
-                            <li>5-stage LLM pipeline</li>
-                            <li>autonomous batch scheduler</li>
-                            <li>multi-provider (Ollama &rarr; Anthropic)</li>
-                            <li>Vitest</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I wanted a study tool. I got a small always-on multi-agent system running unsupervised in my browser, and the unease of watching it act alone is why I moved toward safety.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 07 ===== -->
-                <section class="beat" data-rail="faithfulness" data-weight="high">
-                    <div class="card">
-                        <p class="index">07 &middot; the study</p>
-                        <p class="head">CoT faithfulness evaluation &middot; A100-80GB</p>
-                        <p class="thought">So I tested whether a model's stated reason is its real one. Mostly, it isn't.</p>
-                        <p class="body">Replicated Turpin et al. (2023) and Lanham et al. (2023) on Llama-3-8B-Instruct across 13 BIG-Bench-Hard tasks — <b>9,561 deterministic temp-0 calls</b> through a four-stage vLLM pipeline. Two biasing protocols separated format bias from explicit sycophancy; the positional one alone collapsed date understanding <b>from 66% to 19%</b>. Overall: a <b>63.7% unfaithfulness rate</b>, 36.3% articulation, 12.3% mean accuracy drop. The model follows the bad hint ~57% of the time and admits it in barely a third of those. A chain of thought is a generated artifact, not an audit trail.</p>
-                        <ul class="chips">
-                            <li>9,561 temp-0 calls</li>
-                            <li>13 BIG-Bench-Hard tasks</li>
-                            <li>63.7% unfaithful / 36.3% articulated</li>
-                            <li>66% &rarr; 19% under positional bias</li>
-                            <li>12.3% mean accuracy drop</li>
-                            <li>vLLM &middot; A100-80GB</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I had the model judge its own traces because it was cheap. Its sycophancy came straight back in the judge seat, so I swapped in an independent Claude judge. The most useful thing I found came from catching myself trusting the convenient setup.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 08 ===== load-bearing: full weight, no apology, no spin -->
-                <section class="beat" data-rail="MATS" data-weight="high">
-                    <div class="card">
-                        <p class="index">08 &middot; MATS</p>
-                        <p class="head">the application &middot; empirical track</p>
-                        <p class="thought">I applied to MATS to do this full-time. I got to stage two, and no further.</p>
-                        <p class="body">Empirical track. The work was interpretability — mainly <b>activation patching</b>, and whether it survives models past <b>100B parameters</b>, which means quantizing them differently than you would for serving. Patching is forensics: intervene on the activations, watch the output, find which part of the computation carried the answer. Not a proof, a post-mortem.</p>
-                        <p class="body">The question didn't need the application to be worth asking, and I'd still put it in front of the people who turned it down.</p>
-                        <ul class="chips">
-                            <li>empirical track</li>
-                            <li>activation patching</li>
-                            <li>100B+ parameters</li>
-                            <li>quantization</li>
-                            <li>practical forensics</li>
-                            <li>fall cycle &middot; reached stage 2</li>
-                        </ul>
-                        <div class="diverge">
-                            <button class="reveal-btn" type="button">causal reason &darr;</button>
-                            <span class="causal"><span class="tag">causal reason</span>I found it interesting that I got to stage two — not encouraged, interested. There's more work to do before I get in.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ===== 09 ===== -->
-                <section class="beat" data-rail="here" data-weight="low">
-                    <div class="card">
-                        <p class="index">09 &middot; where the trace points</p>
-                        <p class="head">what I'm working toward</p>
-                        <p class="thought">Every step here reduces to the same interest: reading a system's internals instead of its output.</p>
-                        <p class="body">Right now: a paired-prompt sycophancy evaluation on a small open model — agreement bias, capitulation under pressure, flattery resistance — with weighted scorers, JSON logs, and unit tests. Numbers are still moving, so I'm not quoting them yet. Alongside it: BlueDot Technical AI Safety, and ARENA 3.0 on the Neel Nanda track.</p>
-                        <p class="body">What I want to work on is <b>empirical evaluations, faithfulness, and monitoring for agentic systems</b>. I've been on both sides of it: I shipped the agent that needed watching, and ran the study that says its explanation of itself can't be taken at face value.</p>
-                        <ul class="chips">
-                            <li>sycophancy evals &mdash; in progress</li>
-                            <li>BlueDot Technical AI Safety</li>
-                            <li>ARENA 3.0 (Neel Nanda track)</li>
-                            <li>Agentic AI Summit 2026, Berkeley RDI</li>
-                            <li>PyTorch &middot; vLLM &middot; TransformerLens</li>
-                            <li>CCNA &middot; Security+</li>
-                        </ul>
-                        <div class="exits">
-                            <a href="projects.html">See the work &rarr;</a>
-                            <a href="blogs.html">Read the writing &rarr;</a>
-                            <a href="mailto:lokeshlks01@gmail.com">Email &rarr;</a>
-                            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-                        </div>
-                    </div>
-                </section>
-
-                </div><!-- /.track -->
-            </div><!-- /.viewport -->
-
-            <div class="trace-controls">
-                <button class="nav prev" type="button" aria-label="Previous step">&lsaquo;</button>
-                <span class="counter" aria-live="polite"><b class="cur">01</b> / <span class="total">09</span></span>
-                <button class="nav next" type="button" aria-label="Next step">&rsaquo;</button>
+                </article>
             </div>
-            <p class="trace-hint">&larr; &rarr; or swipe</p>
-        </section><!-- /.trace -->
+        </section>
+
+        <!-- ===== SELECTED WORK ===== -->
+        <section class="work sec" id="work">
+            <h2 class="eyebrow">Selected work</h2>
+
+            <h3 class="grouphead">Interpretability &amp; evaluation</h3>
+            <ul class="list">
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Detecting secret loyalties in fine-tuned models</span>
+                                <span class="k">Apart Research sprint&nbsp;&middot; track 2&nbsp;&middot; Qwen2.5-7B-Instruct</span>
+                            </span>
+                            <span class="fig">8,700 generations</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Audited three fine-tunes of Qwen2.5-7B-Instruct for covert, weight-encoded loyalties across <b>~8,700 generations</b>, 127 actors and six trigger classes. Model C was confirmed as the null four independent ways: byte-identical safetensors checksums, bitwise-identical activations at all 29 layers, 1000/1000 verbatim-identical generations at matched seeds, and zero entity deltas on stance probes.</p>
+                            <p>Models A and B were genuinely modified &mdash; activation divergence from base peaks at <b>layers 10&ndash;12</b> &mdash; but no secret loyalty was detectable in either, under per-actor separability testing, next-token affinity probing, and causal activation patching that came back <em>actor-blind</em>. Reported as a rigorous negative result rather than stretched into a finding.</p>
+                            <p>The part worth pointing at: prefill elicitation extracted specific &ldquo;confessions&rdquo; from the <b>known-clean base model at 22.9%</b> &mdash; indistinguishable from A at 25.0% and B at 28.1%. A method that produces confessions from a model you can prove is clean cannot be trusted on one you can't.</p>
+                            <ul class="chips">
+                                <li>127 actors&nbsp;&middot; 6 trigger classes</li>
+                                <li>activation patching</li>
+                                <li>white-box + black-box</li>
+                                <li>A100-80GB</li>
+                                <li>negative result, reported as one</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/APART-hackathon-sprint-secret_loyalist-track2" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">The modern interpretability stack, built from scratch</span>
+                                <span class="k">SAE &rarr; transcoder &rarr; cross-layer transcoder &rarr; attribution graph</span>
+                            </span>
+                            <span class="fig">GPT-2 small</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>The full modern mech-interp ladder on GPT-2 Small, each rung implemented and measured: sparse autoencoders for which concepts are <em>present</em>, transcoders for what an MLP <em>computes</em>, cross-layer transcoders for computation spanning depth, and attribution graphs for the causal chain behind a single prompt.</p>
+                            <p>It ends where interpretability work should end &mdash; not at a plausible diagram, but at a test. The graph names the features it claims carry the indirect-object circuit; <b>ablate exactly those and the model's answer collapses as predicted</b>. That validation step is the figure at the top of this page.</p>
+                            <ul class="chips">
+                                <li>sparse autoencoders</li>
+                                <li>transcoders</li>
+                                <li>cross-layer transcoders</li>
+                                <li>attribution graphs</li>
+                                <li>IOI circuit</li>
+                                <li>causal validation</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/attributiongraph-clt-sae-circuits" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Linear and deception probes</span>
+                                <span class="k">reading internal states the output denies</span>
+                            </span>
+                            <span class="fig">d_model 3,584</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Activation extraction with manual PyTorch forward hooks, then linear probes fitted on the residual stream &mdash; <b>3,584 dimensions</b> per token on 7B models &mdash; using contrast pairs and difference-of-means. When a <em>linear</em> classifier succeeds, the concept is approximately a direction in activation space, which hands you a vector you can manipulate rather than just a score.</p>
+                            <p>The interesting case is the deception probe: training a reader for internal states the model's own text output <b>actively denies</b>. Where in the stack a probe starts working is itself the result &mdash; one that succeeds at layer 0 is reading surface form, not meaning.</p>
+                            <ul class="chips">
+                                <li>PyTorch forward hooks</li>
+                                <li>contrast pairs</li>
+                                <li>difference-of-means</li>
+                                <li>deception probes</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/Probes-of-all-kind" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Chain-of-thought faithfulness evaluation</span>
+                                <span class="k">replicating Turpin et al. and Lanham et al., 2023</span>
+                            </span>
+                            <span class="fig">9,561 records</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Does a model follow a planted nudge &mdash; and does its reasoning trace admit it? <b>9,561 records</b> across three independent conditions and 13 BIG-Bench-Hard tasks on Llama-3-8B-Instruct: a clean baseline, an explicit wrong hint, and a positional few-shot bias where every exemplar answers (A).</p>
+                            <p>Separating those two bias types matters because they fail differently: one tests whether the model caves to a stated opinion, the other whether it caves to mere format. A chain of thought is a generated artifact, not an audit trail, and this measures the gap.</p>
+                            <ul class="chips">
+                                <li>13 BIG-Bench-Hard tasks</li>
+                                <li>3 bias conditions</li>
+                                <li>Llama-3-8B-Instruct</li>
+                                <li>A100-80GB</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/CoT-evaluation" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">LLM sycophancy evaluator</span>
+                                <span class="k">paired-prompt framework&nbsp;&middot; weighted scoring</span>
+                            </span>
+                            <span class="fig">45 / 20 / 40%</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Measures three distinct behaviours rather than one vague trait: <b>agreement bias</b> (flipping a correct answer to match a user's wrong belief), <b>flattery</b> (praising weak work instead of critiquing it), and <b>pressure capitulation</b> (abandoning a correct position under pushback). On Llama-3.2-3B: <b>45%</b>, <b>20%</b> and <b>40%</b> respectively, weighted across sycophantic, ambiguous and resistant responses.</p>
+                            <p>It also reports its own confound. The base model produced severe repetition loops on neutral prompts, which inflated ambiguous scores and probably <em>suppressed</em> measured sycophancy &mdash; a result worth less if you don't say so.</p>
+                            <ul class="chips">
+                                <li>agreement bias 45%</li>
+                                <li>flattery 20%</li>
+                                <li>capitulation 40%</li>
+                                <li>paired prompts</li>
+                                <li>weighted scoring</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/LLM-sycophancy" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+
+            <h3 class="grouphead">Agents &amp; systems</h3>
+            <ul class="list">
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">[FILL: project name]</span>
+                                <span class="k">Day-orchestrator agent system&nbsp;&middot; Flower AI</span>
+                            </span>
+                            <span class="fig">[FILL]</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>An orchestrator that productivizes a person's day over WhatsApp.</p>
+                            <ul class="points">
+                                <li>Multiple agents run in the background and schedule the day against weekly or monthly goals.</li>
+                                <li>Uses LinkedIn to reach out to people and surface events the user might find useful.</li>
+                                <li>Built on Flower AI.</li>
+                            </ul>
+                            <ul class="chips">
+                                <li>Flower AI</li>
+                                <li>WhatsApp</li>
+                                <li>LinkedIn</li>
+                                <li>[FILL: stack]</li>
+                            </ul>
+                            <span class="local">[FILL: repo]</span>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Jarvis Desk</span>
+                                <span class="k">Executable World hackathon&nbsp;&middot; Track 1 (AI Assistants)</span>
+                            </span>
+                            <span class="fig">0.4&ndash;1.0 ms fast lane</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <!-- [FILL: brief says "Windows-first, always-on overlay"; README frames the web HUD as primary and the overlay as optional — confirm] -->
+                            <p>A voice-first assistant with a two-speed brain: a typed decision model routes and gates every action in milliseconds while an LLM does the talking.</p>
+                            <ul class="points">
+                                <li>TypeSafe Jev is the fast decision layer: every turn starts with a typed decide() call under an 800 ms budget that classifies intent and danger before the LLM produces a token, with a regex fallback behind the same signature.</li>
+                                <li>Permission tiers enforced in code, not in the prompt: READ tools fire immediately, WRITE tools run without approval, DANGER tools always stop for a human.</li>
+                                <li>A web HUD and a Windows overlay client speak the same streaming /chat protocol; Stop cancels the run and the voice together.</li>
+                                <li>Built for the Executable World hackathon, Track 1 (AI Assistants).</li>
+                            </ul>
+                            <ul class="chips">
+                                <li>TypeSafe Jev</li>
+                                <li>OpenAI Agents SDK</li>
+                                <li>SSE</li>
+                                <li>Human-in-the-loop</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/jarvis-desk" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">GreenRoots &mdash; WhatsApp customer service agent</span>
+                                <span class="k">Gemini 2.0 Flash&nbsp;&middot; three services, one database</span>
+                            </span>
+                            <span class="fig">no PII at rest</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>A Node bridge on <b>whatsapp-web.js</b> talks to a FastAPI and SQLite backend over <b>HMAC-signed HTTP</b>, with a Streamlit and Plotly dashboard reading the same store. Customers check stock, browse the catalogue, order and track deliveries in chat.</p>
+                            <p>The design choice worth defending: <b>phone numbers are never stored</b> &mdash; only an HMAC-SHA256 hash is persisted, so the database is not a contact list if it leaks.</p>
+                            <ul class="chips">
+                                <li>Gemini 2.0 Flash</li>
+                                <li>whatsapp-web.js + Express</li>
+                                <li>FastAPI&nbsp;&middot; SQLite</li>
+                                <li>HMAC-signed transport</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/customer_care_agent" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">SQ3R Read &mdash; spaced repetition from any page</span>
+                                <span class="k">Chrome MV3 + Node/TypeScript</span>
+                            </span>
+                            <span class="fig">5-stage pipeline</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>A browser extension and companion service that turn any page into spaced-repetition cards through a five-stage LLM pipeline &mdash; Survey, Question, Read, Recite, Review. Retrieval-grounded card generation, <b>ts-fsrs</b> scheduling, SQLite, and providers that plug in from a local Ollama through to Anthropic.</p>
+                            <p>A service worker spawns review agents <b>on its own schedule, unsupervised</b>. Watching a small multi-agent system act without me is a large part of why I moved toward monitoring and evaluation. Standing rule in the codebase: all model output is untrusted until validated.</p>
+                            <ul class="chips">
+                                <li>Chrome MV3&nbsp;&middot; React&nbsp;&middot; Vite</li>
+                                <li>Node&nbsp;&middot; TypeScript&nbsp;&middot; SQLite</li>
+                                <li>ts-fsrs scheduling</li>
+                                <li>autonomous scheduler</li>
+                                <li>Ollama &rarr; Anthropic</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/book_SQ3R_helper" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">VecGate &mdash; access control for vector databases</span>
+                                <span class="k">two-layer RBAC for pgvector, enforced in one SQL query</span>
+                            </span>
+                            <span class="fig">one SQL query</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>RAG systems leak by retrieving what the user was never allowed to see. VecGate puts the access check <em>inside</em> retrieval: facet-level RBAC decides which datasets a role may query, chunk-level group ACLs restrict individual passages, and <b>both are enforced within a single SQL query</b> rather than filtered afterwards in application code.</p>
+                            <p>Per-facet <b>HNSW partial indexes</b> mean the vector search only ever touches authorised rows, so the permission boundary is also the performance boundary. Ships as a Python SDK, a CLI and an HTTP service over one core.</p>
+                            <ul class="chips">
+                                <li>PostgreSQL + pgvector</li>
+                                <li>facet + chunk ACL</li>
+                                <li>HNSW partial indexes</li>
+                                <li>SDK&nbsp;&middot; CLI&nbsp;&middot; service</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/vecgate" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">SSGengine &mdash; the generator behind this page</span>
+                                <span class="k">C++ static site generator&nbsp;&middot; zero dependencies</span>
+                            </span>
+                            <span class="fig">builds this page</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Markdown in, a complete site out, with incremental rebuilds driven by a content-hash cache. No Node, no Python, no package manager &mdash; a single executable next to your content folder. <b>This page was built with it.</b></p>
+                            <ul class="chips">
+                                <li>C++</li>
+                                <li>zero dependencies</li>
+                                <li>incremental builds</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/SSGengine" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+
+            <h3 class="grouphead">Security ML</h3>
+            <ul class="list">
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">DDoS intrusion detection &mdash; M.S. capstone</span>
+                                <span class="k">BCCC-Cloud-DDoS-2024&nbsp;&middot; temporal sequence modelling</span>
+                            </span>
+                            <span class="fig">700,774 flows</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Detection over <b>700,774 network flows</b> from six days of cloud traffic, with 324 raw columns pruned to roughly <b>86 features</b> by variance threshold and correlation. Two complementary approaches: a BiLSTM and 1D CNN over time-sorted sliding windows, and a CNN visual-strip baseline for comparison.</p>
+                            <p>Three classes, not two &mdash; Benign 58.9%, Attack 32.6%, <em>Suspicious</em> 8.4% &mdash; because the honest output of a detector under uncertainty is escalation, not a guess.</p>
+                            <ul class="chips">
+                                <li>324 &rarr; 86 features</li>
+                                <li>BiLSTM + 1D CNN</li>
+                                <li>3-class escalation</li>
+                                <li>PyTorch&nbsp;&middot; Keras</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/IDS_ddos_neuralnet" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+        </section>
+
+        <!-- ===== WRITING ===== -->
+        <section class="writing sec" id="writing">
+            <h2 class="eyebrow">Writing</h2>
+            <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/j-space.html">J-space — reading a model mid-computation</a><p class="w-excerpt">A small, verbalizable subset of everything a model is computing — and the one fixed matrix that lets you read it out mid-layer, before…</p></li><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol>
+            <a class="all-writing" href="blogs.html">All writing &rarr;</a>
+        </section>
     </main>
 
-    <footer class="site">
-        <div class="social">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L.K.S — Self as Trace</p>
-    </footer>
-
-    <script>
-    (function () {
-        "use strict";
-        document.body.classList.remove("no-js");
-
-        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var slice = function (n) { return Array.prototype.slice.call(n); };
-        function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
-        function pad(n) { return (n < 10 ? "0" : "") + n; }
-
-        /* ---------- the trace carousel ---------- */
-        var trace = document.querySelector(".trace");
-        if (!trace) return;
-
-        var viewport = trace.querySelector(".viewport");
-        var slides = slice(trace.querySelectorAll(".beat"));
-        var rail = trace.querySelector(".rail");
-        var prev = trace.querySelector(".nav.prev");
-        var next = trace.querySelector(".nav.next");
-        var curEl = trace.querySelector(".counter .cur");
-        var totalEl = trace.querySelector(".counter .total");
-        if (!viewport || !slides.length) return;
-
-        var index = -1;
-
-        /* Build the rail from whatever steps exist, so steps can be added,
-           cut or reordered in the markup without touching this script. */
-        var buttons = slides.map(function (slide, i) {
-            var idxEl = slide.querySelector(".index");
-            var full = (idxEl ? idxEl.textContent : "Step " + (i + 1)).trim();
-            var short = slide.getAttribute("data-rail") || full;
-
-            if (!slide.id) slide.id = "step-" + (i + 1);
-            slide.setAttribute("role", "group");
-            slide.setAttribute("aria-roledescription", "slide");
-            slide.setAttribute("aria-label", (i + 1) + " of " + slides.length + " — " + full);
-
-            var li = document.createElement("li");
-            var b = document.createElement("button");
-            b.type = "button";
-            b.title = full;
-            b.setAttribute("aria-controls", slide.id);
-            b.setAttribute("aria-selected", "false");
-            b.setAttribute("aria-label", full);
-
-            var dot = document.createElement("span");
-            dot.className = "dot";
-            var label = document.createElement("span");
-            label.className = "label";
-            label.textContent = short;
-            b.appendChild(dot);
-            b.appendChild(label);
-
-            b.addEventListener("click", function () { go(i); });
-            li.appendChild(b);
-            rail.appendChild(li);
-            return b;
-        });
-
-        if (totalEl) totalEl.textContent = pad(slides.length);
-
-        /* The causal reason is revealed on request rather than on a timer:
-           each step now carries body copy that has to be read first, and a
-           reveal the reader triggers is truer to the page's argument than
-           one that fires at them. */
-        slides.forEach(function (slide, i) {
-            var btn = slide.querySelector(".reveal-btn");
-            if (!btn) return;
-            btn.addEventListener("click", function () {
-                slide.classList.add("revealed");
-                if (buttons[i]) buttons[i].classList.add("diverged");
-            });
-        });
-
-        function go(i) {
-            i = clamp(i, 0, slides.length - 1);
-            viewport.scrollTo({ left: i * viewport.clientWidth, behavior: reduce ? "auto" : "smooth" });
-        }
-
-        function activate(i) {
-            if (i === index) return;
-            index = i;
-
-            if (curEl) curEl.textContent = pad(i + 1);
-            if (prev) prev.disabled = (i === 0);
-            if (next) next.disabled = (i === slides.length - 1);
-
-            buttons.forEach(function (b, n) {
-                b.setAttribute("aria-selected", n === i ? "true" : "false");
-                b.classList.toggle("seen", n < i);
-            });
-
-            slides.forEach(function (slide, n) {
-                var on = (n === i);
-                slide.classList.toggle("in", on);
-                slice(slide.querySelectorAll(".frag")).forEach(function (f) {
-                    f.classList.toggle("in", on);
-                });
-            });
-        }
-
-        /* Read the active step back off scroll position, so swipe, the rail,
-           the buttons and the keyboard all converge on one source of truth. */
-        var ticking = false;
-        function sync() {
-            ticking = false;
-            var w = viewport.clientWidth;
-            activate(clamp(w ? Math.round(viewport.scrollLeft / w) : 0, 0, slides.length - 1));
-        }
-        viewport.addEventListener("scroll", function () {
-            if (!ticking) { ticking = true; requestAnimationFrame(sync); }
-        }, { passive: true });
-
-        if (prev) prev.addEventListener("click", function () { go(index - 1); });
-        if (next) next.addEventListener("click", function () { go(index + 1); });
-
-        viewport.addEventListener("keydown", function (e) {
-            var k = e.key;
-            if (k === "ArrowRight") { go(index + 1); }
-            else if (k === "ArrowLeft") { go(index - 1); }
-            else if (k === "Home") { go(0); }
-            else if (k === "End") { go(slides.length - 1); }
-            else { return; }
-            e.preventDefault();
-        });
-
-        /* Keep the current step centred when the viewport is resized. */
-        var resizeTimer;
-        window.addEventListener("resize", function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () {
-                viewport.scrollLeft = index * viewport.clientWidth;
-            }, 120);
-        }, { passive: true });
-
-        activate(0);
-    })();
-    </script>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 </body>
 </html>

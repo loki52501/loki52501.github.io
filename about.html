@@ -3,27 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About me - My Portfolio</title>
+    <title>About me | Lokesh L.K.S</title>
+    <meta name="description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <link rel="canonical" href="https://lkslokesh.com/about.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="About me | Lokesh L.K.S">
+    <meta property="og:description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <meta property="og:url" content="https://lkslokesh.com/about.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="about.html" aria-current="page">About</a><a href="blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         
         <div class="content-wrapper">
             <h1 id="about-me">About me</h1>
 <p>I care about building AI that people can actually trust.</p>
+<p><ul class="creds"><li>M.S. Cybersecurity Operations &amp; Technology, Penn State (GPA 3.7)</li><li>Integrated M.S. IT, Anna University (CEG)</li><li>CCNA</li><li>CompTIA Security+</li><li>BlueDot Technical AI Safety</li><li>ARENA 3.0 (Neel Nanda track)</li><li>Agentic AI Summit 2026, Berkeley RDI</li><li>MATS stage 2 (empirical track)</li><li>Asia Book of Records &amp; Limca Book of Records &mdash; five-day long-duration skating</li></ul></p>
 <p>My name is Lokesh, and I'm a researcher and engineer working on the messy, human side of artificial intelligence. Right now, I have finished my M.S. in Cybersecurity Analytics and Operations at Penn State, but my real focus is on a problem that sits somewhere between engineering and philosophy: <strong>how do we make AI systems safe enough, observable enough, and responsible enough that real people can rely on them?</strong></p>
 <p>Most of my work centers on <strong>understanding AI behavior</strong>—not just whether a model gets the right answer, but <em>why</em> it got there. I've spent a lot of time studying how large language models cave to pressure, repeat back what they think you want to hear, or generate confident reasoning that doesn't actually match their internal process. In my research on sycophancy and chain-of-thought faithfulness, I've seen models abandon correct answers when pushed, or rationalize biases they shouldn't have. That's a trust problem, and I think it's one of the most important problems in AI right now.</p>
 <p>But I'm not just interested in breaking things in a lab. What motivates me is <strong>making AI observable and accountable in the real world</strong>—building systems where you can trace a decision back to its source, understand whether your agent is reasoning or just pattern-matching, and catch failure modes before they impact someone.</p>
@@ -36,12 +50,13 @@
   <li><strong>Email:</strong> lokeshlks01@gmail.com</li>
   <li><strong>Website:</strong> <a href="https://lkslokesh.com">lkslokesh.com</a></li>
   <li><strong>GitHub:</strong> <a href="https://github.com/loki52501">github.com/loki52501</a></li>
+  <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/lkslokesh">linkedin.com/in/lkslokesh</a></li>
   <li><strong>Phone:</strong> 814-280-3477</li>
 </ul>
-<p>---</p>
+<hr>
 <p><strong>Let's talk:</strong> <a href="mailto:lokeshlks01@gmail.com">lokeshlks01@gmail.com</a></p>
 <p><strong>Other places:</strong>  <a href="blog/">Blog</a> | <a href="https://www.chess.com/member/lkslokesh">Chess</a></p>
-<p>---</p>
+<hr>
 <p><em>"We used to look up at the sky and wonder at our place in the stars. Now we just look down, and worry about our place in the dirt."</em></p>
 <p><em>I'm still looking up.</em></p>
 
@@ -49,14 +64,15 @@
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

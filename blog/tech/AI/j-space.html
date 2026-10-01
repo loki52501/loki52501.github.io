@@ -183,6 +183,18 @@
   footer .eyebrow{ margin-bottom:10px; }
   footer p{ color:var(--muted); font-size:14px; max-width:56ch; }
   footer .src{ margin-top:20px; font-size:13px; color:var(--faint); font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- comments ----------
+     This page is copied through the build byte-for-byte and never sees the
+     site template, so the Utterances block the template injects into
+     markdown posts has to live here in the source. Theme is pinned dark
+     because this page has no light variant. */
+  .comments-section{
+    max-width:760px; margin:0 auto; padding:48px 28px 0;
+    border-top:1px solid rgba(233,228,216,0.10);
+  }
+  .comments-section .eyebrow{ display:block; margin-bottom:18px; }
+  .comments-section .utterances{ max-width:100%; margin:0; }
 </style>
 </head>
 <body>
@@ -431,6 +443,17 @@
   <p class="dek reveal">This is the piece that connects back to faithfulness work: if a concept sits stably in J-space at a given reasoning step, it was <em>available</em> to be reported. Whether the model's written chain of thought actually mentions it is a separate, checkable question — a stated reason can now be held up against what the model was actually in a position to say.</p>
   <p class="pull reveal">A chain of thought is a claim about what happened inside. J-space is a way to check the claim.</p>
 </section>
+
+<div class="comments-section">
+  <span class="eyebrow">discussion</span>
+  <script src="https://utteranc.es/client.js"
+          repo="loki52501/loki52501.github.io"
+          issue-term="pathname"
+          theme="github-dark"
+          crossorigin="anonymous"
+          async>
+  </script>
+</div>
 
 <footer>
   <span class="eyebrow">source</span>

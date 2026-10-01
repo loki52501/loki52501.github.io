@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - My Portfolio</title>
+    <title>Projects | Lokesh L.K.S</title>
+    <meta name="description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <link rel="canonical" href="https://lkslokesh.com/projects.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="Projects | Lokesh L.K.S">
+    <meta property="og:description" content="Lokesh L.K.S — AI safety, interpretability and evaluation. Research notes, projects, and writing.">
+    <meta property="og:url" content="https://lkslokesh.com/projects.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="about.html">About</a><a href="blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         
         <div class="content-wrapper">
             <h1 id="projects">Projects</h1>
 <p><div id="github-repos-container"></div></p>
 <h1 id="things-ive-built">Things I've Built</h1>
 <p>Most of these started with a question I couldn't stop thinking about. Some turned into production systems. Others taught me why the problem was hard.</p>
-<p>---</p>
+<hr>
 <h2 id="llm-sycophancy-evaluator">LLM Sycophancy Evaluator</h2>
 <p><em>Research Project · Aug 2024 – May 2026</em></p>
 <p><strong>The Problem:</strong> Large language models agree with users even when the user is wrong. But most benchmarks treat this as a static property. I wanted to measure it behaviorally—across specific pressure tactics—and understand whether instruct-tuning actually fixes the problem or just hides it.</p>
@@ -35,7 +48,7 @@
 <p><strong>What I Found:</strong> The base (non-instruct) model produces severe repetition loops that inflate ambiguous scores—meaning instruct-tuning isn't just about capability, it's about evaluability. Measured 45% agreement bias, 40% pressure capitulation, and 80% flattery resistance. Context-dependent capitulation showed up clearly: the model abandoned correct positions on flat Earth and "largest organ" facts under assertive pushback, but held firm on Pluto classification. Sycophancy is not uniform across domains.</p>
 <p><strong>Tech:</strong> Python · PyTorch · HuggingFace Transformers · Streamlit · Jinja2 · pytest</p>
 <p><strong>More:</strong> Full harness, methodology, and results on <a href="https://github.com/loki52501">GitHub</a> and <a href="https://lkslokesh.com">lkslokesh.com</a></p>
-<p>---</p>
+<hr>
 <h2 id="chain-of-thought-faithfulness-evaluation">Chain-of-Thought Faithfulness Evaluation</h2>
 <p><em>Research Project · Active</em></p>
 <p><strong>The Problem:</strong> When an LLM shows its work, is that reasoning actually driving the answer, or is it post-hoc rationalization? If we can't tell the difference, we can't trust systems that use CoT for high-stakes decisions.</p>
@@ -43,7 +56,7 @@
 <p><strong>The Details:</strong> I'm extending the evaluation harness from the sycophancy project with new prompt templates designed for CoT extraction. Implemented paired CoT logging that captures both biased and unbiased reasoning traces for direct comparison. Built bias-acknowledgement tagging using regex and heuristic classifiers to detect whether the model explicitly mentions the injected hint—or ignores it while still being swayed.</p>
 <p><strong>Status:</strong> Systematic evaluation running across BIG-Bench-Hard subsets. Results and code to be released.</p>
 <p><strong>Tech:</strong> Python · PyTorch · HuggingFace Transformers · BIG-Bench-Hard</p>
-<p>---</p>
+<hr>
 <h2 id="ai-powered-ddos-detection-system">AI-Powered DDoS Detection System</h2>
 <p><em>ML Engineering Project</em></p>
 <p><strong>The Problem:</strong> DDoS detection is a sequence problem, not a snapshot problem. A single packet tells you almost nothing. A sequence of packets—their timing, inter-arrival deltas, rate ramp—tells you everything. Most systems either ignore this (static thresholds), overfit it, or drown in 300+ features of noise.</p>
@@ -54,7 +67,7 @@
   <li>11% accuracy. The escalation layer handles 85% of traffic autonomously at high confidence and explicitly reduces miscalls on the ambiguous "Suspicious" class by routing low-confidence predictions for analyst review.</li>
 </ol>
 <p><strong>Tech:</strong> Python · PyTorch · BiLSTM · 1D CNN · Scikit-learn · Pandas</p>
-<p>---</p>
+<hr>
 <h2 id="temporal-cnn-based-intrusion-detection-system">Temporal CNN-Based Intrusion Detection System</h2>
 <p><em>Capstone Project · Active</em></p>
 <p><strong>The Problem:</strong> Security teams get alerts they can't act on. <code>ALERT: flow_id=47293 label=anomaly confidence=0.94</code> doesn't tell a SOC analyst what happened or what to do. Detection without explainability just creates alert fatigue.</p>
@@ -65,7 +78,7 @@
 </ol>
 <p><strong>Status:</strong> Tuning false positive rate. Detection without alert fatigue is the actual benchmark.</p>
 <p><strong>Tech:</strong> Python · TensorFlow · Temporal CNN · Gemini API · Pandas · scikit-learn</p>
-<p>---</p>
+<hr>
 <h2 id="quic-router-simulation">QUIC Router Simulation</h2>
 <p><em>Side Project · Ongoing</em></p>
 <p><strong>The Question:</strong> When 10,000 flows compete for 1Gbps, which packet gets sent first—and what does that choice do to P99 tail latency?</p>
@@ -78,7 +91,7 @@
 <p><strong>The Details:</strong> Implemented a custom event loop modeling QUIC short-header packets with connection IDs and variable-length payloads. Traffic generators produce three classes: bulk transfer (greedy TCP-like), video streaming (CBR with burst tolerance), and WebRTC (latency-sensitive, small packets). Each class gets configurable weights in WFQ and nested hierarchies in HPFQ. I'm measuring P99 tail latency specifically—not mean, not median. P99 is where video streaming stutters, where WebRTC calls drop frames, where user experience actually degrades.</p>
 <p><strong>Why QUIC:</strong> QUIC is the transport layer behind HTTP/3. Every modern browser uses it. Understanding queue scheduling behavior at this layer means understanding where real internet bottlenecks form under concurrent mixed-priority traffic.</p>
 <p><strong>Tech:</strong> Python · discrete-event simulation · QUIC protocol modeling · algorithmic queue management</p>
-<p>---</p>
+<hr>
 <h2 id="dsa-coaching-platform">DSA Coaching Platform</h2>
 <p><em>Full-Stack Project</em></p>
 <p><strong>The Problem:</strong> Most DSA prep resources are either passive (YouTube videos) or expensive (paid tutors). Students who learn by doing and explaining need something in between—a space where they can work through problems, see structured breakdowns, and build intuition rather than memorize patterns.</p>
@@ -86,7 +99,7 @@
 <p><strong>The Details:</strong> Backend in FastAPI with SQLAlchemy ORM over PostgreSQL. JWT-based authentication with bcrypt-hashed credentials. Problem content stored as structured Markdown with metadata tags for prerequisites, patterns, and complexity classes. Frontend in React using Context API for state management. Each problem includes a structured approach breakdown, edge case analysis, complexity proof, and common misconception warnings. Docker Compose setup for local deployment: app container, Postgres container, and Nginx reverse proxy.</p>
 <p><strong>What It Taught Me:</strong> Content organization is a design problem. How you structure information determines how people learn from it. The graph thinking applies: prerequisites are edges, concepts are nodes, and good pedagogy is shortest-path from confusion to understanding. Used by 40+ students in the initial pilot.</p>
 <p><strong>Tech:</strong> Python · FastAPI · React · PostgreSQL · Docker · Nginx</p>
-<p>---</p>
+<hr>
 <h2 id="self-hosted-ai-inference-stack">Self-Hosted AI Inference Stack</h2>
 <p><em>Infrastructure Project · Ongoing</em></p>
 <p><strong>Why Self-Host:</strong> Running inference through APIs gives you outputs. Running it on your own hardware gives you understanding. Quantization tradeoffs, memory bandwidth ceilings, latency under concurrent requests, thermal throttling at sustained load—these are the constraints that matter when you're building production AI systems, and you don't learn them from HTTP calls.</p>
@@ -99,7 +112,7 @@
   <li>Concurrent request handling at the inference layer requires the same thinking as concurrent request handling at any API layer. Beyond 4 simultaneous requests, latency spikes superlinearly due to context-switching overhead.</li>
 </ul>
 <p><strong>Tech:</strong> Linux · CUDA · llama.cpp · Python · asyncio · local networking</p>
-<p>---</p>
+<hr>
 <h2 id="network-intrusion-detection-using-deep-learning">Network Intrusion Detection Using Deep Learning</h2>
 <p><em>Research Project · Anna University</em></p>
 <p><strong>The Challenge:</strong> Detect 9 different attack types—DoS, exploits, reconnaissance, brute force, backdoors, and more—from raw network flow records. Dataset: UNSW-NB15. 2.5 million flows, 49 raw features, real attack captures.</p>
@@ -111,7 +124,7 @@
 </ol>
 <p><strong>What I Learned:</strong> Feature selection <em>is</em> the work. Not a preprocessing step. The swarm intelligence approach solved a network security problem better than manual feature engineering.</p>
 <p><strong>Tech:</strong> Python · TensorFlow · LSTM · CNN · metaheuristic optimization (SCA, PSO) · UNSW-NB15</p>
-<p>---</p>
+<hr>
 <h2 id="secure-digital-library-platform">Secure Digital Library Platform</h2>
 <p><em>Production System · Anna University</em></p>
 <p><strong>The Context:</strong></p>
@@ -126,7 +139,7 @@
 </ol>
 <p><strong>What Mattered:</strong> Session management correctness, RBAC implementation without privilege escalation gaps, and database queries that didn't degrade under concurrent reads. The boring infrastructure correctness that makes or breaks production systems.</p>
 <p><strong>Tech:</strong> Node.js · PostgreSQL · React · Docker · Nginx · OAuth 2.0 · RBAC</p>
-<p>---</p>
+<hr>
 <h2 id="face-detection-mobile-app">Face Detection Mobile App</h2>
 <p><em>Undergrad Project</em></p>
 <p><strong>The Architecture:</strong> Android app in Java → FastAPI backend on Heroku → OpenCV Haar Cascade detection → bounding box coordinates → real-time camera overlay.</p>
@@ -135,7 +148,7 @@
 <p><strong>Results:</strong> End-to-end latency ~400ms on WiFi. Handled 5 concurrent users without blocking via FastAPI's async endpoints. The real bottlenecks weren't the detection algorithm—they were camera preview orientation, JPEG compression quality, and network payload size.</p>
 <p><strong>Tech:</strong> Android (Java) · Camera2 API · FastAPI · OpenCV · Heroku · REST</p>
 <p><strong>Source:</strong> <a href="https://gitlab.com/artcreativity2019/cme-project">GitLab</a></p>
-<p>---</p>
+<hr>
 <h2 id="nft-tracking-dashboard">NFT Tracking Dashboard</h2>
 <p><em>24-Hour Hackathon · NIT Trichy · First Place</em></p>
 <p><strong>The Situation:</strong> NIT Trichy blockchain competition. 24 hours. Tool I'd never touched: Google Apps Script.</p>
@@ -143,7 +156,7 @@
 <p><strong>The Details:</strong> Google Apps Script with time-driven triggers firing every 5 minutes. <code>UrlFetchApp</code> calls to the Etherscan API for wallet transaction history and to the OpenSea API for floor price data. Parsed JSON responses into structured Google Sheets tabs: <code>Transactions</code> (tx hash, timestamp, ETH value, gas fee), <code>Wallets</code> (tracked addresses, holdings, P&L), and <code>Alerts</code> (price threshold breaches, whale movements). Built Sheets-native charts for transaction volume trends and wallet activity heatmaps. Added a custom menu in the Sheets UI for manual refresh and wallet addition.</p>
 <p><strong>What It Taught Me:</strong> You can absorb a new tool fast when you're shipping something real. The constraint of "no backend except Google" forced efficient design: Apps Script's 6-minute execution limit meant I had to implement paginated API fetching and batched writes. Sometimes the right tool is whatever gets it working in time, not the theoretically perfect solution.</p>
 <p><strong>Tech:</strong> Google Apps Script · Etherscan API · OpenSea API · Google Sheets</p>
-<p>---</p>
+<hr>
 <h2 id="3d-campus-digital-twin">3D Campus Digital Twin</h2>
 <p><em>Undergrad Exploration</em></p>
 <p><strong>What I Built:</strong> A complete 3D model of my entire undergrad campus in Blender. ~200 acres, 15+ buildings modeled to scale.</p>
@@ -153,24 +166,25 @@
   <li>Learned that spatial abstraction is a systems problem: LOD decisions, occlusion culling, and texture atlasing directly impact whether a complex scene remains navigable. The detour taught me how to represent graph-like spatial relationships in queryable 3D form.</li>
 </ol>
 <p><strong>Tech:</strong> Blender · glTF · Eevee · photogrammetry reference</p>
-<p>---</p>
+<hr>
 <h2 id="what-connects-these">What Connects These</h2>
 <p>Feature selection appears in three separate projects. Graph thinking shows up in every one. The gap between benchmark accuracy and production usefulness is the recurring constraint.</p>
 <p>Whether it's packets through router queues, network flows hiding attacks, or users hitting a database during exams—the structure is the same. Understand the graph. Find where it breaks. Build the thing that holds.</p>
-<p>---</p>
+<hr>
 
             
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

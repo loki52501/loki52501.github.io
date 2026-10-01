@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>From Model to Production - My Portfolio</title>
+    <title>From Model to Production | Lokesh L.K.S</title>
+    <meta name="description" content="Jupyter notebook">
+    <link rel="canonical" href="https://lkslokesh.com/blog/02_production.html">
+    <meta name="theme-color" content="#F2EFE6">
+    <meta property="og:title" content="From Model to Production | Lokesh L.K.S">
+    <meta property="og:description" content="Jupyter notebook">
+    <meta property="og:url" content="https://lkslokesh.com/blog/02_production.html">
+    <meta property="og:image" content="https://lkslokesh.com/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bricolage Grotesque's wdth axis stops at 100; asking for a wider
+         range makes Google drop the family and the headings fall back. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="../index.html">Home</a><a href="../about.html">About</a><a href="../projects.html">Projects</a><a href="../blogs.html">Blog</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar"><div class="topbar-in shell">
+        <a class="wordmark" href="../index.html">Lokesh L.K.S</a>
+        <nav class="topnav" aria-label="Primary"><a href="../about.html">About</a><a href="../blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+    </div></header>
 
-    <main>
+    <main id="main">
         
         <div class="content-wrapper">
             <div class="jupyter-notebook">
@@ -31,6 +44,7 @@
 import fastbook
 fastbook.setup_book()</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [2]:</div>
@@ -38,6 +52,7 @@ fastbook.setup_book()</code></pre>
 from fastbook import *
 from fastai.vision.widgets import *</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <h1 id="from-model-to-production">From Model to Production</h1>
 
@@ -199,6 +214,7 @@ from fastai.vision.widgets import *</code></pre>
       <div class="nb-input-prompt">In [3]:</div>
       <pre><code class="language-python">key = os.environ.get(&#39;AZURE_SEARCH_KEY&#39;, &#39;XXX&#39;)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>Or, if you're comfortable at the command line, you can set it in your terminal with:</p>
 <p>    export AZURE<em>SEARCH</em>KEY=your<em>key</em>here</p>
@@ -238,12 +254,14 @@ len(ims)</code></pre>
       <pre><code class="language-python">#hide
 ims = [&#39;http://3.bp.blogspot.com/-S1scRCkI3vY/UHzV2kucsPI/AAAAAAAAA-k/YQ5UzHEm9Ss/s1600/Grizzly%2BBear%2BWildlife.jpg&#39;]</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">dest = &#39;images/grizzly.jpg&#39;
 download_url(ims[0], dest)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [ ]:</div>
@@ -251,7 +269,7 @@ download_url(ims[0], dest)</code></pre>
 im.to_thumb(128,128)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell45_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell45_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -264,6 +282,7 @@ im.to_thumb(128,128)</code></pre>
       <pre><code class="language-python">bear_types = &#39;grizzly&#39;,&#39;black&#39;,&#39;teddy&#39;
 path = Path(&#39;bears&#39;)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [ ]:</div>
@@ -329,6 +348,7 @@ failed</code></pre>
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">failed.map(Path.unlink);</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <h3 id="sidebar-getting-help-in-jupyter-notebooks">Sidebar: Getting Help in Jupyter Notebooks</h3>
 
@@ -415,6 +435,7 @@ Type:      function
     get_y=parent_label,
     item_tfms=Resize(128))</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>Let's look at each of these arguments in turn. First we provide a tuple where we specify what types we want for the independent and dependent variables: </p>
 <pre><code>blocks=(ImageBlock, CategoryBlock)
@@ -439,6 +460,7 @@ Type:      function
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">dls = bears.dataloaders(path)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>A <code>DataLoaders</code> includes validation and training <code>DataLoader</code>s. <code>DataLoader</code> is a class that provides batches of a few items at a time to the GPU. We'll be learning a lot more about this class in the next chapter. When you loop through a <code>DataLoader</code> fastai will give you 64 (by default) items at a time, all stacked up into a single tensor. We can take a look at a few of those items by calling the <code>show_batch</code> method on a <code>DataLoader</code>:</p>
 
@@ -449,7 +471,7 @@ Type:      function
       <pre><code class="language-python">dls.valid.show_batch(max_n=4, nrows=1)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell72_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell72_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -464,7 +486,7 @@ dls = bears.dataloaders(path)
 dls.valid.show_batch(max_n=4, nrows=1)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell74_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell74_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-code-cell">
@@ -475,7 +497,7 @@ dls = bears.dataloaders(path)
 dls.valid.show_batch(max_n=4, nrows=1)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell75_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell75_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -493,7 +515,7 @@ dls = bears.dataloaders(path)
 dls.train.show_batch(max_n=4, nrows=1, unique=True)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell77_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell77_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -516,7 +538,7 @@ dls = bears.dataloaders(path)
 dls.train.show_batch(max_n=8, nrows=2, unique=True)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell81_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell81_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -540,6 +562,7 @@ dls.train.show_batch(max_n=8, nrows=2, unique=True)</code></pre>
     batch_tfms=aug_transforms())
 dls = bears.dataloaders(path)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>We can now create our <code>Learner</code> and fine-tune it in the usual way:</p>
 
@@ -630,7 +653,7 @@ interp.plot_confusion_matrix()</code></pre>
       <div class="nb-html-output"></div>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell89_out2.png" alt="Output 2" />
+      <img src="../images/notebooks/02_production_cell89_out2.png" alt="Output 2" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -645,7 +668,7 @@ interp.plot_confusion_matrix()</code></pre>
       <pre><code class="language-python">interp.plot_top_losses(5, nrows=1)</code></pre>
     </div>
     <div class="nb-output">
-      <img src="../images/notebooks/02_production_cell91_out1.png" alt="Output 1" />
+      <img src="../images/notebooks/02_production_cell91_out1.png" alt="Output 1" loading="lazy" decoding="async" />
     </div>
   </div>
   <div class="nb-cell nb-markdown-cell">
@@ -682,6 +705,7 @@ cleaner</code></pre>
 # for idx in cleaner.delete(): cleaner.fns[idx].unlink()
 # for idx,cat in cleaner.change(): shutil.move(str(cleaner.fns[idx]), path/cat)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>We can see that amongst our "black bears" is an image that contains two bears: one grizzly, one black. So, we should choose <code><Delete></code> in the menu under this image. <code>ImageClassifierCleaner</code> doesn't actually do the deleting or changing of labels for you; it just returns the indices of items to change. So, for instance, to delete (<code>unlink</code>) all images selected for deletion, we would run:</p>
 <pre><code>for idx in cleaner.delete(): cleaner.fns[idx].unlink()
@@ -722,6 +746,7 @@ cleaner</code></pre>
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">learn.export()</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>Let's check that the file exists, by using the <code>ls</code> method that fastai adds to Python's <code>Path</code> class:</p>
 
@@ -746,6 +771,7 @@ path.ls(file_exts=&#39;.pkl&#39;)</code></pre>
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">learn_inf = load_learner(path/&#39;export.pkl&#39;)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>When we're doing inference, we're generally just getting predictions for one image at a time. To do this, pass a filename to <code>predict</code>:</p>
 
@@ -822,11 +848,13 @@ btn_upload</code></pre>
 # For the book, we can&#39;t actually click an upload button, so we fake it
 btn_upload = SimpleNamespace(data = [&#39;images/grizzly.jpg&#39;])</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python">img = PILImage.create(btn_upload.data[-1])</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p><img alt="Output widget representing the image" width="117" src="images/att_00009.png"></p>
 
@@ -844,6 +872,7 @@ out_pl.clear_output()
 with out_pl: display(img.to_thumb(128,128))
 out_pl</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p><img alt="Output widget representing the image" width="117" src="images/att_00009.png"></p>
 <p>Then we can get our predictions:</p>
@@ -906,6 +935,7 @@ btn_run</code></pre>
 
 btn_run.on_click(on_click_classify)</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>You can test the button now by pressing it, and you should see the image and predictions update automatically!</p>
 <p>We can now put them all in a vertical box (<code>VBox</code>) to complete our GUI:</p>
@@ -918,6 +948,7 @@ btn_run.on_click(on_click_classify)</code></pre>
 #Putting back btn_upload to a widget for next cell
 btn_upload = widgets.FileUpload()</code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-code-cell">
     <div class="nb-input">
       <div class="nb-input-prompt">In [ ]:</div>
@@ -948,6 +979,7 @@ VBox([widgets.Label(&#39;Select your bear!&#39;),
 # !pip install voila
 # !jupyter serverextension enable --sys-prefix voila </code></pre>
     </div>
+  </div>
   <div class="nb-cell nb-markdown-cell">
     <p>Now that we have everything working in this Jupyter notebook, we can create our application. To do this, start a new notebook and add to it only the code needed to create and show the widgets that you need, and markdown for any text that you want to appear. Have a look at the <em>bear_classifier</em> notebook in the book's repo to see the simple notebook application we created.</p>
 <p>Next, install Voilà if you haven't already, by copying these lines into a notebook cell and executing it:</p>
@@ -1131,6 +1163,7 @@ ____
       <div class="nb-input-prompt">In [ ]:</div>
       <pre><code class="language-python"></code></pre>
     </div>
+  </div>
 </div>
 
             
@@ -1148,14 +1181,15 @@ ____
         </div>
     </main>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/loki52501" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <footer class="site-foot"><div class="foot-in shell">
+        <nav class="foot-links" aria-label="Elsewhere">
             <a href="mailto:lokeshlks01@gmail.com">Email</a>
-            <a href="https://mastodon.social/@lifeofcyb" target="_blank" rel="noopener noreferrer">Mastodon</a>
-        </div>
-        <p>&copy; 2025-26 Lokesh L K S Site.  A orginal</p>
-    </footer>
+            <a href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
+            <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
+        </nav>
+        <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+    </div></footer>
 
     <!-- Prism.js scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
