@@ -529,6 +529,7 @@
                 padding-top: 0;
                 white-space: normal;
             }
+            .fig:empty { display: none; }
             .chev { grid-column: 2; grid-row: 1; }
             .cta .btn { flex: 1 1 9rem; }
             .hero .role { letter-spacing: 0.08em; }
@@ -571,7 +572,6 @@
                 <div class="cta rise" style="--step:4">
                     <a class="btn btn-primary" href="mailto:lokeshlks01@gmail.com">Email me</a>
                     <a class="btn btn-secondary" href="resume.pdf">Resume</a>
-                    <!-- [FILL: drop resume.pdf into static/ or delete this button] -->
                 </div>
             </div>
 
@@ -639,13 +639,9 @@
 
                 <article class="card">
                     <p class="eyebrow">NOW</p>
-                    <h3>[FILL: project name]</h3>
-                    <p class="sub">Day-orchestrator agent system, built on Flower AI</p>
-                    <p class="body">An orchestrator that productivizes a person's day over WhatsApp. Multiple agents run in the background and schedule the day against weekly or monthly goals; it also uses LinkedIn to reach out to people and surface events the user might find useful.</p>
-                    <div class="status-wrap">
-                        <p class="status">Status: [FILL]</p>
-                        <p class="status">Stack&nbsp;· numbers&nbsp;· repo: [FILL]</p>
-                    </div>
+                    <h3>Second Brain</h3>
+                    <p class="sub">Flower AgentApp&nbsp;&middot; Flower Hub @lokilks/second-brain</p>
+                    <p class="body">Turns one goal into milestones and scored decision cards from four specialist agents &mdash; planner, events, health, content. Nothing executes without an approved card, and every approval and skip feeds the next ranking; the loop closes through WhatsApp and Google Calendar.</p>
                 </article>
             </div>
         </section>
@@ -784,26 +780,28 @@
                     <details>
                         <summary>
                             <span>
-                                <span class="t">[FILL: project name]</span>
-                                <span class="k">Day-orchestrator agent system&nbsp;&middot; Flower AI</span>
+                                <span class="t">Second Brain &mdash; goal-driven agent with approval-gated execution</span>
+                                <span class="k">Flower hackathon team build&nbsp;&middot; Flower AgentApp</span>
                             </span>
-                            <span class="fig">[FILL]</span>
+                            <span class="fig">4 agents</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>An orchestrator that productivizes a person's day over WhatsApp.</p>
+                            <p>A Flower AgentApp that turns one goal into milestones and scored decision cards from four specialist agents (planner, events, health, content). Nothing executes without an approved card, and every approve, pick and skip is stored as a preference that feeds the next ranking.</p>
                             <ul class="points">
-                                <li>Multiple agents run in the background and schedule the day against weekly or monthly goals.</li>
-                                <li>Uses LinkedIn to reach out to people and surface events the user might find useful.</li>
-                                <li>Built on Flower AI.</li>
+                                <li>Approval-gated execution: nothing runs without an approved card.</li>
+                                <li>Every external text treated as data: tagged prompts, URL-grounded event extraction, a regex-only WhatsApp channel, and allow-listed edit lists.</li>
+                                <li>Hardened execution: briefs only for approved cards, single-lined so injected text cannot forge a task or remove the STOP before the final click; turns, messages and concurrency bounded.</li>
+                                <li>A provider router with schema validation, retry, rule-based defaults and circuit breaking, plus a four-rung embedding ladder that works with zero keys.</li>
                             </ul>
                             <ul class="chips">
-                                <li>Flower AI</li>
+                                <li>Flower AgentApp</li>
+                                <li>Nebius Token Factory</li>
+                                <li>Kimi K2.7&nbsp;&middot; MiniMax M3</li>
                                 <li>WhatsApp</li>
-                                <li>LinkedIn</li>
-                                <li>[FILL: stack]</li>
+                                <li>Google Calendar</li>
                             </ul>
-                            <span class="local">[FILL: repo]</span>
+                            <span class="local">Flower Hub&nbsp;&middot; @lokilks/second-brain</span>
                         </div>
                     </details>
                 </li>
@@ -848,11 +846,17 @@
                         </summary>
                         <div class="detail">
                             <p>A Node bridge on <b>whatsapp-web.js</b> talks to a FastAPI and SQLite backend over <b>HMAC-signed HTTP</b>, with a Streamlit and Plotly dashboard reading the same store. Customers check stock, browse the catalogue, order and track deliveries in chat.</p>
-                            <p>The design choice worth defending: <b>phone numbers are never stored</b> &mdash; only an HMAC-SHA256 hash is persisted, so the database is not a contact list if it leaks.</p>
+                            <ul class="points">
+                                <li>A Gemini 2.0 Flash tool-calling agent that chooses tool order per conversation (kb_search, order_lookup, create_ticket).</li>
+                                <li>A local Llama-3-8B injection screen runs before tool routing; a post-response validator checks each reply against its retrieved passages before send.</li>
+                                <li>Grounded on ChromaDB, so answers carry citations and the agent escalates to a human ticket rather than guessing.</li>
+                                <li>Phone numbers are never stored &mdash; only an HMAC-SHA256 hash is persisted, so the database is not a contact list if it leaks.</li>
+                            </ul>
                             <ul class="chips">
                                 <li>Gemini 2.0 Flash</li>
-                                <li>whatsapp-web.js + Express</li>
-                                <li>FastAPI&nbsp;&middot; SQLite</li>
+                                <li>Llama-3-8B screen</li>
+                                <li>ChromaDB</li>
+                                <li>Node + Python RAG service</li>
                                 <li>HMAC-signed transport</li>
                             </ul>
                             <a class="repo" href="https://github.com/loki52501/customer_care_agent" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
@@ -944,6 +948,7 @@
                         <div class="detail">
                             <p>Detection over <b>700,774 network flows</b> from six days of cloud traffic, with 324 raw columns pruned to roughly <b>86 features</b> by variance threshold and correlation. Two complementary approaches: a BiLSTM and 1D CNN over time-sorted sliding windows, and a CNN visual-strip baseline for comparison.</p>
                             <p>Three classes, not two &mdash; Benign 58.9%, Attack 32.6%, <em>Suspicious</em> 8.4% &mdash; because the honest output of a detector under uncertainty is escalation, not a guess.</p>
+                            <p>The ensemble reaches <b>94.11% three-class accuracy</b>, with confidence-based escalation: 85% of traffic auto-classifies above threshold while low-confidence predictions route to an analyst instead of being forced into a label.</p>
                             <ul class="chips">
                                 <li>324 &rarr; 86 features</li>
                                 <li>BiLSTM + 1D CNN</li>
@@ -951,6 +956,70 @@
                                 <li>PyTorch&nbsp;&middot; Keras</li>
                             </ul>
                             <a class="repo" href="https://github.com/loki52501/IDS_ddos_neuralnet" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">UNSW-NB15 intrusion detection</span>
+                                <span class="k">Anna University (CEG)&nbsp;&middot; AI research intern</span>
+                            </span>
+                            <span class="fig">&minus;25% false positives</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>A hybrid LSTM and 1D CNN intrusion-detection pipeline on UNSW-NB15 &mdash; <b>2.5M flows, 9 attack classes</b> &mdash; using SMOTE and sequence-window analysis to recover minority attack classes that raw class balance buried.</p>
+                            <p>Two-stage metaheuristic feature selection: Sine Cosine Algorithm for global search, then Particle Swarm Optimization for local refinement, dropping <b>false positives by 25%</b>.</p>
+                            <ul class="chips">
+                                <li>LSTM + 1D CNN</li>
+                                <li>SMOTE</li>
+                                <li>Sine Cosine &rarr; PSO</li>
+                                <li>2.5M flows</li>
+                            </ul>                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Phishing &amp; voice-scam training playground</span>
+                                <span class="k">TypeScript&nbsp;&middot; LLM-generated adversarial content</span>
+                            </span>
+                            <span class="fig">live scenarios</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>An interactive training environment that generates realistic phishing and voice-scam scenarios, so users practice recognizing social-engineering patterns against <b>live adversarial content</b> rather than static examples.</p>
+                            <ul class="chips">
+                                <li>TypeScript</li>
+                                <li>LLM-generated scenarios</li>
+                                <li>social engineering</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/phishing-playground-" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>
+                            <span>
+                                <span class="t">Embedding efficiency research</span>
+                                <span class="k">autonomous research agent&nbsp;&middot; RTX A4000</span>
+                            </span>
+                            <span class="fig">~31% of params</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <p>Adapted an autonomous research-agent loop to Ampere hardware &mdash; Flash Attention 3 patched to PyTorch SDPA with correct causal masking and sliding-window support &mdash; then ran it on a structured experiment ladder targeting the embedding layer, <b>~31% of baseline parameters</b>, optimizing <code>val_bpb</code> against peak VRAM.</p>
+                            <ul class="chips">
+                                <li>PyTorch SDPA</li>
+                                <li>RTX A4000</li>
+                                <li>autonomous research agent</li>
+                                <li>val_bpb vs peak VRAM</li>
+                            </ul>
+                            <a class="repo" href="https://github.com/loki52501/researchOnEmbedding" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
                         </div>
                     </details>
                 </li>
