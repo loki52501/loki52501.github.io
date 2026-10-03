@@ -20,9 +20,12 @@
     --live:        #3D5A80;   /* figure + hover/focus only */
     --broken:      #B8452F;   /* the one dominant accent: primary CTA */
 
-    /* the one dark element: code blocks (Prism Tomorrow) */
-    --code-bg:     #2d2d2d;
-    --code-ink:    #ccc;
+    /* the one dark surface: code blocks + the .term terminal (ink) */
+    --term-text:   #ECE7DB;   /* 13.15:1 on ink */
+    --term-muted:  #A39C8C;   /* 5.94:1 on ink */
+    --prompt-tint: #CD7D6D;   /* rust "$", 5.22:1 on ink */
+    --code-bg:     var(--ink);
+    --code-ink:    var(--term-text);
 
     --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
     --body:    "Instrument Sans", system-ui, -apple-system, sans-serif;
@@ -233,6 +236,126 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
     font-size: 0.8125rem;
 }
 
+/* ---------- footer: build credit ---------- */
+.foot-in .built {
+    flex-basis: 100%;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+.foot-in .built a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--bar);
+    text-underline-offset: 0.2em;
+    transition: color 0.2s ease;
+}
+.foot-in .built a:hover { color: var(--live); text-decoration-color: var(--live); }
+
+/* ---------- kbd ---------- */
+kbd {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    padding: 0.05em 0.4em;
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    background: var(--paper-raise);
+    color: var(--ink);
+}
+
+/* ---------- .term: shared terminal panel (landing hero + 404) ---------- */
+/* Panel = .term-bar + .term-body on --code-bg. Resets the generic pre rules.
+   All motion for the hero terminal lives in the landing template, not here. */
+.term { margin: 0; min-width: 0; }
+
+.term-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 1rem;
+    background: var(--code-bg);
+    border-bottom: 1px solid rgba(236, 231, 219, 0.12);
+    border-radius: 6px 6px 0 0;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--term-muted);
+}
+.term-file { color: var(--term-text); white-space: nowrap; }
+.term-path {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.term pre.term-body,
+.term .term-body {
+    margin: 0;
+    padding: 1rem 1.1rem 1.2rem;
+    border-radius: 0 0 6px 6px;
+    overflow-x: visible;
+    max-width: 100%;
+    background: var(--code-bg);
+    color: var(--term-text);
+    font-family: var(--mono);
+    font-size: clamp(0.8125rem, 0.75rem + 0.3vw, 0.875rem);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    /* log output is literal: no "===" ligature */
+    font-variant-ligatures: none;
+}
+.term .term-body code {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.term .ln { display: block; }
+.term .p { color: var(--prompt-tint); }
+.term .m { color: var(--term-muted); }
+
+.term .caret {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.15em;
+    margin-left: 0.15em;
+    background: var(--term-text);
+    vertical-align: text-bottom;
+}
+
+.term figcaption {
+    margin-top: 0.8rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+.term figcaption a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: color 0.2s ease;
+}
+.term figcaption a:hover { color: var(--live); }
+
+@media (forced-colors: active) {
+    .term-bar, .term .term-body { border: 1px solid CanvasText; }
+    .term-bar { border-bottom-width: 0; }
+    .term .caret { background: CanvasText; }
+}
+
 /* ---------- buttons ---------- */
 .btn {
     display: inline-flex;
@@ -410,7 +533,7 @@ main:has(.blog-container) .content-wrapper { max-width: none; }
 .content-wrapper p { margin: 1.25rem 0; color: var(--ink); }
 .content-wrapper p:empty { display: none; }
 
-.content-wrapper a:not(.read-more):not(.pagination-btn):not(.page-number):not(.category-filter):not(.repo-card) {
+.content-wrapper a:not(.read-more):not(.pagination-btn):not(.page-number):not(.category-filter):not(.repo-card):not(.btn) {
     color: var(--ink);
     text-decoration: underline;
     text-decoration-color: var(--bar);
@@ -418,7 +541,7 @@ main:has(.blog-container) .content-wrapper { max-width: none; }
     text-underline-offset: 0.2em;
     transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
-.content-wrapper a:not(.read-more):not(.pagination-btn):not(.page-number):not(.category-filter):not(.repo-card):hover {
+.content-wrapper a:not(.read-more):not(.pagination-btn):not(.page-number):not(.category-filter):not(.repo-card):not(.btn):hover {
     color: var(--live);
     text-decoration-color: var(--live);
 }
@@ -488,8 +611,29 @@ main code[class*="language-"] {
     white-space: pre;
 }
 
-pre.line-numbers .line-numbers-rows > span::before { font-size: 0.8125rem; color: #8a8a8a; }
+pre.line-numbers .line-numbers-rows > span::before { font-size: 0.8125rem; color: var(--term-muted); }  /* 5.94:1 on ink (was #8a8a8a on #2d2d2d) */
 pre.line-numbers .line-numbers-rows { font-size: 0.875rem; }
+
+/* filename tab on post code blocks: language label, pure CSS.
+   Prism adds language-* to the <code>; the tab is a ::before on the <pre>
+   bled out to the pre's edges. Not on notebook cells (own prompt gutter)
+   nor on pre.line-numbers (Prism positions its rows from the pre's top). */
+.content-wrapper pre:has(> code[class*="language-"]):not(.line-numbers):not(.nb-cell pre)::before {
+    display: block;
+    margin: -1.25rem -1.5rem 1.1rem;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(236, 231, 219, 0.12);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--term-muted);
+    white-space: normal;
+}
+.content-wrapper pre:has(> code.language-python):not(.line-numbers):not(.nb-cell pre)::before { content: "python"; }
+.content-wrapper pre:has(> code.language-r):not(.line-numbers):not(.nb-cell pre)::before { content: "r"; }
+.content-wrapper pre:has(> code.language-julia):not(.line-numbers):not(.nb-cell pre)::before { content: "julia"; }
+.content-wrapper pre:has(> code.language-bash):not(.line-numbers):not(.nb-cell pre)::before { content: "bash"; }
+/* other languages: no content set, so no tab is generated */
 
 /* ---------- tables ---------- */
 table {
@@ -831,7 +975,7 @@ table td { font-size: 0.9375rem; color: var(--ink); }
     font-size: 0.8125rem;
     color: var(--muted);
 }
-.nb-code-cell .nb-input-prompt { color: #9a9a9a; }
+.nb-code-cell .nb-input-prompt { color: var(--term-muted); }
 .nb-output-prompt { color: var(--ink-soft); }
 
 .nb-code-cell pre[class*="language-"],
@@ -920,6 +1064,7 @@ main .nb-code-cell pre[class*="language-"] {
     body { font-size: 1rem; }
     .content-wrapper h2 { font-size: 1.4rem; margin-top: 2.75rem; }
     pre, main pre[class*="language-"] { padding: 1rem; }
+    .content-wrapper pre:has(> code[class*="language-"]):not(.line-numbers):not(.nb-cell pre)::before { margin: -1rem -1rem 0.9rem; }
     .pagination { flex-direction: column; align-items: stretch; }
     .pagination-btn { width: 100%; }
     .pagination-numbers { justify-content: center; }

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokesh L.K.S | AI safety &amp; interpretability</title>
-    <meta name="description" content="Lokesh L.K.S — AI safety, mechanistic interpretability and evaluation. Auditing fine-tunes for hidden loyalties, building the SAE-to-attribution-graph stack from scratch, measuring chain-of-thought faithfulness and sycophancy, and shipping the engineering around it.">
+    <title>Lokesh L.K.S | Software engineer, AI agents</title>
+    <meta name="description" content="Lokesh L.K.S builds AI agents and the systems that call AI models: Jarvis Desk's typed decision layer, GreenRoots' HMAC-signed WhatsApp agent, VecGate's in-query access control for pgvector, and SSGengine, the C++ generator behind this site.">
     <link rel="canonical" href="https://lkslokesh.com/">
     <meta name="theme-color" content="#F2EFE6">
     <meta property="og:title" content="Lokesh L.K.S">
-    <meta property="og:description" content="Lokesh L.K.S — AI safety, mechanistic interpretability and evaluation. Auditing fine-tunes for hidden loyalties, building the SAE-to-attribution-graph stack from scratch, measuring chain-of-thought faithfulness and sycophancy, and shipping the engineering around it.">
+    <meta property="og:description" content="Lokesh L.K.S builds AI agents and the systems that call AI models: Jarvis Desk's typed decision layer, GreenRoots' HMAC-signed WhatsApp agent, VecGate's in-query access control for pgvector, and SSGengine, the C++ generator behind this site.">
     <meta property="og:url" content="https://lkslokesh.com/">
     <meta property="og:image" content="https://lkslokesh.com/og.png">
     <meta property="og:image:width" content="1200">
@@ -25,26 +25,31 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* ============================================================
-           ONE FORWARD PASS — landing page
+           BUILD LOG — landing page
            ------------------------------------------------------------
-           Tokens, topbar, footer, buttons and focus ring come from
-           style.css; only landing-specific rules live here.
+           Tokens, topbar, footer, buttons, the .term terminal and the
+           focus ring come from style.css; only landing-specific rules
+           live here.
 
            Structure, top to bottom, all inside <main> (which is the
            1200px shell, so every rule below spans exactly the content):
              hero     7fr/5fr split at >=900px: name, role, lede, aside,
-                      CTAs on the left; the forward-pass figure on the
-                      right. Single column below, figure after the CTAs.
-             now      one statement, two background sentences, two cards
-             work     three groups of <details> rows
-             writing  <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/j-space.html">J-space — reading a model mid-computation</a><p class="w-excerpt">A small, verbalizable subset of everything a model is computing — and the one fixed matrix that lets you read it out mid-layer, before…</p></li><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol> list, filled by the generator
+                      CTAs on the left; the build.log terminal on the
+                      right, a blueprint grid fading in behind it.
+                      Single column below, terminal after the CTAs.
+             proof    four linked facts in a hairline grid, then credits
+             01 Now   one statement, experience, stack, two cards
+             02 Work  four groups of <details> rows, then the collapsed
+                      Lab
+             03 Writing  <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol> list, filled by the generator
 
-           Exactly two motion moments, both on load, both once:
+           Exactly two motion moments, both on load, both played once:
              1. the staggered .rise of the hero copy
-             2. the figure's sweep: a pass lights each layer in --live
-                and severs layer 09 in --broken
-           Hover/open transitions are state feedback, not motion moments.
-           Reduced motion: no rise; the figure is shown already cut.
+             2. the terminal lines printing in turn, then a caret that
+                blinks three times and rests
+           Reduced motion, or no animation support, shows the finished
+           log. Hover and open transitions are state feedback, not
+           motion moments.
            No JavaScript: rows expand through <details>.
            ============================================================ */
 
@@ -53,21 +58,77 @@
         /* style.css gives <main> a 3.5rem top margin; the hero sits closer */
         main { margin-top: clamp(1rem, 3vh, 2.5rem); }
 
+        section[id], details[id], .proof { scroll-margin-top: calc(var(--topbar-h) + 1.25rem); }
+
         .sec {
             padding-block: clamp(3.5rem, 8vh, 5.5rem);
             border-top: 1px solid var(--rule);
         }
-        .sec > .eyebrow { margin-bottom: clamp(1.75rem, 4vh, 2.5rem); }
+
+        /* numbered section label: 01 Now / 02 Work / 03 Writing */
+        .sec-label {
+            margin: 0 0 clamp(1.75rem, 4vh, 2.5rem);
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            line-height: 1.4;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .sec-label a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.18s ease;
+        }
+        .sec-label a:hover { color: var(--live); text-decoration: underline; text-underline-offset: 0.3em; }
+        .sec-label .num { color: var(--broken); margin-right: 0.5em; }
+
+        /* small mono heading inside a section, no number */
+        .mini {
+            margin: 2rem 0 0.75rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            line-height: 1.4;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
 
         /* ============================================================
            HERO
            ============================================================ */
 
         .hero {
+            position: relative;
+            isolation: isolate;
             display: grid;
             gap: 2.75rem;
             padding-block: clamp(1.5rem, 5vh, 3.5rem) clamp(3.5rem, 9vh, 6rem);
         }
+
+        /* blueprint grid: full-bleed, behind the terminal, faded out
+           before it reaches the lede. html/body clip overflow-x, so the
+           100vw width cannot cause a horizontal scrollbar. */
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 100vw;
+            translate: -50% 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--rule-soft) 1px, transparent 1px),
+                linear-gradient(90deg, var(--rule-soft) 1px, transparent 1px);
+            background-size: 24px 24px;
+            -webkit-mask-image: radial-gradient(ellipse 60% 70% at 72% 45%, #000 0%, transparent 75%);
+            mask-image: radial-gradient(ellipse 60% 70% at 72% 45%, #000 0%, transparent 75%);
+        }
+        @media (forced-colors: active) { .hero::before { display: none; } }
 
         @media (min-width: 900px) {
             .hero {
@@ -79,11 +140,11 @@
 
         .hero h1 {
             font-size: clamp(3rem, 8.5vw, 5.6rem);
-            /* opsz 96 is the face's display cut; the light weight keeps a
-               name this large from shouting. font-weight is set alongside
-               so the fallback stack isn't bold either. */
-            font-weight: 330;
-            font-variation-settings: "opsz" 96, "wdth" 100, "wght" 330;
+            /* opsz 96 is the face's display cut; a middling weight keeps
+               a name this large from shouting. font-weight is set
+               alongside so the fallback stack matches. */
+            font-weight: 460;
+            font-variation-settings: "opsz" 96, "wdth" 100, "wght" 460;
             line-height: 0.94;
             letter-spacing: -0.024em;
             margin-bottom: 1.25rem;
@@ -96,8 +157,27 @@
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--muted);
-            margin-bottom: clamp(1.75rem, 4vh, 2.6rem);
+            margin-bottom: 1rem;
         }
+
+        .hero .status {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            color: var(--ink-soft);
+            margin-bottom: clamp(1.5rem, 3.5vh, 2.2rem);
+        }
+        .hero .status::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 0.6rem;
+            border-radius: 50%;
+            background: var(--live);
+            vertical-align: middle;
+        }
+        @media (forced-colors: active) { .hero .status::before { background: CanvasText; } }
 
         .hero .lede {
             font-size: clamp(1.3rem, 2.5vw, 1.8rem);
@@ -119,117 +199,113 @@
         .cta {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             gap: 0.75rem;
             margin-top: clamp(1.75rem, 4vh, 2.5rem);
         }
 
-        /* ---- the figure: one forward pass, one layer cut ---- */
-
-        .pass { margin: 0; min-width: 0; }
-
-        .strip {
-            display: flex;
-            align-items: flex-end;
-            gap: clamp(3px, 0.45vw, 6px);
-            height: 236px;                 /* includes the label headroom */
-            padding-top: 2.25rem;
-            border-bottom: 1px solid var(--ink-soft);
+        .textlink {
+            display: inline-flex;
+            align-items: center;
+            padding-inline: 0.5rem;
+            color: var(--ink);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.3em;
+            transition: color 0.18s ease;
         }
-        @media (min-width: 900px) { .strip { height: 340px; } }
+        .textlink:hover { color: var(--live); }
 
-        .strip i {
-            flex: 1 1 0;
-            min-width: 0;
-            height: 100%;
-            background: var(--bar);
-            transform-origin: bottom center;
-            transform: scaleY(var(--h));
-            animation: sweep 820ms cubic-bezier(0.33, 0.9, 0.4, 1) both;
-            animation-delay: calc(1000ms + var(--i) * 26ms);
-        }
+        /* ---- the terminal: layout only; the .term look is in style.css ---- */
 
-        @keyframes sweep {
-            0%   { background: var(--bar);  transform: scaleY(var(--h)); }
-            16%  { background: var(--live); transform: scaleY(calc(var(--h) + 0.1)); }
-            100% { background: var(--bar);  transform: scaleY(var(--h)); }
-        }
+        .hero-term { width: 100%; }
 
-        /* The ablated layer: the tallest column, wider than the rest,
-           severed into two halves with a gap. Its resting style IS the
-           final state, so reduced motion only has to remove the animation. */
-        .strip i.cut {
-            position: relative;
-            flex: 0 0 clamp(11px, 1.3vw, 16px);
-            background: none;
-            transform: none;
-            animation: none;
-        }
-        .strip i.cut::before,
-        .strip i.cut::after {
-            content: "";
-            position: absolute;
-            left: 0; right: 0;
-            height: 100%;
-            background: var(--broken);
-            animation: sever 1150ms cubic-bezier(0.33, 0.9, 0.4, 1) both;
-            animation-delay: calc(1000ms + var(--i) * 26ms);
-        }
-        .strip i.cut::before { bottom: 0; transform-origin: bottom center; transform: scaleY(0.36); }
-        .strip i.cut::after  { top: 0;    transform-origin: top center;    transform: scaleY(0.3);  --end: 0.3; }
-        .strip i.cut::before { --end: 0.36; }
+        /* ---- load sequence: copy rises, then the log prints ---- */
 
-        /* The pass reaches this layer, lights it, and it fails to carry. */
-        @keyframes sever {
-            0%   { background: var(--bar);    transform: scaleY(1); }
-            14%  { background: var(--live);   transform: scaleY(1); }
-            36%  { background: var(--broken); transform: scaleY(1); }
-            78%  { background: var(--broken); transform: scaleY(var(--end)); }
-            100% { background: var(--broken); transform: scaleY(var(--end)); }
+        @media (prefers-reduced-motion: no-preference) {
+            .rise {
+                animation: rise 620ms cubic-bezier(0.22, 0.68, 0.3, 1) both;
+                animation-delay: calc(var(--step) * 90ms);
+            }
+
+            .hero-term .ln {
+                animation: print 280ms cubic-bezier(.22, .68, .3, 1) both;
+                animation-delay: calc(700ms + var(--i) * 170ms);
+            }
+            /* three blinks after the last line lands, then it rests visible */
+            .hero-term .caret {
+                animation: blink 1s steps(1, end) 3;
+                animation-delay: calc(700ms + 7 * 170ms);
+            }
+
+            @keyframes rise {
+                from { opacity: 0; transform: translateY(9px); }
+                to   { opacity: 1; transform: none; }
+            }
+            @keyframes print {
+                from { opacity: 0; transform: translateY(4px); }
+                to   { opacity: 1; transform: none; }
+            }
+            @keyframes blink { 50% { opacity: 0; } }
         }
 
-        .strip i.cut b {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            translate: -50% 0;
-            padding-bottom: 0.85rem;
+        /* ============================================================
+           PROOF — four facts, each linking to the row that backs it
+           ============================================================ */
+
+        .proof {
+            display: grid;
+            grid-template-columns: 1fr;
+            border-top: 1px solid var(--rule);
+            border-left: 1px solid var(--rule);
+        }
+        @media (min-width: 480px) { .proof { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 900px) { .proof { grid-template-columns: repeat(4, 1fr); } }
+
+        .proof a {
+            display: block;
+            padding: 1.1rem 1.2rem;
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            color: inherit;
+            text-decoration: none;
+            transition: background-color 0.18s ease;
+        }
+        .proof a:hover,
+        .proof a:focus-visible {
+            background: var(--paper-raise);
+            box-shadow: inset 2px 0 0 var(--live);
+        }
+
+        .pv {
+            display: block;
+            font-family: var(--display);
+            font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+            font-weight: 460;
+            font-variation-settings: "opsz" 48, "wdth" 100, "wght" 460;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.05;
+            color: var(--ink);
+        }
+        .pc {
+            display: block;
+            margin-top: 0.45rem;
             font-family: var(--mono);
             font-size: 0.8125rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            white-space: nowrap;
-            color: var(--broken);
-        }
-        .strip i.cut b::after {
-            content: "";
-            position: absolute;
-            bottom: 0.15rem;
-            left: 50%;
-            width: 1px;
-            height: 0.55rem;
-            background: var(--broken);
+            line-height: 1.45;
+            color: var(--muted);
         }
 
-        .pass figcaption {
-            margin-top: 0.9rem;
+        .credits {
+            margin: 0.9rem 0 clamp(2.5rem, 6vh, 4rem);
             font-family: var(--mono);
             font-size: 0.8125rem;
-            letter-spacing: 0.04em;
             line-height: 1.5;
             color: var(--muted);
         }
-        .pass figcaption b { font-weight: 600; color: var(--broken); }
 
-        /* ---- load sequence ---- */
-
-        .rise {
-            animation: rise 620ms cubic-bezier(0.22, 0.68, 0.3, 1) both;
-            animation-delay: calc(var(--step) * 90ms);
-        }
-
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(9px); }
-            to   { opacity: 1; transform: none; }
+        @media (forced-colors: active) {
+            .proof, .proof a { border-color: CanvasText; }
         }
 
         /* ============================================================
@@ -246,21 +322,55 @@
             }
         }
 
-        .now h2 {
+        .now-top h2 {
             font-size: clamp(1.7rem, 3.1vw, 2.45rem);
             font-weight: 420;
             font-variation-settings: "opsz" 48, "wdth" 100, "wght" 420;
             line-height: 1.16;
             letter-spacing: -0.02em;
         }
+        .now-top > div > .mini:first-child { margin-top: 0; }
 
-        .now-top p {
+        /* experience: role / org / dates, one hairline row each */
+        .xp { list-style: none; border-top: 1px solid var(--rule-soft); }
+        .xp li {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr) auto;
+            column-gap: 1.25rem;
+            padding-block: 0.8rem;
+            border-bottom: 1px solid var(--rule-soft);
             font-size: 1rem;
-            line-height: 1.72;
-            color: var(--ink-soft);
-            max-width: 62ch;
+            line-height: 1.45;
         }
-        .now-top p + p { margin-top: 0.9rem; }
+        .xp li span:nth-child(1) { color: var(--ink); }
+        .xp li span:nth-child(2) { color: var(--ink-soft); }
+        .xp li span:nth-child(3) {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.7;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .stack {
+            display: grid;
+            grid-template-columns: 6.5rem minmax(0, 1fr);
+            border-top: 1px solid var(--rule-soft);
+        }
+        .stack dt, .stack dd {
+            padding-block: 0.65rem;
+            border-bottom: 1px solid var(--rule-soft);
+            line-height: 1.5;
+        }
+        .stack dt {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+        .stack dd { margin: 0; font-size: 1rem; color: var(--ink-soft); }
 
         .cards {
             display: grid;
@@ -277,7 +387,13 @@
             padding: clamp(1.4rem, 2.6vw, 2rem);
         }
 
-        .card .eyebrow { margin-bottom: 1.1rem; }
+        .card-kind {
+            margin-bottom: 1.1rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+        }
 
         .card h3 {
             font-size: clamp(1.3rem, 2vw, 1.6rem);
@@ -297,31 +413,27 @@
         }
 
         .card p.body {
-            margin-top: 1.1rem;
+            margin: 1.1rem 0;
             font-size: 1rem;
             line-height: 1.7;
             color: var(--ink-soft);
         }
 
+        .card .status-wrap { margin-bottom: 1.1rem; padding-top: 1.4rem; border-top: 1px solid var(--rule-soft); }
         .card .status {
-            margin-top: auto;
-            padding-top: 1.4rem;
             font-family: var(--mono);
             font-size: 0.8125rem;
             line-height: 1.6;
             letter-spacing: 0.02em;
             color: var(--ink);
         }
-        .card .status + .status { padding-top: 0.25rem; color: var(--muted); }
-        .card p.body + .status { margin-top: 0; }
-        .card .status-wrap { margin-top: auto; padding-top: 1.4rem; border-top: 1px solid var(--rule-soft); margin-top: 1.4rem; }
-        .card .status-wrap .status { padding-top: 0; }
-        .card .status-wrap .status + .status { padding-top: 0.2rem; }
+        .card .repo { align-self: flex-start; margin-top: auto; }
 
         /* ============================================================
            SELECTED WORK
-           Group headings carry the structure; the right-hand figure is
-           the one fact worth knowing before you open a project.
+           Group headings carry the structure; the badge names the
+           language and the right-hand figure is the one fact worth
+           knowing before you open a project.
            ============================================================ */
 
         .grouphead {
@@ -343,18 +455,38 @@
 
         summary {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) auto 1.1rem;
-            column-gap: 1.75rem;
+            grid-template-columns: auto minmax(0, 1fr) auto 1.1rem;
+            column-gap: 1.25rem;
             align-items: start;
             padding: 1.35rem 1rem;
             margin-inline: -1rem;
             border-radius: 4px;
             cursor: pointer;
             list-style: none;
-            transition: background-color 0.18s ease;
+            transition: background-color 0.18s ease, box-shadow 0.18s ease;
         }
         summary::-webkit-details-marker { display: none; }
-        summary:hover { background: var(--paper-raise); }
+        summary:hover,
+        summary:focus-visible {
+            background: var(--paper-raise);
+            box-shadow: inset 2px 0 0 var(--live);
+        }
+
+        /* language badge; empty ones keep the columns aligned */
+        .ext {
+            min-width: 3.6em;
+            margin-top: 0.3rem;
+            padding: 0.05rem 0.4rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.4;
+            text-align: center;
+            color: var(--ink-soft);
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: 3px;
+        }
+        .ext:empty { visibility: hidden; }
 
         .t {
             font-family: var(--display);
@@ -417,8 +549,11 @@
                 content-visibility 0.34s allow-discrete;
         }
         details[open]::details-content { block-size: auto; opacity: 1; }
+        /* set for one frame by the fragment script, so a linked row opens
+           at full height before it is scrolled to */
+        .jump details::details-content { transition: none; }
 
-        .detail { padding: 0.25rem 0 2rem; max-width: 70ch; }
+        .detail { padding: 0.25rem 0 2rem 0; max-width: 70ch; }
 
         .detail p {
             font-size: 1rem;
@@ -432,6 +567,18 @@
         .detail p + ul.points { margin-top: 0.9rem; }
         .detail b { font-weight: 600; color: var(--ink); }
         .detail em { font-style: italic; }
+
+        /* labelled blocks: problem / built / decisions / result */
+        .blk + .blk { margin-top: 1.1rem; }
+        .detail .lbl {
+            margin-bottom: 0.3rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+        .detail .lbl + p { margin-top: 0; }
+        .detail .lbl + ul.points { margin-top: 0; }
 
         .chips {
             list-style: none;
@@ -468,6 +615,47 @@
         }
         .repo:hover { color: var(--live); border-bottom-color: var(--live); }
         .local { color: var(--muted); }
+        .detail .links { margin-top: 1.25rem; }
+        .links .repo, .links .local { margin-top: 0; }
+
+        /* ---- Lab: collapsed, lighter than a group ---- */
+
+        .lab { margin-top: clamp(3rem, 7vh, 4.5rem); border-top: 1px solid var(--rule); }
+        .list + .lab { margin-top: clamp(3rem, 7vh, 4.5rem); }
+
+        .lab > summary {
+            grid-template-columns: auto minmax(0, 1fr) 1.1rem;
+            align-items: center;
+            padding-block: 1.1rem;
+        }
+        .lab-t {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+        .lab-n {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            color: var(--muted);
+        }
+        .lab > summary .chev,
+        .lab[open] > summary .chev { margin-top: 0; }
+
+        .lab-intro {
+            max-width: 62ch;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--muted);
+        }
+        .lab .t {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-weight: 440;
+            font-variation-settings: "opsz" 24, "wdth" 100, "wght" 440;
+        }
 
         /* ============================================================
            WRITING — the generator emits <ol class="writing-list">
@@ -518,35 +706,38 @@
 
         @media (max-width: 640px) {
             summary {
-                grid-template-columns: minmax(0, 1fr) 1.1rem;
+                grid-template-columns: auto minmax(0, 1fr) 1.1rem;
                 column-gap: 1rem;
                 row-gap: 0.4rem;
             }
+            .ext   { grid-column: 1; grid-row: 1; }
+            .ti    { grid-column: 2; grid-row: 1; }
+            .chev  { grid-column: 3; grid-row: 1; }
             .fig {
-                grid-column: 1;
+                grid-column: 2;
                 grid-row: 2;
                 text-align: left;
                 padding-top: 0;
                 white-space: normal;
             }
             .fig:empty { display: none; }
-            .chev { grid-column: 2; grid-row: 1; }
+            .lab > summary { grid-template-columns: auto minmax(0, 1fr) 1.1rem; }
+            .xp li { grid-template-columns: minmax(0, 1fr); row-gap: 0.1rem; }
+            .xp li span:nth-child(3) { text-align: left; white-space: normal; }
             .cta .btn { flex: 1 1 9rem; }
+            .textlink { min-height: 44px; }
             .hero .role { letter-spacing: 0.08em; }
         }
 
         /* ============================================================
            REDUCED MOTION
-           The figure still tells the truth — it is simply already over.
+           The log is shown finished: the .rise and print animations
+           only exist inside the no-preference query above.
            ============================================================ */
 
         @media (prefers-reduced-motion: reduce) {
-            .rise { animation: none; }
-            .strip i,
-            .strip i.cut::before,
-            .strip i.cut::after { animation: none; }
             details::details-content { transition: none; }
-            .t, .chev, .repo, summary, .w-title, .all-writing { transition: none; }
+            .t, .chev, .repo, summary, .w-title, .all-writing, .proof a, .sec-label a, .textlink { transition: none; }
         }
     </style>
 </head>
@@ -554,7 +745,7 @@
     <a class="skip" href="#main">Skip to content</a>
     <header class="topbar"><div class="topbar-in shell">
         <a class="wordmark" href="index.html">Lokesh L.K.S</a>
-        <nav class="topnav" aria-label="Primary"><a href="about.html">About</a><a href="blogs.html">Writing</a><a href="https://github.com/loki52501" rel="me">GitHub</a><a href="https://www.linkedin.com/in/lkslokesh" rel="me">LinkedIn</a></nav>
+        <nav class="topnav" aria-label="Primary"><a href="#work">Work</a><a href="blogs.html">Writing</a><a href="about.html">About</a><a href="resume.pdf">Resume</a><a href="https://github.com/loki52501" rel="me">GitHub</a></nav>
     </div></header>
 
     <main id="main">
@@ -563,237 +754,154 @@
         <section class="hero">
             <div class="hero-copy">
                 <h1 class="rise" style="--step:0">Lokesh L.K.S</h1>
-                <p class="role rise" style="--step:1">AI safety&nbsp;&middot; interpretability&nbsp;&middot; evaluation</p>
+                <p class="role rise" style="--step:1">Software engineer&nbsp;&middot; AI agents&nbsp;&middot; backend systems</p>
+                <p class="status rise" style="--step:2">Open to software engineer and AI engineer roles&nbsp;&middot; Bay Area or remote<!-- VERIFY: location (Bay Area or remote) — user to confirm --></p>
 
-                <p class="lede rise" style="--step:2">I cut into models to find out what they are actually doing &mdash; then <b>measure whether the answer holds up</b>.</p>
+                <p class="lede rise" style="--step:3">I build AI agents and the systems that call AI models: <b>the tools they use, the permissions they can't skip</b>, and the services they run on.</p>
 
-                <p class="aside rise" style="--step:3">Probes, activation patching, ablation, attribution graphs, paired-prompt evals. Away from the screen I <em>skate</em> and <em>play chess</em>.</p>
+                <p class="aside rise" style="--step:4">M.S. Cybersecurity (Penn State), CCNA and Security+. I came to software through network security, which is why I treat model output as untrusted input. Away from the screen I <em>skate</em> and <em>play chess</em>.</p>
 
-                <div class="cta rise" style="--step:4">
+                <div class="cta rise" style="--step:5">
                     <a class="btn btn-primary" href="mailto:lokeshlks01@gmail.com">Email me</a>
                     <a class="btn btn-secondary" href="resume.pdf">Resume</a>
+                    <a class="textlink" href="https://github.com/loki52501" rel="me noopener noreferrer">GitHub&nbsp;&#8599;</a>
                 </div>
             </div>
 
-            <!-- The method, as one figure: a pass runs the depth of the
-                 stack, and the layer that was cut carries nothing. -->
-            <figure class="pass rise" style="--step:5">
-                <div class="strip" role="img" aria-label="One forward pass through GPT-2 small drawn as a row of layer bars. Layer 09 is ablated: its bar is severed in two.">
-                    <i style="--i:0;  --h:0.42"></i>
-                    <i style="--i:1;  --h:0.68"></i>
-                    <i style="--i:2;  --h:0.35"></i>
-                    <i style="--i:3;  --h:0.80"></i>
-                    <i style="--i:4;  --h:0.52"></i>
-                    <i style="--i:5;  --h:0.61"></i>
-                    <i style="--i:6;  --h:0.30"></i>
-                    <i style="--i:7;  --h:0.74"></i>
-                    <i style="--i:8;  --h:0.46"></i>
-                    <i style="--i:9;  --h:0.88"></i>
-                    <i style="--i:10; --h:0.38"></i>
-                    <i style="--i:11; --h:0.57"></i>
-                    <i style="--i:12; --h:0.71"></i>
-                    <i style="--i:13; --h:0.33"></i>
-                    <i style="--i:14; --h:0.64"></i>
-                    <i style="--i:15; --h:0.49"></i>
-                    <i style="--i:16; --h:0.82"></i>
-                    <i style="--i:17; --h:0.40"></i>
-                    <i style="--i:18; --h:0.55"></i>
-                    <i style="--i:19; --h:0.76"></i>
-                    <i style="--i:20; --h:0.44"></i>
-                    <i style="--i:21; --h:0.66"></i>
-                    <i style="--i:22; --h:0.36"></i>
-                    <i style="--i:23; --h:0.59"></i>
-                    <i class="cut" style="--i:24"><b>layer 09</b></i>
-                    <i style="--i:25; --h:0.47"></i>
-                    <i style="--i:26; --h:0.70"></i>
-                    <i style="--i:27; --h:0.39"></i>
-                    <i style="--i:28; --h:0.62"></i>
-                    <i style="--i:29; --h:0.51"></i>
-                    <i style="--i:30; --h:0.73"></i>
-                    <i style="--i:31; --h:0.43"></i>
-                </div>
-                <figcaption>one forward pass&nbsp;&middot; gpt-2 small&nbsp;&middot; <b>layer 09 ablated</b></figcaption>
+            <!-- The real output of one run of the generator that built this
+                 page; lines in between are omitted, none are altered. -->
+            <figure class="term hero-term">
+                <div class="term-bar"><span class="term-file">build.log</span><span class="term-path">docs/index.html</span></div>
+                <pre class="term-body" aria-label="Build output of SSGengine generating this page"><code><span class="ln" style="--i:0"><span class="p">$</span> ./site_generator.exe</span><span class="ln" style="--i:1">=== Markdown Static Site Generator ===</span><span class="ln" style="--i:2">Copied: docs/style.css</span><span class="ln" style="--i:3">Processing page: index.md</span><span class="ln" style="--i:4">Populating blog database...</span><span class="ln" style="--i:5">Exported 19 blogs to docs/blogs.json</span><span class="ln" style="--i:6">Generated: docs/index.html<span class="caret" aria-hidden="true"></span></span></code></pre>
+                <figcaption>the build that produced this page&nbsp;&middot; <a href="https://github.com/loki52501/SSGengine">SSGengine</a>, my C++ static site generator<!-- VERIFY: user asked for "zero-dependency"; dropped because Makefile links -lsqlite3 and SSGengine vendors json.hpp --></figcaption>
             </figure>
         </section>
 
-        <!-- ===== NOW ===== -->
+        <!-- ===== PROOF ===== -->
+        <section class="proof" aria-label="Proof">
+            <a href="#row-jarvis"><span class="pv">800&nbsp;ms</span><span class="pc">Jarvis Desk&nbsp;&middot; decision budget before the LLM's first token</span></a>
+            <a href="#row-greenroots"><span class="pv">30&nbsp;s</span><span class="pc">GreenRoots&nbsp;&middot; replay window on HMAC-signed service calls</span></a>
+            <a href="#row-quic"><span class="pv">5</span><span class="pc">QUIC routing sim&nbsp;&middot; RFC 9000 + QUIC-LB scenarios</span></a>
+            <a href="#row-ddos"><span class="pv">700,774</span><span class="pc">DDoS capstone&nbsp;&middot; network flows modelled</span></a>
+        </section>
+        <p class="credits">Penn State M.S. Cybersecurity&nbsp;&middot; Anna University (CEG)&nbsp;&middot; Flower hackathon&nbsp;&middot; Executable World hackathon</p>
+
+        <!-- ===== 01 NOW ===== -->
         <section class="now sec" id="now">
-            <p class="eyebrow">Now</p>
+            <h2 class="sec-label"><a href="#now"><span class="num">01</span> Now</a></h2>
             <div class="now-top">
-                <h2>Actively looking for my next role across AI safety, AI security, evaluations, interpretability, and agent systems.</h2>
                 <div>
-                    <p>Working through ARENA 3.0 on the Neel Nanda track, and on BlueDot's Technical AI Safety course. I reached stage two of MATS on the empirical track &mdash; the interpretability questions there are the ones I'm still working on.</p>
-                    <p>M.S. Cybersecurity, Penn State. CCNA and Security+. I came to this through network security, which is why I think about model outputs the way I think about untrusted input.</p>
+                    <h2>I'm looking for software engineer and AI engineer roles: agents, backend, and developer tooling.</h2>
+                    <h3 class="mini">Experience</h3>
+                    <ol class="xp">
+                        <li><span>AI/ML Engineer</span><span>Lokesh Agro Foods</span><span>2025 – Jun 2026</span></li>
+                        <li><span>Infrastructure Security Engineer Intern</span><span>iMerit</span><span>Jun 2025 – Aug 2025</span></li>
+                        <li><span>Platform Engineer</span><span>Tvastr</span><span>Jul 2022 – Dec 2022</span></li>
+                        <li><span>AI Research Intern</span><span>Anna University (CEG)</span><span>Feb 2023 – Jul 2024</span></li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 class="mini">Stack</h3>
+                    <dl class="stack">
+                        <dt>Languages</dt><dd>Python, TypeScript, C++</dd>
+                        <dt>Backend</dt><dd>FastAPI, PostgreSQL + pgvector, SQLite, server-sent events</dd>
+                        <dt>AI</dt><dd>Claude API, Gemini, OpenAI Agents SDK, PyTorch</dd>
+                        <dt>Tooling</dt><dd>Docker, CMake, GitHub Actions, Jupyter</dd>
+                    </dl>
                 </div>
             </div>
 
             <div class="cards">
                 <article class="card">
-                    <p class="eyebrow">NOW</p>
-                    <h3>Sycophancy under emotional framing</h3>
-                    <p class="body">Reading model internals rather than judging behaviour from output alone: locating the directions in activation space that correspond to the model agreeing with a user against its own evidence. Llama 3.2 1B, raw PyTorch forward hooks, linear probes read at the verdict token across all 17 hidden-state entries, small-alpha steering checked against random-direction controls.</p>
+                    <p class="card-kind">.ts&nbsp;&middot; jarvis-desk</p>
+                    <h3>Jarvis Desk</h3>
+                    <p class="sub">Executable World hackathon&nbsp;&middot; Track 1 (AI Assistants)</p>
+                    <p class="body">A voice-first assistant with a two-speed brain. Every turn starts with a typed decide() call under an 800&nbsp;ms budget that classifies intent and danger before the LLM produces a token. Permission tiers are enforced in code, not in the prompt: DANGER tools always stop for a human.</p>
                     <div class="status-wrap">
-                        <p class="status">Dataset analysis done, probes designed, Llama 1B runs starting.</p>
+                        <p class="status">A web HUD and a Windows overlay speak the same streaming /chat protocol.</p>
                     </div>
+                    <a class="repo" href="#row-jarvis">Details&nbsp;&darr;</a>
                 </article>
 
                 <article class="card">
-                    <p class="eyebrow">NOW</p>
+                    <p class="card-kind">Flower Hub&nbsp;&middot; @lokilks/second-brain</p>
                     <h3>Second Brain</h3>
-                    <p class="sub">Flower AgentApp&nbsp;&middot; Flower Hub @lokilks/second-brain</p>
                     <p class="body">Turns one goal into milestones and scored decision cards from four specialist agents &mdash; planner, events, health, content. Nothing executes without an approved card, and every approval and skip feeds the next ranking; the loop closes through WhatsApp and Google Calendar.</p>
+                    <a class="repo" href="#row-second-brain">Details&nbsp;&darr;</a>
                 </article>
             </div>
         </section>
 
-        <!-- ===== SELECTED WORK ===== -->
+        <!-- ===== 02 WORK ===== -->
         <section class="work sec" id="work">
-            <h2 class="eyebrow">Selected work</h2>
+            <h2 class="sec-label"><a href="#work"><span class="num">02</span> Work</a></h2>
 
-            <h3 class="grouphead">Interpretability &amp; evaluation</h3>
+            <h3 class="grouphead">AI agents</h3>
             <ul class="list">
                 <li>
-                    <details>
+                    <details id="row-jarvis">
                         <summary>
-                            <span>
-                                <span class="t">Detecting secret loyalties in fine-tuned models</span>
-                                <span class="k">Apart Research sprint&nbsp;&middot; track 2&nbsp;&middot; Qwen2.5-7B-Instruct</span>
+                            <span class="ext">.ts</span>
+                            <span class="ti">
+                                <span class="t">Jarvis Desk: a voice assistant that decides before the LLM speaks</span>
+                                <span class="k">TypeScript&nbsp;&middot; React&nbsp;&middot; OpenAI Agents SDK&nbsp;&middot; TypeSafe Jev&nbsp;&middot; SSE</span>
                             </span>
-                            <span class="fig">8,700 generations</span>
+                            <span class="fig">800&nbsp;ms decision budget</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>Audited three fine-tunes of Qwen2.5-7B-Instruct for covert, weight-encoded loyalties across <b>~8,700 generations</b>, 127 actors and six trigger classes. Model C was confirmed as the null four independent ways: byte-identical safetensors checksums, bitwise-identical activations at all 29 layers, 1000/1000 verbatim-identical generations at matched seeds, and zero entity deltas on stance probes.</p>
-                            <p>Models A and B were genuinely modified &mdash; activation divergence from base peaks at <b>layers 10&ndash;12</b> &mdash; but no secret loyalty was detectable in either, under per-actor separability testing, next-token affinity probing, and causal activation patching that came back <em>actor-blind</em>. Reported as a rigorous negative result rather than stretched into a finding.</p>
-                            <p>The part worth pointing at: prefill elicitation extracted specific &ldquo;confessions&rdquo; from the <b>known-clean base model at 22.9%</b> &mdash; indistinguishable from A at 25.0% and B at 28.1%. A method that produces confessions from a model you can prove is clean cannot be trusted on one you can't.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A voice-first assistant with a two-speed brain: a typed decision model routes and gates every action while an LLM does the talking. Built for the Executable World hackathon, Track 1 (AI Assistants).</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <ul class="points">
+                                    <li>TypeSafe Jev is the fast decision layer: every turn starts with a typed decide() call under an 800&nbsp;ms budget that classifies intent and danger before the LLM produces a token, with a regex fallback behind the same signature.</li>
+                                    <li>Permission tiers enforced in code, not in the prompt: READ tools fire immediately, WRITE tools run without approval, DANGER tools always stop for a human.</li>
+                                    <li>A web HUD and a Windows overlay client speak the same streaming /chat protocol; Stop cancels the run and the voice together.</li>
+                                </ul>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">result</p>
+                                <p>Measured: the regex fast lane answers in 0.4&ndash;1.0&nbsp;ms; the TypeSafe Jev path takes 267&ndash;607&nbsp;ms warm and about 950&nbsp;ms cold, inside the 800&nbsp;ms budget once warm.</p>
+                            </div>
                             <ul class="chips">
-                                <li>127 actors&nbsp;&middot; 6 trigger classes</li>
-                                <li>activation patching</li>
-                                <li>white-box + black-box</li>
-                                <li>A100-80GB</li>
-                                <li>negative result, reported as one</li>
+                                <li>TypeSafe Jev</li>
+                                <li>OpenAI Agents SDK</li>
+                                <li>React + Vite</li>
+                                <li>SSE</li>
+                                <li>Human-in-the-loop</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/APART-hackathon-sprint-secret_loyalist-track2" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/jarvis-desk" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-second-brain">
                         <summary>
-                            <span>
-                                <span class="t">The modern interpretability stack, built from scratch</span>
-                                <span class="k">SAE &rarr; transcoder &rarr; cross-layer transcoder &rarr; attribution graph</span>
-                            </span>
-                            <span class="fig">GPT-2 small</span>
-                            <span class="chev" aria-hidden="true"></span>
-                        </summary>
-                        <div class="detail">
-                            <p>The full modern mech-interp ladder on GPT-2 Small, each rung implemented and measured: sparse autoencoders for which concepts are <em>present</em>, transcoders for what an MLP <em>computes</em>, cross-layer transcoders for computation spanning depth, and attribution graphs for the causal chain behind a single prompt.</p>
-                            <p>It ends where interpretability work should end &mdash; not at a plausible diagram, but at a test. The graph names the features it claims carry the indirect-object circuit; <b>ablate exactly those and the model's answer collapses as predicted</b>. That validation step is the figure at the top of this page.</p>
-                            <ul class="chips">
-                                <li>sparse autoencoders</li>
-                                <li>transcoders</li>
-                                <li>cross-layer transcoders</li>
-                                <li>attribution graphs</li>
-                                <li>IOI circuit</li>
-                                <li>causal validation</li>
-                            </ul>
-                            <a class="repo" href="https://github.com/loki52501/attributiongraph-clt-sae-circuits" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
-                        </div>
-                    </details>
-                </li>
-                <li>
-                    <details>
-                        <summary>
-                            <span>
-                                <span class="t">Linear and deception probes</span>
-                                <span class="k">reading internal states the output denies</span>
-                            </span>
-                            <span class="fig">d_model 3,584</span>
-                            <span class="chev" aria-hidden="true"></span>
-                        </summary>
-                        <div class="detail">
-                            <p>Activation extraction with manual PyTorch forward hooks, then linear probes fitted on the residual stream &mdash; <b>3,584 dimensions</b> per token on 7B models &mdash; using contrast pairs and difference-of-means. When a <em>linear</em> classifier succeeds, the concept is approximately a direction in activation space, which hands you a vector you can manipulate rather than just a score.</p>
-                            <p>The interesting case is the deception probe: training a reader for internal states the model's own text output <b>actively denies</b>. Where in the stack a probe starts working is itself the result &mdash; one that succeeds at layer 0 is reading surface form, not meaning.</p>
-                            <ul class="chips">
-                                <li>PyTorch forward hooks</li>
-                                <li>contrast pairs</li>
-                                <li>difference-of-means</li>
-                                <li>deception probes</li>
-                            </ul>
-                            <a class="repo" href="https://github.com/loki52501/Probes-of-all-kind" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
-                        </div>
-                    </details>
-                </li>
-                <li>
-                    <details>
-                        <summary>
-                            <span>
-                                <span class="t">Chain-of-thought faithfulness evaluation</span>
-                                <span class="k">replicating Turpin et al. and Lanham et al., 2023</span>
-                            </span>
-                            <span class="fig">9,561 records</span>
-                            <span class="chev" aria-hidden="true"></span>
-                        </summary>
-                        <div class="detail">
-                            <p>Does a model follow a planted nudge &mdash; and does its reasoning trace admit it? <b>9,561 records</b> across three independent conditions and 13 BIG-Bench-Hard tasks on Llama-3-8B-Instruct: a clean baseline, an explicit wrong hint, and a positional few-shot bias where every exemplar answers (A).</p>
-                            <p>Separating those two bias types matters because they fail differently: one tests whether the model caves to a stated opinion, the other whether it caves to mere format. A chain of thought is a generated artifact, not an audit trail, and this measures the gap.</p>
-                            <ul class="chips">
-                                <li>13 BIG-Bench-Hard tasks</li>
-                                <li>3 bias conditions</li>
-                                <li>Llama-3-8B-Instruct</li>
-                                <li>A100-80GB</li>
-                            </ul>
-                            <a class="repo" href="https://github.com/loki52501/CoT-evaluation" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
-                        </div>
-                    </details>
-                </li>
-                <li>
-                    <details>
-                        <summary>
-                            <span>
-                                <span class="t">LLM sycophancy evaluator</span>
-                                <span class="k">paired-prompt framework&nbsp;&middot; weighted scoring</span>
-                            </span>
-                            <span class="fig">45 / 20 / 40%</span>
-                            <span class="chev" aria-hidden="true"></span>
-                        </summary>
-                        <div class="detail">
-                            <p>Measures three distinct behaviours rather than one vague trait: <b>agreement bias</b> (flipping a correct answer to match a user's wrong belief), <b>flattery</b> (praising weak work instead of critiquing it), and <b>pressure capitulation</b> (abandoning a correct position under pushback). On Llama-3.2-3B: <b>45%</b>, <b>20%</b> and <b>40%</b> respectively, weighted across sycophantic, ambiguous and resistant responses.</p>
-                            <p>It also reports its own confound. The base model produced severe repetition loops on neutral prompts, which inflated ambiguous scores and probably <em>suppressed</em> measured sycophancy &mdash; a result worth less if you don't say so.</p>
-                            <ul class="chips">
-                                <li>agreement bias 45%</li>
-                                <li>flattery 20%</li>
-                                <li>capitulation 40%</li>
-                                <li>paired prompts</li>
-                                <li>weighted scoring</li>
-                            </ul>
-                            <a class="repo" href="https://github.com/loki52501/LLM-sycophancy" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
-                        </div>
-                    </details>
-                </li>
-            </ul>
-
-            <h3 class="grouphead">Agents &amp; systems</h3>
-            <ul class="list">
-                <li>
-                    <details>
-                        <summary>
-                            <span>
-                                <span class="t">Second Brain &mdash; goal-driven agent with approval-gated execution</span>
+                            <span class="ext" aria-hidden="true"></span>
+                            <span class="ti">
+                                <span class="t">Second Brain: goal-driven agents that act only on approved cards</span>
                                 <span class="k">Flower hackathon team build&nbsp;&middot; Flower AgentApp</span>
                             </span>
                             <span class="fig">4 agents</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>A Flower AgentApp that turns one goal into milestones and scored decision cards from four specialist agents (planner, events, health, content). Nothing executes without an approved card, and every approve, pick and skip is stored as a preference that feeds the next ranking.</p>
-                            <ul class="points">
-                                <li>Approval-gated execution: nothing runs without an approved card.</li>
-                                <li>Every external text treated as data: tagged prompts, URL-grounded event extraction, a regex-only WhatsApp channel, and allow-listed edit lists.</li>
-                                <li>Hardened execution: briefs only for approved cards, single-lined so injected text cannot forge a task or remove the STOP before the final click; turns, messages and concurrency bounded.</li>
-                                <li>A provider router with schema validation, retry, rule-based defaults and circuit breaking, plus a four-rung embedding ladder that works with zero keys.</li>
-                            </ul>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A Flower AgentApp that turns one goal into milestones and scored decision cards from four specialist agents (planner, events, health, content). Nothing executes without an approved card, and every approve, pick and skip is stored as a preference that feeds the next ranking.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <ul class="points">
+                                    <li>Approval-gated execution: nothing runs without an approved card.</li>
+                                    <li>Every external text treated as data: tagged prompts, URL-grounded event extraction, a regex-only WhatsApp channel, and allow-listed edit lists.</li>
+                                    <li>Hardened execution: briefs only for approved cards, single-lined so injected text cannot forge a task or remove the STOP before the final click; turns, messages and concurrency bounded.</li>
+                                    <li>A provider router with schema validation, retry, rule-based defaults and circuit breaking, plus a four-rung embedding ladder that works with zero keys.</li>
+                                </ul>
+                            </div>
                             <ul class="chips">
                                 <li>Flower AgentApp</li>
                                 <li>Nebius Token Factory</li>
@@ -801,81 +909,108 @@
                                 <li>WhatsApp</li>
                                 <li>Google Calendar</li>
                             </ul>
-                            <span class="local">Flower Hub&nbsp;&middot; @lokilks/second-brain</span>
+                            <p class="links"><span class="local">Flower Hub&nbsp;&middot; @lokilks/second-brain</span><!-- VERIFY: Flower Hub URL for a hub ↗ link --></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-greenroots">
                         <summary>
-                            <span>
-                                <span class="t">Jarvis Desk</span>
-                                <span class="k">Executable World hackathon&nbsp;&middot; Track 1 (AI Assistants)</span>
+                            <span class="ext">.py</span>
+                            <span class="ti">
+                                <span class="t">GreenRoots: a WhatsApp shop agent with signed, replay-protected service calls</span>
+                                <span class="k">Gemini 2.0 Flash&nbsp;&middot; FastAPI + SQLite&nbsp;&middot; three services, one database</span>
                             </span>
-                            <span class="fig">0.4&ndash;1.0 ms fast lane</span>
+                            <span class="fig">30&nbsp;s replay window</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <!-- [FILL: brief says "Windows-first, always-on overlay"; README frames the web HUD as primary and the overlay as optional — confirm] -->
-                            <p>A voice-first assistant with a two-speed brain: a typed decision model routes and gates every action in milliseconds while an LLM does the talking.</p>
-                            <ul class="points">
-                                <li>TypeSafe Jev is the fast decision layer: every turn starts with a typed decide() call under an 800 ms budget that classifies intent and danger before the LLM produces a token, with a regex fallback behind the same signature.</li>
-                                <li>Permission tiers enforced in code, not in the prompt: READ tools fire immediately, WRITE tools run without approval, DANGER tools always stop for a human.</li>
-                                <li>A web HUD and a Windows overlay client speak the same streaming /chat protocol; Stop cancels the run and the voice together.</li>
-                                <li>Built for the Executable World hackathon, Track 1 (AI Assistants).</li>
-                            </ul>
-                            <ul class="chips">
-                                <li>TypeSafe Jev</li>
-                                <li>OpenAI Agents SDK</li>
-                                <li>SSE</li>
-                                <li>Human-in-the-loop</li>
-                            </ul>
-                            <a class="repo" href="https://github.com/loki52501/jarvis-desk" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
-                        </div>
-                    </details>
-                </li>
-                <li>
-                    <details>
-                        <summary>
-                            <span>
-                                <span class="t">GreenRoots &mdash; WhatsApp customer service agent</span>
-                                <span class="k">Gemini 2.0 Flash&nbsp;&middot; three services, one database</span>
-                            </span>
-                            <span class="fig">no PII at rest</span>
-                            <span class="chev" aria-hidden="true"></span>
-                        </summary>
-                        <div class="detail">
-                            <p>A Node bridge on <b>whatsapp-web.js</b> talks to a FastAPI and SQLite backend over <b>HMAC-signed HTTP</b>, with a Streamlit and Plotly dashboard reading the same store. Customers check stock, browse the catalogue, order and track deliveries in chat.</p>
-                            <ul class="points">
-                                <li>A Gemini 2.0 Flash tool-calling agent that chooses tool order per conversation (kb_search, order_lookup, create_ticket).</li>
-                                <li>A local Llama-3-8B injection screen runs before tool routing; a post-response validator checks each reply against its retrieved passages before send.</li>
-                                <li>Grounded on ChromaDB, so answers carry citations and the agent escalates to a human ticket rather than guessing.</li>
-                                <li>Phone numbers are never stored &mdash; only an HMAC-SHA256 hash is persisted, so the database is not a contact list if it leaks.</li>
-                            </ul>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A Node bridge on <b>whatsapp-web.js</b> talks to a FastAPI and SQLite backend over <b>HMAC-signed HTTP</b>, with a Streamlit and Plotly dashboard reading the same store. Customers check stock, browse the catalogue, order and track deliveries in chat.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <ul class="points">
+                                    <li>A Gemini 2.0 Flash tool-calling agent chooses among four tools per conversation: search_products, check_availability, place_order and get_order_status.</li>
+                                    <li>Every service call is HMAC-signed and rejected if it is more than 30 seconds old, so a captured request can't be replayed.</li>
+                                    <li>Phone numbers are never stored &mdash; only an HMAC-SHA256 hash is persisted, so the database is not a contact list if it leaks.</li>
+                                    <li>Untrusted input is bounded before it reaches the model: messages are capped at 1,000 characters with control characters stripped, and senders are rate-limited.<!-- VERIFY: rate limit is 20 messages/hour via slowapi per README; scope (per sender vs global) not confirmed --></li>
+                                </ul>
+                            </div>
                             <ul class="chips">
                                 <li>Gemini 2.0 Flash</li>
-                                <li>Llama-3-8B screen</li>
-                                <li>ChromaDB</li>
-                                <li>Node + Python RAG service</li>
+                                <li>FastAPI&nbsp;&middot; SQLite</li>
+                                <li>whatsapp-web.js</li>
+                                <li>Streamlit&nbsp;&middot; Plotly</li>
                                 <li>HMAC-signed transport</li>
+                                <li>Docker Compose</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/customer_care_agent" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/customer_care_agent" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-dietitian">
                         <summary>
-                            <span>
-                                <span class="t">SQ3R Read &mdash; spaced repetition from any page</span>
-                                <span class="k">Chrome MV3 + Node/TypeScript</span>
+                            <span class="ext">.py</span>
+                            <span class="ti">
+                                <span class="t">Dietitian assistant: answers from her notes, escalates everything else</span>
+                                <span class="k">Python 3.12&nbsp;&middot; FastAPI webhook&nbsp;&middot; OpenWA&nbsp;&middot; Claude Sonnet 4.6&nbsp;&middot; FalkorDB</span>
+                            </span>
+                            <span class="fig">6 of 7 steps verified</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A WhatsApp assistant that brokers between one dietitian and her clients: OpenWA carries the messages, a FastAPI webhook receives them, Claude Sonnet 4.6 drafts the replies, and FalkorDB holds the memory.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <ul class="points">
+                                    <li>Grounded: nutrition answers come only from this dietitian's own prior notes for this client, and every answered ticket records the note it was grounded in.</li>
+                                    <li>Fails closed: a medication question, a symptom such as chest pain, or anything her notes don't cover is escalated to her, never answered.</li>
+                                    <li>Scheduling requests are relayed to the dietitian, and her reply is confirmed back to both sides.</li>
+                                    <li>Roles are decided by phone number, and consent to transcription is a boolean checked in code.</li>
+                                </ul>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">result</p>
+                                <p>Build steps 1&ndash;6 are done and verified, with a 25-check offline demo. Step 7, a RocketRide pipeline node, is written but does not register yet; the assistant classifies inline instead, which is what the demo runs.</p>
+                            </div>
+                            <ul class="chips">
+                                <li>Claude Sonnet 4.6</li>
+                                <li>FalkorDB</li>
+                                <li>FastAPI</li>
+                                <li>OpenWA</li>
+                                <li>fail-closed escalation</li>
+                            </ul>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/dietician-agents" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <!-- VERIFY: SQ3R row describes an unpublished browser extension; book_SQ3R_helper is a Python CLI, so the link was removed. User will supply the right repo. -->
+                    <details id="row-sq3r">
+                        <summary>
+                            <span class="ext" aria-hidden="true"></span>
+                            <span class="ti">
+                                <span class="t">SQ3R Read: spaced-repetition cards from any page</span>
+                                <span class="k">Chrome MV3&nbsp;&middot; Node/TypeScript</span>
                             </span>
                             <span class="fig">5-stage pipeline</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>A browser extension and companion service that turn any page into spaced-repetition cards through a five-stage LLM pipeline &mdash; Survey, Question, Read, Recite, Review. Retrieval-grounded card generation, <b>ts-fsrs</b> scheduling, SQLite, and providers that plug in from a local Ollama through to Anthropic.</p>
-                            <p>A service worker spawns review agents <b>on its own schedule, unsupervised</b>. Watching a small multi-agent system act without me is a large part of why I moved toward monitoring and evaluation. Standing rule in the codebase: all model output is untrusted until validated.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A browser extension and companion service that turn any page into spaced-repetition cards through a five-stage LLM pipeline &mdash; Survey, Question, Read, Recite, Review. Retrieval-grounded card generation, <b>ts-fsrs</b> scheduling, SQLite, and providers that plug in from a local Ollama through to Anthropic.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <p>A service worker spawns review agents <b>on its own schedule, unsupervised</b>. Standing rule in the codebase: all model output is untrusted until validated.</p>
+                            </div>
                             <ul class="chips">
                                 <li>Chrome MV3&nbsp;&middot; React&nbsp;&middot; Vite</li>
                                 <li>Node&nbsp;&middot; TypeScript&nbsp;&middot; SQLite</li>
@@ -883,153 +1018,388 @@
                                 <li>autonomous scheduler</li>
                                 <li>Ollama &rarr; Anthropic</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/book_SQ3R_helper" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
                         </div>
                     </details>
                 </li>
+            </ul>
+
+            <h3 class="grouphead">Backend &amp; systems</h3>
+            <ul class="list">
                 <li>
-                    <details>
+                    <details id="row-vecgate">
                         <summary>
-                            <span>
-                                <span class="t">VecGate &mdash; access control for vector databases</span>
-                                <span class="k">two-layer RBAC for pgvector, enforced in one SQL query</span>
+                            <span class="ext">.py</span>
+                            <span class="ti">
+                                <span class="t">VecGate: access control enforced inside vector search</span>
+                                <span class="k">Python&nbsp;&middot; PostgreSQL + pgvector&nbsp;&middot; HNSW</span>
                             </span>
-                            <span class="fig">one SQL query</span>
+                            <span class="fig">ACL inside the query</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>RAG systems leak by retrieving what the user was never allowed to see. VecGate puts the access check <em>inside</em> retrieval: facet-level RBAC decides which datasets a role may query, chunk-level group ACLs restrict individual passages, and <b>both are enforced within a single SQL query</b> rather than filtered afterwards in application code.</p>
-                            <p>Per-facet <b>HNSW partial indexes</b> mean the vector search only ever touches authorised rows, so the permission boundary is also the performance boundary. Ships as a Python SDK, a CLI and an HTTP service over one core.</p>
+                            <div class="blk">
+                                <p class="lbl">problem</p>
+                                <p>RAG systems leak by retrieving what the user was never allowed to see.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>VecGate puts the access check <em>inside</em> retrieval: facet-level RBAC decides which datasets a role may query, chunk-level group ACLs restrict individual passages, and <b>both are enforced in the vector-search query itself</b> rather than filtered afterwards in application code.</p>
+                            </div>
+                            <!-- VERIFY: role→facet lookup is a separate prior query (acl/resolver.py); facet + chunk ACL predicates share one search query (search/sql.py) -->
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <p>Per-facet <b>HNSW partial indexes</b> mean the vector search only ever touches authorised rows, so the permission boundary is also the performance boundary. Ships as a Python SDK, a CLI and an HTTP service over one core.</p>
+                            </div>
                             <ul class="chips">
                                 <li>PostgreSQL + pgvector</li>
                                 <li>facet + chunk ACL</li>
                                 <li>HNSW partial indexes</li>
                                 <li>SDK&nbsp;&middot; CLI&nbsp;&middot; service</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/vecgate" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/vecgate" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-quic">
                         <summary>
-                            <span>
-                                <span class="t">SSGengine &mdash; the generator behind this page</span>
-                                <span class="k">C++ static site generator&nbsp;&middot; zero dependencies</span>
+                            <span class="ext">.cpp</span>
+                            <span class="ti">
+                                <span class="t">QUIC routing simulation: routable connection IDs through multi-tier routers</span>
+                                <span class="k">C++17&nbsp;&middot; RFC 9000&nbsp;&middot; QUIC-LB draft</span>
+                            </span>
+                            <span class="fig">5 scenarios</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A self-contained C++ simulation of QUIC packets travelling from a client to a server through a multi-tier router network: 2 edge routers, 4 core routers and 200 servers.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <p>Connection IDs follow the QUIC-LB draft: a 20-byte CID carrying an AES-128-encrypted server ID, plus a config-rotation field for key changes.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">result</p>
+                                <p>Five scenarios, including anycast/ECMP routing, client address migration (RFC 9000 §9), zero-downtime key rollover and a routing-table walk. Builds on Linux, macOS, MSVC and MinGW.</p>
+                            </div>
+                            <ul class="chips">
+                                <li>C++17</li>
+                                <li>RFC 9000</li>
+                                <li>QUIC-LB</li>
+                                <li>AES-128</li>
+                                <li>ECMP / anycast</li>
+                            </ul>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/quic-router-simulation" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details id="row-ssgengine">
+                        <summary>
+                            <span class="ext">.cpp</span>
+                            <span class="ti">
+                                <span class="t">SSGengine: the C++ generator that built this page</span>
+                                <span class="k">C++17&nbsp;&middot; single executable&nbsp;&middot; incremental builds</span>
                             </span>
                             <span class="fig">builds this page</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>Markdown in, a complete site out, with incremental rebuilds driven by a content-hash cache. No Node, no Python, no package manager &mdash; a single executable next to your content folder. <b>This page was built with it.</b></p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>Markdown in, a complete site out, with incremental rebuilds driven by a content-hash cache. No Node, no Python, no package manager &mdash; a single executable next to your content folder. <b>This page was built with it.</b></p>
+                            </div>
                             <ul class="chips">
                                 <li>C++</li>
-                                <li>zero dependencies</li>
+                                <li>single executable</li>
                                 <li>incremental builds</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/SSGengine" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <!-- VERIFY: "zero dependencies" dropped from the chips and k line; Makefile links -lsqlite3 and SSGengine vendors json.hpp -->
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/SSGengine" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
             </ul>
 
-            <h3 class="grouphead">Security ML</h3>
+            <h3 class="grouphead">ML &amp; security engineering</h3>
             <ul class="list">
                 <li>
-                    <details>
+                    <details id="row-ddos">
                         <summary>
-                            <span>
-                                <span class="t">DDoS intrusion detection &mdash; M.S. capstone</span>
+                            <span class="ext">.ipynb</span>
+                            <span class="ti">
+                                <span class="t">DDoS detection that escalates when unsure: M.S. capstone</span>
                                 <span class="k">BCCC-Cloud-DDoS-2024&nbsp;&middot; temporal sequence modelling</span>
                             </span>
                             <span class="fig">700,774 flows</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>Detection over <b>700,774 network flows</b> from six days of cloud traffic, with 324 raw columns pruned to roughly <b>86 features</b> by variance threshold and correlation. Two complementary approaches: a BiLSTM and 1D CNN over time-sorted sliding windows, and a CNN visual-strip baseline for comparison.</p>
-                            <p>Three classes, not two &mdash; Benign 58.9%, Attack 32.6%, <em>Suspicious</em> 8.4% &mdash; because the honest output of a detector under uncertainty is escalation, not a guess.</p>
-                            <p>The ensemble reaches <b>94.11% three-class accuracy</b>, with confidence-based escalation: 85% of traffic auto-classifies above threshold while low-confidence predictions route to an analyst instead of being forced into a label.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>Detection over <b>700,774 network flows</b> from six days of cloud traffic, with 324 raw columns pruned to roughly <b>86 features</b> by variance threshold and correlation. Two complementary approaches: a BiLSTM and 1D CNN over time-sorted sliding windows, and a CNN visual-strip baseline for comparison.</p>
+                                <p>Three classes, not two &mdash; Benign 58.9%, Attack 32.6%, <em>Suspicious</em> 8.4% &mdash; because the honest output of a detector under uncertainty is escalation, not a guess.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">result</p>
+                                <p>The BiLSTM + CNN ensemble reaches <b>94.85% accuracy</b>, with confidence-based escalation: 85% of traffic auto-classifies above threshold while low-confidence predictions route to an analyst instead of being forced into a label.<!-- VERIFY: site said 94.11% three-class; repo README table shows ensemble 94.85% without a class count. The 85% auto-classify figure is not yet checked against the repo. --></p>
+                            </div>
                             <ul class="chips">
                                 <li>324 &rarr; 86 features</li>
                                 <li>BiLSTM + 1D CNN</li>
                                 <li>3-class escalation</li>
                                 <li>PyTorch&nbsp;&middot; Keras</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/IDS_ddos_neuralnet" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/IDS_ddos_neuralnet" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-unsw">
                         <summary>
-                            <span>
-                                <span class="t">UNSW-NB15 intrusion detection</span>
+                            <span class="ext" aria-hidden="true"></span>
+                            <span class="ti">
+                                <span class="t">UNSW-NB15 intrusion detection with 25% fewer false positives</span>
                                 <span class="k">Anna University (CEG)&nbsp;&middot; AI research intern</span>
                             </span>
                             <span class="fig">&minus;25% false positives</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>A hybrid LSTM and 1D CNN intrusion-detection pipeline on UNSW-NB15 &mdash; <b>2.5M flows, 9 attack classes</b> &mdash; using SMOTE and sequence-window analysis to recover minority attack classes that raw class balance buried.</p>
-                            <p>Two-stage metaheuristic feature selection: Sine Cosine Algorithm for global search, then Particle Swarm Optimization for local refinement, dropping <b>false positives by 25%</b>.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>A hybrid LSTM and 1D CNN intrusion-detection pipeline on UNSW-NB15 &mdash; <b>2.5M flows, 9 attack classes</b> &mdash; using SMOTE and sequence-window analysis to recover minority attack classes that raw class balance buried.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <p>Two-stage metaheuristic feature selection: Sine Cosine Algorithm for global search, then Particle Swarm Optimization for local refinement, dropping <b>false positives by 25%</b>.</p>
+                            </div>
                             <ul class="chips">
                                 <li>LSTM + 1D CNN</li>
                                 <li>SMOTE</li>
                                 <li>Sine Cosine &rarr; PSO</li>
                                 <li>2.5M flows</li>
-                            </ul>                        </div>
+                            </ul>
+                        </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-phishing">
                         <summary>
-                            <span>
+                            <span class="ext">.ts</span>
+                            <span class="ti">
                                 <span class="t">Phishing &amp; voice-scam training playground</span>
                                 <span class="k">TypeScript&nbsp;&middot; LLM-generated adversarial content</span>
                             </span>
-                            <span class="fig">live scenarios</span>
+                            <span class="fig"></span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>An interactive training environment that generates realistic phishing and voice-scam scenarios, so users practice recognizing social-engineering patterns against <b>live adversarial content</b> rather than static examples.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>An interactive training environment that generates realistic phishing and voice-scam scenarios, so users practice recognizing social-engineering patterns against <b>live adversarial content</b> rather than static examples.</p>
+                            </div>
                             <ul class="chips">
                                 <li>TypeScript</li>
                                 <li>LLM-generated scenarios</li>
                                 <li>social engineering</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/phishing-playground-" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/phishing-playground-" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
                 <li>
-                    <details>
+                    <details id="row-embedding">
                         <summary>
-                            <span>
-                                <span class="t">Embedding efficiency research</span>
+                            <span class="ext">.ipynb</span>
+                            <span class="ti">
+                                <span class="t">Embedding efficiency research on an Ampere GPU</span>
                                 <span class="k">autonomous research agent&nbsp;&middot; RTX A4000</span>
                             </span>
                             <span class="fig">~31% of params</span>
                             <span class="chev" aria-hidden="true"></span>
                         </summary>
                         <div class="detail">
-                            <p>Adapted an autonomous research-agent loop to Ampere hardware &mdash; Flash Attention 3 patched to PyTorch SDPA with correct causal masking and sliding-window support &mdash; then ran it on a structured experiment ladder targeting the embedding layer, <b>~31% of baseline parameters</b>, optimizing <code>val_bpb</code> against peak VRAM.</p>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>Adapted an autonomous research-agent loop to Ampere hardware &mdash; Flash Attention 3 patched to PyTorch SDPA with correct causal masking and sliding-window support &mdash; then ran it on a structured experiment ladder targeting the embedding layer, <b>~31% of baseline parameters</b>, optimizing <code>val_bpb</code> against peak VRAM.</p>
+                            </div>
                             <ul class="chips">
                                 <li>PyTorch SDPA</li>
                                 <li>RTX A4000</li>
                                 <li>autonomous research agent</li>
                                 <li>val_bpb vs peak VRAM</li>
                             </ul>
-                            <a class="repo" href="https://github.com/loki52501/researchOnEmbedding" target="_blank" rel="noopener noreferrer">Repository &rarr;</a>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/researchOnEmbedding" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
                         </div>
                     </details>
                 </li>
             </ul>
+
+            <h3 class="grouphead">LLM evaluation</h3>
+            <ul class="list">
+                <li>
+                    <details id="row-sycophancy">
+                        <summary>
+                            <span class="ext">.py</span>
+                            <span class="ti">
+                                <span class="t">LLM sycophancy evaluator: three behaviours, measured separately</span>
+                                <span class="k">paired-prompt eval harness&nbsp;&middot; weighted scoring</span>
+                            </span>
+                            <span class="fig">45 / 20 / 40%</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p>Measures three distinct behaviours rather than one vague trait: <b>agreement bias</b> (flipping a correct answer to match a user's wrong belief), <b>flattery</b> (praising weak work instead of critiquing it), and <b>pressure capitulation</b> (abandoning a correct position under pushback). On Llama-3.2-3B: <b>45%</b>, <b>20%</b> and <b>40%</b> respectively, weighted across sycophantic, ambiguous and resistant responses.</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">result</p>
+                                <p>It also reports its own confound. The base model produced severe repetition loops on neutral prompts, which inflated ambiguous scores and probably <em>suppressed</em> measured sycophancy &mdash; a result worth less if you don't say so.</p>
+                            </div>
+                            <ul class="chips">
+                                <li>agreement bias 45%</li>
+                                <li>flattery 20%</li>
+                                <li>capitulation 40%</li>
+                                <li>paired prompts</li>
+                                <li>weighted scoring</li>
+                            </ul>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/LLM-sycophancy" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <details id="row-cot">
+                        <summary>
+                            <span class="ext">.py</span>
+                            <span class="ti">
+                                <span class="t">Chain-of-thought faithfulness evaluation</span>
+                                <span class="k">eval harness replicating Turpin et al. and Lanham et al., 2023</span>
+                            </span>
+                            <span class="fig">9,561 records</span>
+                            <span class="chev" aria-hidden="true"></span>
+                        </summary>
+                        <div class="detail">
+                            <div class="blk">
+                                <p class="lbl">problem</p>
+                                <p>Does a model follow a planted nudge &mdash; and does its reasoning trace admit it?</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">built</p>
+                                <p><b>9,561 records</b> across three independent conditions and 13 BIG-Bench-Hard tasks on Llama-3-8B-Instruct: a clean baseline, an explicit wrong hint, and a positional few-shot bias where every exemplar answers (A).</p>
+                            </div>
+                            <div class="blk">
+                                <p class="lbl">decisions</p>
+                                <p>Separating those two bias types matters because they fail differently: one tests whether the model caves to a stated opinion, the other whether it caves to mere format. A chain of thought is a generated artifact, not an audit trail, and this measures the gap.</p>
+                            </div>
+                            <ul class="chips">
+                                <li>13 BIG-Bench-Hard tasks</li>
+                                <li>3 bias conditions</li>
+                                <li>Llama-3-8B-Instruct</li>
+                                <li>A100-80GB</li>
+                            </ul>
+                            <p class="links"><a class="repo" href="https://github.com/loki52501/CoT-evaluation" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                        </div>
+                    </details>
+                </li>
+            </ul>
+
+            <!-- Lab: earlier model-internals research, collapsed, kept for range -->
+            <details class="lab" id="lab">
+                <summary>
+                    <span class="lab-t">Lab</span>
+                    <span class="lab-n">3 projects</span>
+                    <span class="chev" aria-hidden="true"></span>
+                </summary>
+                <p class="lab-intro">Earlier research on model internals: auditing fine-tunes, interpretability and probes. Kept here for range.</p>
+                <ul class="list">
+                    <li>
+                        <details id="row-loyalties">
+                            <summary>
+                                <span class="ext">.py</span>
+                                <span class="ti">
+                                    <span class="t">Detecting secret loyalties in fine-tuned models</span>
+                                    <span class="k">Apart Research sprint&nbsp;&middot; track 2&nbsp;&middot; Qwen2.5-7B-Instruct</span>
+                                </span>
+                                <span class="fig">8,700 generations</span>
+                                <span class="chev" aria-hidden="true"></span>
+                            </summary>
+                            <div class="detail">
+                                <p>Audited three fine-tunes of Qwen2.5-7B-Instruct for covert, weight-encoded loyalties across <b>~8,700 generations</b>, 127 actors and six trigger classes. Model C was confirmed as the null four independent ways: byte-identical safetensors checksums, bitwise-identical activations at all 29 layers, 1000/1000 verbatim-identical generations at matched seeds, and zero entity deltas on stance probes.</p>
+                                <p>Models A and B were genuinely modified &mdash; activation divergence from base peaks at <b>layers 10&ndash;12</b> &mdash; but no secret loyalty was detectable in either, under per-actor separability testing, next-token affinity probing, and causal activation patching that came back <em>actor-blind</em>. Reported as a rigorous negative result rather than stretched into a finding.</p>
+                                <p>The part worth pointing at: prefill elicitation extracted specific &ldquo;confessions&rdquo; from the <b>known-clean base model at 22.9%</b> &mdash; indistinguishable from A at 25.0% and B at 28.1%. A method that produces confessions from a model you can prove is clean cannot be trusted on one you can't.</p>
+                                <ul class="chips">
+                                    <li>127 actors&nbsp;&middot; 6 trigger classes</li>
+                                    <li>activation patching</li>
+                                    <li>white-box + black-box</li>
+                                    <li>A100-80GB</li>
+                                    <li>negative result, reported as one</li>
+                                </ul>
+                                <p class="links"><a class="repo" href="https://github.com/loki52501/APART-hackathon-sprint-secret_loyalist-track2" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <details id="row-interp-stack">
+                            <summary>
+                                <span class="ext">.ipynb</span>
+                                <span class="ti">
+                                    <span class="t">The modern interpretability stack, built from scratch</span>
+                                    <span class="k">SAE &rarr; transcoder &rarr; cross-layer transcoder &rarr; attribution graph</span>
+                                </span>
+                                <span class="fig">GPT-2 small</span>
+                                <span class="chev" aria-hidden="true"></span>
+                            </summary>
+                            <div class="detail">
+                                <p>The full modern mech-interp ladder on GPT-2 Small, each rung implemented and measured: sparse autoencoders for which concepts are <em>present</em>, transcoders for what an MLP <em>computes</em>, cross-layer transcoders for computation spanning depth, and attribution graphs for the causal chain behind a single prompt.</p>
+                                <p>It ends where interpretability work should end &mdash; not at a plausible diagram, but at a test. The graph names the features it claims carry the indirect-object circuit; <b>ablate exactly those and the model's answer collapses as predicted</b>.</p>
+                                <ul class="chips">
+                                    <li>sparse autoencoders</li>
+                                    <li>transcoders</li>
+                                    <li>cross-layer transcoders</li>
+                                    <li>attribution graphs</li>
+                                    <li>IOI circuit</li>
+                                    <li>causal validation</li>
+                                </ul>
+                                <p class="links"><a class="repo" href="https://github.com/loki52501/attributiongraph-clt-sae-circuits" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <details id="row-probes">
+                            <summary>
+                                <span class="ext">.ipynb</span>
+                                <span class="ti">
+                                    <span class="t">Linear and deception probes</span>
+                                    <span class="k">reading internal states the output denies</span>
+                                </span>
+                                <span class="fig">d_model 3,584</span>
+                                <span class="chev" aria-hidden="true"></span>
+                            </summary>
+                            <div class="detail">
+                                <p>Activation extraction with manual PyTorch forward hooks, then linear probes fitted on the residual stream &mdash; <b>3,584 dimensions</b> per token on 7B models &mdash; using contrast pairs and difference-of-means. When a <em>linear</em> classifier succeeds, the concept is approximately a direction in activation space, which hands you a vector you can manipulate rather than just a score.</p>
+                                <p>The interesting case is the deception probe: training a reader for internal states the model's own text output <b>actively denies</b>. Where in the stack a probe starts working is itself the result &mdash; one that succeeds at layer 0 is reading surface form, not meaning.</p>
+                                <ul class="chips">
+                                    <li>PyTorch forward hooks</li>
+                                    <li>contrast pairs</li>
+                                    <li>difference-of-means</li>
+                                    <li>deception probes</li>
+                                </ul>
+                                <p class="links"><a class="repo" href="https://github.com/loki52501/Probes-of-all-kind" target="_blank" rel="noopener noreferrer">repo&nbsp;&#8599;</a></p>
+                            </div>
+                        </details>
+                    </li>
+                </ul>
+            </details>
         </section>
 
-        <!-- ===== WRITING ===== -->
+        <!-- ===== 03 WRITING ===== -->
         <section class="writing sec" id="writing">
-            <h2 class="eyebrow">Writing</h2>
-            <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/j-space.html">J-space — reading a model mid-computation</a><p class="w-excerpt">A small, verbalizable subset of everything a model is computing — and the one fixed matrix that lets you read it out mid-layer, before…</p></li><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol>
+            <h2 class="sec-label"><a href="#writing"><span class="num">03</span> Writing</a></h2>
+            <ol class="writing-list"><li><a class="w-title" href="blog/tech/AI/model-sycophancy.html">When AI Agrees With You Just to Be Nice: Measuring Sycophancy in Llama-3.2-3B</a><p class="w-excerpt">A few months ago, I asked Llama-3.2-3B whether the Earth is flat.</p></li><li><a class="w-title" href="blog/tech/AI/chain-of-thought.html">When AI Shows Its Work—But Lies About How It Got There: Measuring CoT Faithfulness in Llama-3-8B</a><p class="w-excerpt">I gave Llama-3-8B a logic puzzle and a nudge.</p></li><li><a class="w-title" href="blog/tech/AI/temporal-cnn-ids.html">Building a Temporal CNN for DDoS Detection</a><p class="w-excerpt">The capstone started as a straightforward ML project: train a model to detect DDoS attacks.</p></li></ol>
             <a class="all-writing" href="blogs.html">All writing &rarr;</a>
         </section>
     </main>
@@ -1041,7 +1411,12 @@
             <a href="https://www.linkedin.com/in/lkslokesh" rel="me noopener noreferrer">LinkedIn</a>
             <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
         </nav>
+        <p class="built">Built with <a href="https://github.com/loki52501/SSGengine">SSGengine</a>, my C++ static site generator&nbsp;&middot; <a href="https://github.com/loki52501/SSGengine">source</a></p>
         <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
     </div></footer>
+
+    <script>
+(function(){function o(){var h=decodeURIComponent(location.hash.slice(1));if(!h)return;var e=document.getElementById(h);if(!e)return;var r=document.documentElement;r.classList.add('jump');for(var d=e.closest('details');d;d=d.parentElement&&d.parentElement.closest('details'))d.open=true;e.scrollIntoView({behavior:'instant'});requestAnimationFrame(function(){r.classList.remove('jump')});}addEventListener('hashchange',o);o();if(document.fonts&&location.hash)document.fonts.ready.then(o);})();
+    </script>
 </body>
 </html>

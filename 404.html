@@ -25,11 +25,14 @@
         <div class="content-wrapper">
             <p class="eyebrow">Error 404</p>
             <h1>This page isn't here.</h1>
-            <p>The link may be old, or the address mistyped. Here is where to go instead.</p>
+            <figure class="term" style="margin-top:2rem">
+                <div class="term-bar"><span class="term-file">shell</span><span class="term-path">lkslokesh.com</span></div>
+                <pre class="term-body"><code><span class="ln"><span class="p">$</span> cd /that-page</span><span class="ln">cd: /that-page: no such file or directory<span class="caret" aria-hidden="true"></span></span></code></pre>
+            </figure>
             <p style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:2rem">
-                <a class="btn btn-primary" href="/">Go home</a>
+                <a class="btn btn-primary" href="/">Home</a>
+                <a class="btn btn-secondary" href="/#work">Work</a>
                 <a class="btn btn-secondary" href="/blogs.html">Writing</a>
-                <a class="btn btn-secondary" href="/about.html">About</a>
             </p>
         </div>
     </main>
@@ -42,6 +45,7 @@
             <a href="https://mastodon.social/@lifeofcyb" rel="me noopener noreferrer">Mastodon</a>
         </nav>
         <p class="copy">&copy; 2025&ndash;26 Lokesh L.K.S</p>
+        <p class="built">Built with <a href="https://github.com/loki52501/SSGengine">SSGengine</a>, my C++ static site generator&nbsp;&middot; <a href="https://github.com/loki52501/SSGengine">source</a></p>
     </div></footer>
 </body>
 </html>
